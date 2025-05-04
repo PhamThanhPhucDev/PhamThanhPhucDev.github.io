@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Anime47 Việt Sub | Phạm Thành Phúc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #ff4444;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .title {
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 13px;
+      color: #aaa;
+      background: #1a1a1a;
+    }
+  </style>
+</head>
+<body>
+  <header>🎬 Anime Việt Sub (Nguồn: Anime47)</header>
+
+  <div class="container" id="anime-container">
+    <!-- Dữ liệu Anime sẽ hiển thị tại đây -->
+  </div>
+
+  <footer>
+    &copy; 2025 Phạm Thành Phúc | Giao diện clone Anime47<br>
+    Dữ liệu được lấy từ website gốc thông qua proxy (phi thương mại).
+  </footer>
+
+  <script>
+    async function fetchAnime() {
+      const container = document.getElementById("anime-container");
+      const proxy = "https://api.allorigins.win/raw?url=";
+      const targetUrl = "https://anime47.com/danh-sach/phim-moi.html";
+
+      try {
+        const res = await fetch(proxy + encodeURIComponent(targetUrl));
+        const html = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, "text/html");
+        const films = doc.querySelectorAll(".film-item");
+
+        films.forEach(film => {
+          const img = film.querySelector("img");
+          const link = film.querySelector("a");
+
+          const title = img.getAttribute("alt");
+          const imgUrl = img.getAttribute("src");
+          const filmUrl = link.getAttribute("href");
+
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <a href="${filmUrl}" target="_blank" rel="noopener noreferrer">
+              <img src="${imgUrl}" alt="${title}">
+              <div class="title">${title}</div>
+            </a>
+          `;
+          container.appendChild(card);
+        });
+      } catch (error) {
+        container.innerHTML = "<p style='color:red;'>Lỗi khi tải dữ liệu từ Anime47. Vui lòng thử lại sau.</p>";
+        console.error(error);
+      }
+    }
+
+    fetchAnime();
+  </script>
+</body>
+</html>
