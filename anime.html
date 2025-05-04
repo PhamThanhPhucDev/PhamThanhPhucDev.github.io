@@ -2,42 +2,38 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Tìm kiếm Anime | Kai's AnimeHub</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Finder | Kai's Hub</title>
   <style>
     body {
-      background: #0f0f0f;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
       margin: 0;
       padding: 0;
     }
     header {
-      background: #e91e63;
+      background-color: #e91e63;
       padding: 20px;
-      text-align: center;
       font-size: 24px;
       font-weight: bold;
     }
-    main {
-      padding: 30px;
-      text-align: center;
-    }
     input[type="text"] {
-      padding: 12px;
       width: 60%;
-      border: none;
+      padding: 12px;
       border-radius: 8px;
+      border: none;
+      margin-top: 30px;
       font-size: 16px;
     }
     button {
       padding: 12px 20px;
-      background: #ff4081;
+      margin-left: 10px;
+      font-size: 16px;
+      background-color: #ff4081;
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
-      margin-left: 10px;
       cursor: pointer;
     }
     iframe {
@@ -50,31 +46,67 @@
   </style>
 </head>
 <body>
-  <header>🔎 Tìm Anime - Xem Trên Giao Diện Riêng</header>
+  <header>🔍 Kai Anime Finder - Tìm phim từ nhiều web</header>
 
-  <main>
-    <input type="text" id="searchInput" placeholder="Nhập tên anime (vd: One Piece)">
-    <button onclick="searchAnime()">Tìm kiếm</button>
+  <input type="text" id="searchInput" placeholder="Nhập tên anime (VD: Naruto)">
+  <button onclick="searchAnime()">Tìm kiếm</button>
 
-    <div id="resultFrame" style="display: none;">
-      <h3>Xem trên nguồn:</h3>
-      <iframe id="animeFrame" allowfullscreen></iframe>
-    </div>
-  </main>
+  <div id="resultFrame" style="display: none;">
+    <h3>Xem tại nguồn:</h3>
+    <iframe id="animeFrame" allowfullscreen></iframe>
+  </div>
 
   <script>
-    function searchAnime() {
+    const sources = [
+      { name: "AnimeVietsub", url: q => `https://animevietsub.tv/tim-kiem/${q}` },
+      { name: "Anime47", url: q => `https://anime47.com/tim-kiem.html?keyword=${q}` },
+      { name: "Anime14", url: q => `https://anime14.net/search?key=${q}` },
+      { name: "AniVsub", url: q => `https://anivsub.net/tim-kiem/${q}` }
+    ];
+
+    async function checkUrl(url) {
+      // Trick: preload the iframe to test availability
+      return new Promise(resolve => {
+        const testFrame = document.createElement("iframe");
+        testFrame.style.display = "none";
+        testFrame.src = url;
+        document.body.appendChild(testFrame);
+
+        // Nếu sau 4 giây không load được → reject
+        const timeout = setTimeout(() => {
+          document.body.removeChild(testFrame);
+          resolve(null);
+        }, 4000);
+
+        testFrame.onload = () => {
+          clearTimeout(timeout);
+          document.body.removeChild(testFrame);
+          resolve(url);
+        };
+      });
+    }
+
+    async function searchAnime() {
       const query = document.getElementById("searchInput").value.trim();
-      if (!query) return alert("Nhập tên anime!");
+      if (!query) return alert("Hãy nhập tên anime");
 
-      // Link tìm kiếm (ví dụ với animevietsub.tv)
-      const searchUrl = "https://animevietsub.tv/tim-kiem/" + encodeURIComponent(query);
+      document.getElementById("resultFrame").style.display = "none";
 
-      // Hoặc dùng anime47:
-      // const searchUrl = "https://anime47.com/tim-kiem.html?keyword=" + encodeURIComponent(query);
+      const searchQueries = sources.map(s => {
+        const encoded = encodeURIComponent(query);
+        const url = s.url(encoded);
+        return checkUrl(url).then(result => ({ site: s.name, url: result }));
+      });
 
-      document.getElementById("animeFrame").src = searchUrl;
-      document.getElementById("resultFrame").style.display = "block";
+      const results = await Promise.all(searchQueries);
+      const valid = results.find(r => r.url);
+
+      if (valid) {
+        document.getElementById("animeFrame").src = valid.url;
+        document.getElementById("resultFrame").style.display = "block";
+      } else {
+        alert("Không tìm thấy anime ở bất kỳ nguồn nào.");
+      }
     }
   </script>
 </body>
