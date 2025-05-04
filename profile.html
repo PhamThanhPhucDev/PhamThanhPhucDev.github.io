@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThanhDieu - Home</title>
+  <meta name="description" content="Hi my name is ThanhPhuc / A freelance / web developer / vexer">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #fff;
+      background: #0c0c10;
+      overflow-x: hidden;
+    }
+    .loader-bar {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 6px;
+      border-radius: 6px;
+      background: #232323;
+      overflow: hidden;
+      z-index: 99;
+    }
+    .loader-bar-inner {
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(90deg,#4ba1a9,#b59a7e,#4f6b98);
+      animation: loadmove 1.2s infinite alternate;
+    }
+    @keyframes loadmove {
+      0% { margin-left: 0; width: 40%; }
+      100% { margin-left: 60%; width: 80%; }
+    }
+    .container {
+      max-width: 950px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+    .center-screen {
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      margin-top: 110px;
+      margin-bottom: 36px;
+    }
+    .avatar-main {
+      border-radius: 16px;
+      overflow: hidden;
+      width: 88px;
+      height: 88px;
+      box-shadow: 0 4px 24px #000c  ;
+      margin-right: 22px;
+    }
+    .center-greet {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(24,24,28,0.8);
+      border-radius: 18px;
+      padding: 16px 30px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 16px #0004;
+    }
+    .main-info {
+      font-size: 1.2rem;
+    }
+    .main-info strong {
+      display: block;
+      font-size: 1.3em;
+      margin-bottom: 2px;
+      letter-spacing: -1px;
+    }
+    .main-info small {
+      color: #bababa;
+      font-size: .98em;
+    }
+    .section {
+      margin: 38px 0 26px 0;
+      background: #151316;
+      border-radius: 24px;
+      box-shadow: 0 2px 22px #0001;
+      padding: 38px 30px 18px 30px;
+    }
+    .bio {
+      font-style: italic;
+      color: #b59a7e;
+      margin: 28px 0 8px 0;
+      font-size: 1.1em;
+    }
+    .github {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 20px;
+      border-radius: 18px;
+      background: #24292e;
+      color: #f7f7f7;
+      text-decoration: none;
+      font-weight: bold;
+      gap: 7px;
+      transition:.2s;
+      margin-top: 12px;
+    }
+    .github:hover {
+      background:#4ba1a9;
+      color: #121212;
+    }
+    .github img {
+      width: 20px; height: 20px; vertical-align: middle; }
+    .counter {
+      vertical-align: middle;
+      margin: 0 6px;
+    }
+    /* ------- Payment section ------- */
+    .payment-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin: 20px 0 32px 0;
+    }
+    .card-box {
+      background: #232126;
+      padding: 24px 22px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      min-width: 300px;
+      box-shadow: 0 3px 10px #0001;
+      gap: 18px;
+    }
+    .card-box img {
+      width: 36px; height: 36px; border-radius: 10px; border: 1px solid #414141;
+    }
+    .card-info {
+      color: #cfcfcf;
+      font-size: 1.08em;
+    }
+    .card-info strong {
+      display: block;
+      color: #fff;
+      font-size: 1.1em;
+    }
+    /* ------ Picture section ------ */
+    .pics {
+      display: flex;
+      gap: 22px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      flex-wrap:wrap;
+    }
+    .pics img {
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px #0003;
+      width: 240px; height: 150px; object-fit:cover;
+      background:#29252a;
+    }
+    /* ----- Skills section ---- */
+    .skills {
+      margin: 38px 0 18px 0;
+    }
+    .skills-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 10px;
+      margin-bottom: 16px;
+    }
+    .skill-tag {
+      display: inline-block;
+      background: #28282c;
+      color: #edeaea;
+      padding: 8px 18px;
+      border-radius: 18px;
+      font-size: 1em;
+      font-weight: 600;
+      box-shadow: 0 1px 8px #0001;
+      border: 1px solid #353535;
+      transition:.2s;
+    }
+    .skill-tag:hover {
+      background: #4ba1a9;
+      color:#1b222a;
+      cursor:pointer;
+    }
+    .skills-label {
+      font-weight: 700;
+      min-width: 110px;
+      margin-right: 16px;
+      color: #fff;
+      letter-spacing: .5px;
+      font-size: 1.15em;
+    }
+    .skills-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom:6px;
+    }
+    /* ------ Quote + status ------ */
+    .quote-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .quote-dot {
+      width: 11px; height: 11px;
+      background: #3bd683;
+      border-radius: 50%;
+      margin-right: 10px;
+      box-shadow:0 0 5px #50ffaf88;
+      border:1px solid #272727;
+    }
+    .quote {
+      font-size: 1.04em;
+      padding: 8px 20px;
+      border-radius: 17px;
+      background: #232126;
+      color: #e0bc82;
+      box-shadow:0 1px 10px #0001;
+    }
+    /* ------- Footer -------- */
+    footer {
+      text-align: center;
+      color: #bbbbbb;
+      background: none;
+      margin-top: 30px;
+      padding-bottom: 30px;
+      font-size: 1.03em;
+      letter-spacing: .2px;
+    }
+    /* ------- Clock -------- */
+    .clock {
+      display: inline-block; color: #90a0f0; margin-left:8px; font-variant:tabular-nums;font-size:1.07em; }
+
+    /* --- Popup nhạc ---- */
+    .music-popup {
+      display: none;
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #14151a;
+      color: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 32px #0007;
+      padding: 28px 36px 22px 36px;
+      z-index: 999;
+      min-width:330px;
+      border:1px solid #363646;
+      text-align: center;
+      animation: popfade .5s;
+    }
+    @keyframes popfade { from{ opacity:.5; margin-bottom:-28px; } to{ opacity:1; margin-bottom:0; } }
+    .music-popup img { width: 85px; height:85px; display:block; margin:0 auto 13px auto; border-radius:13px; box-shadow:0 2px 18px #0004; }
+    .music-btns { margin-top:18px; display:flex; gap:18px; justify-content:center; }
+    .music-btns button {
+      padding: 8px 26px;
+      border-radius: 9px;
+      border: none;
+      font-size: 1em;
+      font-weight: 600;
+      background:#272735;
+      color:#fff;
+      transition:.2s;
+      cursor:pointer;
+    }
+    .music-btns button:hover { background:#4ba1a9; color:#161616;}
+    /* Scrollbar tối giản */
+    ::-webkit-scrollbar {width:7px;background:#232126;}
+    ::-webkit-scrollbar-thumb {background:#262629;border-radius:5px;}
+    @media (max-width:700px) {
+      .container { max-width: 99vw; padding:7px; }
+      .section { padding: 14px 5px 10px 5px; }
+      .center-greet {padding:11px 10px;}
+      .pics img {width:90vw;max-width:300px;}
+      .card-box{min-width:180px;padding:11px 7px;}
+      .bio{font-size:.95em;}
+      .skills-row{flex-direction:column; align-items:flex-start;}
+      .skills-label{margin-bottom:2px;}
+      .music-popup{min-width:90vw;}
+    }
+  </style>
+</head>
+<body>
+<div class="loader-bar"><div class="loader-bar-inner"></div></div>
+
+<div class="container">
+  <div class="center-screen">
+    <div class="center-greet">
+      <img src="https://ext.same-assets.com/3993415607/3774790380.jpeg" class="avatar-main" alt="Avatar">
+      <div class="main-info">
+        <strong>Vương Thanh Diệu</strong>
+        <small>Chúc các bạn có một buổi sáng vui vẻ, và may mắn 😊</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="text-align:center;">
+    <img src="https://ext.same-assets.com/3993415607/3783633550.svg" alt="logo1" style="width:43px;vertical-align:middle;margin-right:3px;">
+    <img src="https://ext.same-assets.com/3993415607/2563901416.svg" alt="logo2" style="width:33px;vertical-align:middle;margin:0 3px;">
+    <img src="https://ext.same-assets.com/3993415607/548389142.svg" alt="logo3" style="width:31px;vertical-align:middle;margin:0 3px;">
+    <span style="vertical-align:middle;font-size:1.3em;font-family:inherit;margin-left:10px;color:#e0bc82;font-weight:700;">ThanhDieu Home</span>
+    <div style="margin:22px 0 5px 0;"><img src="https://ext.same-assets.com/3993415607/3774790380.jpeg" alt="Avatar2" style="width:76px;border-radius:14px;margin-bottom:6px;box-shadow:0 2px 12px #0003;"></div>
+    <h1 style="margin:0;color:#fff;font-size:2.1em;font-weight:600;letter-spacing:-2px;">Vuong Thanh Dieu <img src="https://ext.same-assets.com/3993415607/2618598465.png" alt="crown" style="width:33px;vertical-align:middle;"></h1>
+    <div style="font-size:1.03em;color:#b4b4b4;margin:8px 0 5px 0;">"Lời nói gió bay, hoa cũng hay chia tay cũng thắm."</div>
+    <div style="color:#d9dfff;font-size:1em;">
+      <span style="margin-right:10px;">Vietnam / Ho Chi Minh City</span>
+      <a href="https://github.com/WusThanhDieu" target="_blank" class="github"><img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub">My Github</a>
+    </div>
+    <div class="bio">
+      Developer / Designer / Vexer<br>
+      Hello, my name is ThanhDieu. I am a member of WusTeam and a freelance programmer, with a passion for coding driven by pure interest.<br>
+      My main interest lies in back-end. I enjoy overthinking.
+    </div>
+    <img class="counter" src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FWusThanhDieu&count_bg=%23000000&title_bg=%23000000&icon=spacex.svg&icon_color=%23E7E7E7&title=Hits&edge_flat=true" alt="counter"
+    title="Counter">
+    <a class="github" href="https://wusteam.com/view-code/code-profile-thanhdieucom-thong-tin-thanh-toan-show-skill" target="_blank" style="background:#232f45;margin-left:16px;">
+      <img src="https://ext.same-assets.com/3993415607/260646423.svg" alt="source" style="width:18px;">Download Source Code
+    </a>
+  </div>
+
+  <div class="section">
+    <h2 style="margin:0 0 16px 0; font-size:1.24em; color: #fff">Payment</h2>
+    <div class="payment-cards">
+      <div class="card-box"><img src="https://ext.same-assets.com/3993415607/2244305190.png" alt="ACB">
+        <div class="card-info">
+          <strong>DO HOAI KHUONG</strong>
+          18074561
+        </div>
+      </div>
+      <div class="card-box"><img src="https://ext.same-assets.com/3993415607/3584433498.png" alt="Vietinbank">
+        <div class="card-info">
+          <strong>DO HOAI KHUONG</strong>
+          107873856811
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="skills-row"><div class="skills-label">Picture</div>
+    <div class="pics">
+      <img src="https://ext.same-assets.com/3993415607/956954997.gif" alt="Img">
+      <img src="https://ext.same-assets.com/3993415607/2289400944.png" alt="Img" onerror="this.style.display='none'">
+    </div></div>
+  </div>
+
+  <div class="section skills">
+    <div class="skills-row">
+      <div class="skills-label">Web</div>
+      <div class="skills-group">
+        <span class="skill-tag">Vue.js</span>
+        <span class="skill-tag">Nuxt.js</span>
+        <span class="skill-tag">Node.js</span>
+        <span class="skill-tag">React.js</span>
+        <span class="skill-tag">TypeScript</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">HTML</span>
+      </div>
+    </div>
+    <div class="skills-row">
+      <div class="skills-label">Programming</div>
+      <div class="skills-group">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">PyTorch</span>
+        <span class="skill-tag">C</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">C#</span>
+        <span class="skill-tag">R</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">PostgreSQL</span>
+      </div>
+    </div>
+    <div class="skills-row">
+      <div class="skills-label">Tools</div>
+      <div class="skills-group">
+        <span class="skill-tag">VSCode</span>
+        <span class="skill-tag">Vim</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">Nginx</span>
+      </div>
+    </div>
+    <div class="skills-row">
+      <div class="skills-label">Design</div>
+      <div class="skills-group">
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Photoshop</span>
+        <span class="skill-tag">Illustrator</span>
+      </div>
+    </div>
+    <div class="skills-row">
+      <div class="skills-label">Other</div>
+      <div class="skills-group">
+        <span class="skill-tag">Markdown</span>
+        <span class="skill-tag">LaTeX</span>
+      </div>
+    </div>
+  </div>
+  <div class="quote-status">
+    <span class="quote-dot"></span>
+    <span class="quote">Hoa nở là hữu tình, hoa rơi là vô ý</span>
+  </div>
+
+  <footer>
+    © <span id="copyright-year"></span> ThanhDieu.Com. All Rights Reserved.
+    <span class="clock" id="live-clock"></span>
+  </footer>
+</div>
+<div class="music-popup" id="music-popup">
+  <img src="https://ext.same-assets.com/3993415607/3399385309.gif" alt="music">
+  <div style="font-weight:600;font-size:1.19em;margin-bottom:8px;">Bạn có muốn cho phép vừa nghe nhạc vừa lướt trang web không?</div>
+  <div class="music-btns">
+    <button onclick="closeMusicPopup()">Không</button>
+    <button onclick="playMusic()">Có</button>
+  </div>
+</div>
+<script>
+// Loader sẽ auto ẩn sau khi page fully loaded
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    document.querySelector('.loader-bar').style.display='none';
+  }, 600);
+});
+// Dynamic copyright year
+  document.getElementById('copyright-year').innerText = new Date().getFullYear();
+// Live clock
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('live-clock').innerText = now.toLocaleTimeString('vi-VN', {hour12:false});
+  } setInterval(updateClock,1000); updateClock();
+// Music popup
+  setTimeout(()=>{
+    document.getElementById('music-popup').style.display = 'block';
+  },2000);
+  function closeMusicPopup(){
+    document.getElementById('music-popup').style.display='none';
+  }
+  function playMusic(){
+    alert('Demo: Trang này chỉ là bản mô phỏng UI, hiện chưa tích hợp phát nhạc thực.');
+    closeMusicPopup();
+  }
+</script>
+</body>
+</html>
