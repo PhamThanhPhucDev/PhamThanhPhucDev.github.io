@@ -117,108 +117,6 @@
             object-fit: contain;
         }
         
-        /* Music Player */
-        .music-player {
-            margin: 30px 0;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        
-        .music-player h3 {
-            margin-top: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-        
-        .search-container {
-            display: flex;
-            margin-bottom: 15px;
-        }
-        
-        #searchInput {
-            flex-grow: 1;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--border-color);
-            color: white;
-            padding: 8px;
-            font-family: 'Share Tech Mono', monospace;
-        }
-        
-        #searchButton {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--border-color);
-            color: var(--border-color);
-            padding: 8px 15px;
-            cursor: pointer;
-            font-family: 'Share Tech Mono', monospace;
-            transition: all 0.3s;
-        }
-        
-        #searchButton:hover {
-            background: var(--border-color);
-            color: black;
-        }
-        
-        .track-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-        
-        .track-item {
-            padding: 8px;
-            border-bottom: 1px solid rgba(15, 255, 0, 0.2);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .track-item:hover {
-            background: rgba(15, 255, 0, 0.1);
-        }
-        
-        .player-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        #playButton, #pauseButton {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--border-color);
-            color: var(--border-color);
-            padding: 5px 10px;
-            cursor: pointer;
-            font-family: 'Share Tech Mono', monospace;
-            transition: all 0.3s;
-        }
-        
-        #playButton:hover, #pauseButton:hover {
-            background: var(--border-color);
-            color: black;
-        }
-        
-        .progress-container {
-            flex-grow: 1;
-            height: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--border-color);
-            position: relative;
-            cursor: pointer;
-        }
-        
-        #progressBar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--border-color);
-        }
-        
-        .time-display {
-            font-size: 0.8em;
-            min-width: 80px;
-            text-align: center;
-        }
-        
         .sections {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -429,24 +327,6 @@
                     <img src="https://k.top4top.io/p_3411u1fh01.png" alt="Telegram">
                 </a>
             </div>
-
-            <!-- Music Player -->
-            <div class="music-player">
-                <h3>SoundCloud Player</h3>
-                <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Tìm kiếm nhạc...">
-                    <button id="searchButton">Tìm</button>
-                </div>
-                <div class="track-list" id="trackList"></div>
-                <div class="player-controls">
-                    <button id="playButton">Phát</button>
-                    <button id="pauseButton" style="display: none;">Dừng</button>
-                    <div class="progress-container" id="progressContainer">
-                        <div id="progressBar"></div>
-                    </div>
-                    <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
-                </div>
-            </div>
         </header>
         
         <div class="sections">
@@ -471,8 +351,6 @@
         </div>
     </div>
 
-    <!-- SoundCloud Widget API -->
-    <script src="https://w.soundcloud.com/player/api.js"></script>
     <script>
         // Hiệu ứng tuyết rơi đơn giản
         function createSnow() {
@@ -493,7 +371,7 @@
                 snowflake.style.top = `${Math.random() * 100}vh`;
                 
                 // Tốc độ rơi ngẫu nhiên
-                const speed = Math.random() * 3 + 1 ;
+                const speed = Math.random() * 3 + 1;
                 const animationDuration = `${Math.random() * 5 + 5}s`;
                 
                 snowflake.style.animation = `fall ${animationDuration} linear infinite`;
