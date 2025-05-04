@@ -20,7 +20,6 @@
             color: var(--border-color);
             overflow: hidden;
             height: 100vh;
-            cursor: none;
         }
         
         #bg {
@@ -56,28 +55,20 @@
             position: relative;
         }
         
-        .name-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-        
-        .logo-box {
-            width: 80px;
-            height: 80px;
+        .logo {
+            width: 100px;
+            height: 100px;
             border: 2px solid var(--border-color);
-            box-shadow: 0 0 15px var(--glow-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px var(--glow-color);
+            overflow: hidden;
         }
         
-        .logo-box img {
-            max-width: 70%;
-            max-height: 70%;
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         h1 {
@@ -150,7 +141,7 @@
             margin-top: 0;
         }
         
-        .leaves-container {
+        .snow-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -161,11 +152,10 @@
             overflow: hidden;
         }
         
-        .leaf {
+        .snowflake {
             position: absolute;
-            background-size: contain;
-            background-repeat: no-repeat;
-            opacity: 0.9;
+            background-color: #fff;
+            border-radius: 50%;
             filter: drop-shadow(0 0 3px var(--glow-color));
             will-change: transform;
         }
@@ -186,30 +176,6 @@
         @keyframes blink {
             from, to { opacity: 1; }
             50% { opacity: 0; }
-        }
-        
-        .cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            mix-blend-mode: difference;
-            transition: transform 0.1s;
-        }
-        
-        .cursor-inner {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: var(--border-color);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
         
         /* Settings Gear */
@@ -288,12 +254,8 @@
     <!-- Nền full màn hình -->
     <div id="bg"></div>
     
-    <!-- Hiệu ứng lá rơi -->
-    <div id="leaves-container" class="leaves-container"></div>
-    
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-inner"></div>
+    <!-- Hiệu ứng tuyết rơi -->
+    <div id="snow-container" class="snow-container"></div>
     
     <!-- Nút cài đặt -->
     <div class="settings-gear" id="settingsGear">
@@ -314,17 +276,15 @@
     
     <div class="container">
         <header>
-            <div class="name-logo">
-                <div class="logo-box">
-                    <img src="https://k.top4top.io/p_3411lyhd61.png" alt="Logo">
-                </div>
-                <h1>PHẠM THÀNH PHÚC</h1>
+            <div class="logo">
+                <img src="https://i.pinimg.com/originals/fd/17/51/fd175129e200299ec0dba35fcffd87fc.gif" alt="Logo">
             </div>
+            <h1>PHẠM THÀNH PHÚC</h1>
             <div class="caption">"Code không chỉ là công việc, mà còn là tình yêu <span class="blink">❤</span>"</div>
             
             <div class="social-links">
                 <a href="https://github.com/PhamThanhPhucDev" class="social-icon" target="_blank" title="GitHub">
-                    <img src="https://k.top4top.io/p_3411lyhd61.png" alt="GitHub">
+                    <img src="https://c.top4top.io/p_3411kz8cr1.png" alt="GitHub">
                 </a>
                 <a href="https://www.facebook.com/thwhphutd3v" class="social-icon" target="_blank" title="Facebook">
                     <img src="https://f.top4top.io/p_3411xc3dr1.png" alt="Facebook">
@@ -358,40 +318,31 @@
     </div>
 
     <script>
-        // Hiệu ứng lá rơi tương tác với chuột
-        class Leaf {
+        // Hiệu ứng tuyết rơi né chuột
+        class Snowflake {
             constructor() {
                 this.element = document.createElement('div');
-                this.element.className = 'leaf';
-                
-                // Chọn ngẫu nhiên 1 trong 3 loại lá
-                const leafTypes = [
-                    'https://www.freepnglogos.com/uploads/leaf-png/autumn-leaf-png-transparent-1.png',
-                    'https://www.freepnglogos.com/uploads/leaf-png/leaf-png-image-download-picture-8.png',
-                    'https://www.freepnglogos.com/uploads/leaf-png/leaf-png-image-pngpix-14.png'
-                ];
-                
-                this.element.style.backgroundImage = `url('${leafTypes[Math.floor(Math.random() * leafTypes.length)]}')`;
+                this.element.className = 'snowflake';
                 
                 // Kích thước ngẫu nhiên
-                const size = Math.random() * 30 + 20;
-                this.element.style.width = `${size}px`;
-                this.element.style.height = `${size}px`;
+                this.size = Math.random() * 5 + 2;
+                this.element.style.width = `${this.size}px`;
+                this.element.style.height = `${this.size}px`;
                 
                 // Vị trí ban đầu ngẫu nhiên
                 this.x = Math.random() * window.innerWidth;
                 this.y = Math.random() * window.innerHeight;
                 
-                // Tốc độ và hướng rơi
+                // Tốc độ rơi
                 this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 + 0.25;
+                this.speedY = Math.random() * 0.5 + 0.5;
                 
-                // Góc xoay
-                this.rotation = Math.random() * 360;
-                this.rotationSpeed = Math.random() * 0.2 - 0.1;
+                // Độ trong suốt
+                this.opacity = Math.random() * 0.5 + 0.5;
+                this.element.style.opacity = this.opacity;
                 
                 // Thêm vào container
-                document.getElementById('leaves-container').appendChild(this.element);
+                document.getElementById('snow-container').appendChild(this.element);
                 
                 // Cập nhật vị trí ban đầu
                 this.update();
@@ -403,8 +354,9 @@
                 const dy = mouseY - this.y;
                 const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (distance < 150) {
-                    const force = (150 - distance) / 150;
+                // Né chuột khi ở gần
+                if (distance < 100) {
+                    const force = (100 - distance) / 100;
                     this.x -= dx * 0.02 * force;
                     this.y -= dy * 0.02 * force;
                 }
@@ -412,17 +364,15 @@
                 // Di chuyển tự nhiên
                 this.x += this.speedX;
                 this.y += this.speedY;
-                this.rotation += this.rotationSpeed;
                 
                 // Quay vòng khi ra khỏi màn hình
-                if (this.x > window.innerWidth + 50) this.x = -50;
-                if (this.x < -50) this.x = window.innerWidth + 50;
-                if (this.y > window.innerHeight + 50) this.y = -50;
+                if (this.x > window.innerWidth) this.x = 0;
+                if (this.x < 0) this.x = window.innerWidth;
+                if (this.y > window.innerHeight) this.y = 0;
                 
-                // Áp dụng vị trí và xoay
+                // Áp dụng vị trí
                 this.element.style.left = `${this.x}px`;
                 this.element.style.top = `${this.y}px`;
-                this.element.style.transform = `rotate(${this.rotation}deg)`;
             }
         }
         
@@ -433,23 +383,17 @@
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            
-            // Di chuyển custom cursor
-            document.querySelector('.cursor').style.left = `${e.clientX}px`;
-            document.querySelector('.cursor').style.top = `${e.clientY}px`;
-            document.querySelector('.cursor-inner').style.left = `${e.clientX}px`;
-            document.querySelector('.cursor-inner').style.top = `${e.clientY}px`;
         });
         
-        // Tạo lá
-        const leaves = [];
-        for (let i = 0; i < 20; i++) {
-            leaves.push(new Leaf());
+        // Tạo tuyết
+        const snowflakes = [];
+        for (let i = 0; i < 100; i++) {
+            snowflakes.push(new Snowflake());
         }
         
         // Animation loop
         function animate() {
-            leaves.forEach(leaf => leaf.update());
+            snowflakes.forEach(snowflake => snowflake.update());
             requestAnimationFrame(animate);
         }
         
