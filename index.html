@@ -10,6 +10,7 @@
         :root {
             --border-color: #0f0;
             --glow-color: #0f0;
+            --bg-url: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif');
         }
         
         body {
@@ -28,10 +29,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif');
+            background-image: var(--bg-url);
             background-size: cover;
             background-position: center;
             z-index: -2;
+            transition: background-image 0.5s ease;
         }
         
         .container {
@@ -128,6 +130,7 @@
             min-height: 150px;
             transition: all 0.3s;
             background-color: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
         }
         
         .section:hover {
@@ -178,7 +181,59 @@
             50% { opacity: 0; }
         }
         
-        /* Settings Gear */
+        /* Settings Panel */
+        .settings-panel {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+            flex-direction: column;
+            width: 200px;
+            z-index: 100;
+            box-shadow: 0 0 15px var(--glow-color);
+        }
+        
+        .settings-panel h3 {
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+        
+        .bg-option {
+            width: 100%;
+            height: 60px;
+            margin: 5px 0;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .bg-option:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.1);
+            border-color: white;
+        }
+        
         .settings-gear {
             position: fixed;
             bottom: 30px;
@@ -212,36 +267,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        .color-picker {
-            position: fixed;
-            bottom: 90px;
-            right: 30px;
-            background-color: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 5px;
-            display: none;
-            flex-wrap: wrap;
-            width: 150px;
-            z-index: 100;
-            box-shadow: 0 0 15px var(--glow-color);
-        }
-        
-        .color-option {
-            width: 30px;
-            height: 30px;
-            margin: 5px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-        
-        .color-option:hover {
-            transform: scale(1.1);
-            border-color: white;
-        }
-        
         .footer {
             text-align: center;
             margin-top: 30px;
@@ -251,7 +276,7 @@
     </style>
 </head>
 <body>
-    <!-- Nền full màn hình -->
+    <!-- Nền có thể thay đổi -->
     <div id="bg"></div>
     
     <!-- Hiệu ứng tuyết rơi -->
@@ -262,16 +287,25 @@
         <div class="gear-icon">⚙</div>
     </div>
     
-    <!-- Color picker -->
-    <div class="color-picker" id="colorPicker">
-        <div class="color-option" style="background-color: #0f0;" data-color="#0f0"></div>
-        <div class="color-option" style="background-color: #ff0;" data-color="#ff0"></div>
-        <div class="color-option" style="background-color: #f0f;" data-color="#f0f"></div>
-        <div class="color-option" style="background-color: #0ff;" data-color="#0ff"></div>
-        <div class="color-option" style="background-color: #f00;" data-color="#f00"></div>
-        <div class="color-option" style="background-color: #00f;" data-color="#00f"></div>
-        <div class="color-option" style="background-color: #f90;" data-color="#f90"></div>
-        <div class="color-option" style="background-color: #fff;" data-color="#fff"></div>
+    <!-- Panel cài đặt -->
+    <div class="settings-panel" id="settingsPanel">
+        <h3>Cài Đặt</h3>
+        
+        <h4>Màu sắc:</h4>
+        <div style="display: flex; flex-wrap: wrap;">
+            <div class="color-option" style="background-color: #0f0;" data-color="#0f0"></div>
+            <div class="color-option" style="background-color: #ff0;" data-color="#ff0"></div>
+            <div class="color-option" style="background-color: #f0f;" data-color="#f0f"></div>
+            <div class="color-option" style="background-color: #0ff;" data-color="#0ff"></div>
+            <div class="color-option" style="background-color: #f00;" data-color="#f00"></div>
+            <div class="color-option" style="background-color: #00f;" data-color="#00f"></div>
+            <div class="color-option" style="background-color: #f90;" data-color="#f90"></div>
+            <div class="color-option" style="background-color: #fff;" data-color="#fff"></div>
+        </div>
+        
+        <h4>Ảnh nền:</h4>
+        <div class="bg-option" style="background-image: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif');" data-bg="url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif')"></div>
+        <div class="bg-option" style="background-image: url('https://64.media.tumblr.com/tumblr_m6k9ldnVUm1qjtue2o1_500.gifv');" data-bg="url('https://64.media.tumblr.com/tumblr_m6k9ldnVUm1qjtue2o1_500.gifv')"></div>
     </div>
     
     <div class="container">
@@ -301,14 +335,14 @@
                 <p>Thông tin tài khoản ngân hàng sẽ hiển thị ở đây</p>
             </div>
             
-            <div class="section">
-                <h2>Website Anime</h2>
-                <p>Nội dung về anime sẽ được thêm vào đây</p>
+            <div class="section" onclick="window.open('#', '_blank')">
+                <h2>Xem Anime</h2>
+                <p>Nhấn để mở trang xem anime</p>
             </div>
             
-            <div class="section">
+            <div class="section" onclick="window.open('#', '_blank')">
                 <h2>Tool</h2>
-                <p>Các công cụ hữu ích sẽ được liệt kê ở đây</p>
+                <p>Nhấn để mở trang công cụ</p>
             </div>
         </div>
         
@@ -318,112 +352,84 @@
     </div>
 
     <script>
-        // Hiệu ứng tuyết rơi né chuột
-        class Snowflake {
-            constructor() {
-                this.element = document.createElement('div');
-                this.element.className = 'snowflake';
+        // Hiệu ứng tuyết rơi đơn giản
+        function createSnow() {
+            const snowContainer = document.getElementById('snow-container');
+            const snowflakeCount = 100;
+            
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
                 
                 // Kích thước ngẫu nhiên
-                this.size = Math.random() * 5 + 2;
-                this.element.style.width = `${this.size}px`;
-                this.element.style.height = `${this.size}px`;
+                const size = Math.random() * 5 + 2;
+                snowflake.style.width = `${size}px`;
+                snowflake.style.height = `${size}px`;
                 
                 // Vị trí ban đầu ngẫu nhiên
-                this.x = Math.random() * window.innerWidth;
-                this.y = Math.random() * window.innerHeight;
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.top = `${Math.random() * 100}vh`;
                 
-                // Tốc độ rơi
-                this.speedX = Math.random() * 0.5 - 0.25;
-                this.speedY = Math.random() * 0.5 + 0.5;
+                // Tốc độ rơi ngẫu nhiên
+                const speed = Math.random() * 3 + 1;
+                const animationDuration = `${Math.random() * 5 + 5}s`;
                 
-                // Độ trong suốt
-                this.opacity = Math.random() * 0.5 + 0.5;
-                this.element.style.opacity = this.opacity;
+                snowflake.style.animation = `fall ${animationDuration} linear infinite`;
+                snowflake.style.opacity = Math.random() * 0.5 + 0.5;
                 
                 // Thêm vào container
-                document.getElementById('snow-container').appendChild(this.element);
+                snowContainer.appendChild(snowflake);
                 
-                // Cập nhật vị trí ban đầu
-                this.update();
-            }
-            
-            update() {
-                // Ảnh hưởng của chuột
-                const dx = mouseX - this.x;
-                const dy = mouseY - this.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                // Keyframes cho animation rơi
+                const keyframes = `
+                    @keyframes fall {
+                        to {
+                            transform: translateY(100vh) translateX(${Math.random() * 100 - 50}px);
+                        }
+                    }
+                `;
                 
-                // Né chuột khi ở gần
-                if (distance < 100) {
-                    const force = (100 - distance) / 100;
-                    this.x -= dx * 0.02 * force;
-                    this.y -= dy * 0.02 * force;
-                }
-                
-                // Di chuyển tự nhiên
-                this.x += this.speedX;
-                this.y += this.speedY;
-                
-                // Quay vòng khi ra khỏi màn hình
-                if (this.x > window.innerWidth) this.x = 0;
-                if (this.x < 0) this.x = window.innerWidth;
-                if (this.y > window.innerHeight) this.y = 0;
-                
-                // Áp dụng vị trí
-                this.element.style.left = `${this.x}px`;
-                this.element.style.top = `${this.y}px`;
+                // Thêm keyframes vào style
+                const style = document.createElement('style');
+                style.innerHTML = keyframes;
+                document.head.appendChild(style);
             }
         }
         
-        // Theo dõi vị trí chuột
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        // Tạo tuyết
-        const snowflakes = [];
-        for (let i = 0; i < 100; i++) {
-            snowflakes.push(new Snowflake());
-        }
-        
-        // Animation loop
-        function animate() {
-            snowflakes.forEach(snowflake => snowflake.update());
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
-        
-        // Color picker
+        // Mở/đóng panel cài đặt
         const settingsGear = document.getElementById('settingsGear');
-        const colorPicker = document.getElementById('colorPicker');
+        const settingsPanel = document.getElementById('settingsPanel');
         
         settingsGear.addEventListener('click', () => {
-            colorPicker.style.display = colorPicker.style.display === 'flex' ? 'none' : 'flex';
+            settingsPanel.style.display = settingsPanel.style.display === 'flex' ? 'none' : 'flex';
         });
         
+        // Đổi màu sắc
         document.querySelectorAll('.color-option').forEach(option => {
             option.addEventListener('click', () => {
                 const color = option.getAttribute('data-color');
                 document.documentElement.style.setProperty('--border-color', color);
                 document.documentElement.style.setProperty('--glow-color', color);
-                
-                // Đóng color picker sau khi chọn
-                colorPicker.style.display = 'none';
             });
         });
         
-        // Đóng color picker khi click ra ngoài
+        // Đổi ảnh nền
+        document.querySelectorAll('.bg-option').forEach(option => {
+            option.addEventListener('click', () => {
+                const bgUrl = option.getAttribute('data-bg');
+                document.documentElement.style.setProperty('--bg-url', bgUrl);
+            });
+        });
+        
+        // Đóng panel khi click ra ngoài
         document.addEventListener('click', (e) => {
-            if (!settingsGear.contains(e.target) && !colorPicker.contains(e.target)) {
-                colorPicker.style.display = 'none';
+            if (!settingsGear.contains(e.target) && !settingsPanel.contains(e.target)) {
+                settingsPanel.style.display = 'none';
             }
         });
+        
+        // Khởi tạo hiệu ứng tuyết
+        createSnow();
     </script>
 </body>
 </html>
