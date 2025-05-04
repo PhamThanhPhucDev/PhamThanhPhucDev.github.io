@@ -262,6 +262,23 @@
             animation: spin 6s linear infinite;
         }
         
+        /* Music Player Button */
+        .music-control {
+            margin-top: 15px;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            color: var(--border-color);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .music-control:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -281,6 +298,11 @@
     
     <!-- Hiệu ứng tuyết rơi -->
     <div id="snow-container" class="snow-container"></div>
+    
+    <!-- Audio Element (ẩn) -->
+    <audio id="bgMusic" loop>
+        <source src="https://d.top4top.io/m_3411eg4pz1.mp3" type="audio/mpeg">
+    </audio>
     
     <!-- Nút cài đặt -->
     <div class="settings-gear" id="settingsGear">
@@ -306,6 +328,9 @@
         <h4>Ảnh nền:</h4>
         <div class="bg-option" style="background-image: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif');" data-bg="url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif')"></div>
         <div class="bg-option" style="background-image: url('https://64.media.tumblr.com/tumblr_m6k9ldnVUm1qjtue2o1_500.gifv');" data-bg="url('https://64.media.tumblr.com/tumblr_m6k9ldnVUm1qjtue2o1_500.gifv')"></div>
+        
+        <!-- Nút phát nhạc -->
+        <div class="music-control" id="musicToggle">Phát Nhạc</div>
     </div>
     
     <div class="container">
@@ -430,6 +455,22 @@
         
         // Khởi tạo hiệu ứng tuyết
         createSnow();
+        
+        // Xử lý phát nhạc
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        let isMusicPlaying = false;
+        
+        musicToggle.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggle.textContent = 'Phát Nhạc';
+            } else {
+                bgMusic.play();
+                musicToggle.textContent = 'Dừng Nhạc';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
     </script>
 </body>
 </html>
