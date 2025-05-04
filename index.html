@@ -7,6 +7,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
         
+        :root {
+            --border-color: #0f0;
+        }
+        
         body {
             margin: 0;
             padding: 0;
@@ -14,10 +18,11 @@
             background-color: #000;
             color: #0f0;
             overflow-x: hidden;
-            background-image: url('https://i.gifer.com/7VE.gif');
+            background-image: url('https://i.gifer.com/ZZ5H.gif');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            cursor: none;
         }
         
         .container {
@@ -25,24 +30,33 @@
             margin: 0 auto;
             padding: 20px;
             background-color: rgba(0, 0, 0, 0.7);
-            border: 1px solid #0f0;
-            box-shadow: 0 0 20px #0f0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 20px var(--border-color);
             position: relative;
             z-index: 1;
             margin-top: 50px;
+            animation: borderGlow 8s infinite alternate;
+        }
+        
+        @keyframes borderGlow {
+            0% { --border-color: #0f0; box-shadow: 0 0 20px #0f0; }
+            25% { --border-color: #ff0; box-shadow: 0 0 20px #ff0; }
+            50% { --border-color: #f0f; box-shadow: 0 0 20px #f0f; }
+            75% { --border-color: #0ff; box-shadow: 0 0 20px #0ff; }
+            100% { --border-color: #f00; box-shadow: 0 0 20px #f00; }
         }
         
         header {
             text-align: center;
             margin-bottom: 30px;
-            border-bottom: 1px solid #0f0;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 20px;
         }
         
         h1 {
             font-size: 3em;
             margin: 0;
-            text-shadow: 0 0 10px #0f0;
+            text-shadow: 0 0 10px var(--border-color);
             animation: glow 2s infinite alternate;
         }
         
@@ -60,14 +74,14 @@
         }
         
         .social-links a {
-            color: #0f0;
+            color: var(--border-color);
             font-size: 2em;
             transition: all 0.3s;
         }
         
         .social-links a:hover {
             color: #fff;
-            text-shadow: 0 0 10px #0f0;
+            text-shadow: 0 0 10px var(--border-color);
             transform: scale(1.2);
         }
         
@@ -79,24 +93,24 @@
         }
         
         .section {
-            border: 1px solid #0f0;
+            border: 1px solid var(--border-color);
             padding: 15px;
             min-height: 150px;
             transition: all 0.3s;
         }
         
         .section:hover {
-            box-shadow: 0 0 15px #0f0;
+            box-shadow: 0 0 15px var(--border-color);
             transform: translateY(-5px);
         }
         
         .section h2 {
-            border-bottom: 1px solid #0f0;
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
             margin-top: 0;
         }
         
-        .snow {
+        .leaves {
             position: fixed;
             top: 0;
             left: 0;
@@ -106,12 +120,19 @@
             z-index: 0;
         }
         
+        .leaf {
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+        }
+        
         @keyframes glow {
             from {
-                text-shadow: 0 0 5px #0f0;
+                text-shadow: 0 0 5px var(--border-color);
             }
             to {
-                text-shadow: 0 0 20px #0f0, 0 0 30px #0f0;
+                text-shadow: 0 0 20px var(--border-color), 0 0 30px var(--border-color);
             }
         }
         
@@ -127,11 +148,26 @@
         .cursor {
             animation: blink 1s infinite;
         }
+        
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background-color: var(--border-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
 <body>
-    <!-- Hiệu ứng tuyết rơi -->
-    <canvas id="snow" class="snow"></canvas>
+    <!-- Hiệu ứng lá rơi -->
+    <div id="leaves" class="leaves"></div>
+    
+    <!-- Custom cursor -->
+    <div class="custom-cursor"></div>
     
     <div class="container">
         <header>
@@ -149,7 +185,6 @@
             <div class="section">
                 <h2>Thanh Toán</h2>
                 <p>Thông tin tài khoản ngân hàng sẽ hiển thị ở đây</p>
-                <!-- Thêm hình ảnh tài khoản ngân hàng của bạn -->
             </div>
             
             <div class="section">
@@ -169,65 +204,105 @@
     </div>
 
     <script>
-        // Hiệu ứng tuyết rơi
-        const canvas = document.getElementById('snow');
-        const ctx = canvas.getContext('2d');
+        // Hiệu ứng lá rơi
+        const leavesContainer = document.getElementById('leaves');
+        const leafCount = 15;
+        const leafImages = [
+            'https://www.freepnglogos.com/uploads/leaf-png/autumn-leaf-png-transparent-1.png',
+            'https://www.freepnglogos.com/uploads/leaf-png/leaf-png-image-download-picture-8.png',
+            'https://www.freepnglogos.com/uploads/leaf-png/leaf-png-image-pngpix-14.png'
+        ];
         
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const flakes = [];
-        const flakeCount = 100;
-        
-        for (let i = 0; i < flakeCount; i++) {
-            flakes.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 3 + 1,
-                density: Math.random() * flakeCount
-            });
+        // Tạo lá
+        for (let i = 0; i < leafCount; i++) {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.style.backgroundImage = `url('${leafImages[Math.floor(Math.random() * leafImages.length)]}')`;
+            leaf.style.width = `${Math.random() * 30 + 20}px`;
+            leaf.style.height = `${Math.random() * 30 + 20}px`;
+            leaf.style.left = `${Math.random() * 100}vw`;
+            leaf.style.top = `${Math.random() * 100}vh`;
+            leaf.style.transform = `rotate(${Math.random() * 360}deg)`;
+            
+            // Tốc độ rơi ngẫu nhiên
+            leaf.speedX = Math.random() * 0.5 - 0.25;
+            leaf.speedY = Math.random() * 0.5 + 0.25;
+            leaf.rotation = Math.random() * 2 - 1;
+            leaf.rotationSpeed = Math.random() * 0.2 - 0.1;
+            
+            leavesContainer.appendChild(leaf);
         }
         
-        function drawFlakes() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#fff";
-            ctx.beginPath();
+        // Di chuyển lá
+        function animateLeaves() {
+            const leaves = document.querySelectorAll('.leaf');
+            const mouseX = window.mouseX || window.innerWidth / 2;
+            const mouseY = window.mouseY || window.innerHeight / 2;
             
-            for (let i = 0; i < flakeCount; i++) {
-                const flake = flakes[i];
-                ctx.moveTo(flake.x, flake.y);
-                ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2, true);
-            }
-            
-            ctx.fill();
-            moveFlakes();
-        }
-        
-        function moveFlakes() {
-            for (let i = 0; i < flakeCount; i++) {
-                const flake = flakes[i];
+            leaves.forEach(leaf => {
+                // Vị trí hiện tại
+                let x = parseFloat(leaf.style.left);
+                let y = parseFloat(leaf.style.top);
+                let rotation = parseFloat(leaf.style.transform.match(/rotate\((\d+)deg\)/)[1]);
                 
-                flake.y += Math.pow(flake.density, 0.5);
-                flake.x += Math.sin(flake.density * 0.05) * 0.5;
+                // Ảnh hưởng của chuột
+                const dx = mouseX - x;
+                const dy = mouseY - y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
                 
-                if (flake.y > canvas.height) {
-                    flakes[i] = {
-                        x: Math.random() * canvas.width,
-                        y: 0,
-                        radius: flake.radius,
-                        density: flake.density
-                    };
+                if (distance < 200) {
+                    const force = (200 - distance) / 200;
+                    x += dx * 0.01 * force;
+                    y += dy * 0.01 * force;
                 }
-            }
+                
+                // Di chuyển tự nhiên
+                x += leaf.speedX;
+                y += leaf.speedY;
+                rotation += leaf.rotationSpeed;
+                
+                // Quay vòng khi ra khỏi màn hình
+                if (x > window.innerWidth) x = -50;
+                if (x < -50) x = window.innerWidth;
+                if (y > window.innerHeight) y = -50;
+                
+                leaf.style.left = `${x}px`;
+                leaf.style.top = `${y}px`;
+                leaf.style.transform = `rotate(${rotation}deg)`;
+            });
+            
+            requestAnimationFrame(animateLeaves);
         }
         
-        setInterval(drawFlakes, 25);
+        // Theo dõi vị trí chuột
+        window.mouseX = 0;
+        window.mouseY = 0;
         
-        // Responsive
-        window.addEventListener('resize', function() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        document.addEventListener('mousemove', (e) => {
+            window.mouseX = e.clientX;
+            window.mouseY = e.clientY;
         });
+        
+        // Custom cursor
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        // Bắt đầu animation
+        animateLeaves();
+        
+        // Tự động đổi màu viền
+        const colors = ['#0f0', '#ff0', '#f0f', '#0ff', '#f00'];
+        let currentColorIndex = 0;
+        
+        function changeBorderColor() {
+            currentColorIndex = (currentColorIndex + 1) % colors.length;
+            document.documentElement.style.setProperty('--border-color', colors[currentColorIndex]);
+        }
+        
+        setInterval(changeBorderColor, 2000);
     </script>
 </body>
 </html>
