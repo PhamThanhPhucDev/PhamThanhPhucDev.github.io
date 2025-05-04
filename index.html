@@ -5,431 +5,393 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phạm Thành Phúc | Cyber Profile</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-        
-        :root {
-            --border-color: #0f0;
-            --glow-color: #0f0;
-            --bg-url: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif');
-        }
-        
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Share Tech Mono', monospace;
-            background-color: #000;
-            color: var(--border-color);
-            overflow: hidden;
-            height: 100vh;
-        }
-        
-        #bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: var(--bg-url);
-            background-size: cover;
-            background-position: center;
-            z-index: -2;
-            transition: background-image 0.5s ease;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
+        /* Thêm CSS cho phần trình phát nhạc YouTube */
+        .music-player {
+            margin: 20px auto;
+            padding: 15px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 0 20px var(--glow-color);
-            position: relative;
-            z-index: 1;
-            margin-top: 50px;
-            backdrop-filter: blur(5px);
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            position: relative;
-        }
-        
-        .logo {
-            width: 100px;
-            height: 100px;
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            box-shadow: 0 0 20px var(--glow-color);
-            overflow: hidden;
-        }
-        
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        h1 {
-            font-size: 3em;
-            margin: 0;
-            text-shadow: 0 0 10px var(--glow-color);
-            animation: glow 2s infinite alternate;
-        }
-        
-        .caption {
-            font-size: 1.2em;
-            margin: 10px 0;
-            color: #fff;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .social-icon {
-            width: 50px;
-            height: 50px;
-            border: 2px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
+            max-width: 600px;
             box-shadow: 0 0 10px var(--glow-color);
         }
         
-        .social-icon:hover {
-            transform: scale(1.2);
-            box-shadow: 0 0 20px var(--glow-color);
-        }
-        
-        .social-icon img {
-            width: 60%;
-            height: 60%;
-            object-fit: contain;
-        }
-        
-        .sections {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-        }
-        
-        .section {
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            min-height: 150px;
-            transition: all 0.3s;
-            background-color: rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-        }
-        
-        .section:hover {
-            box-shadow: 0 0 15px var(--glow-color);
-            transform: translateY(-5px);
-        }
-        
-        .section h2 {
+        .music-player h2 {
+            margin-top: 0;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 10px;
-            margin-top: 0;
+            text-align: center;
         }
         
-        .snow-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .search-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-container input {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        
-        .snowflake {
-            position: absolute;
-            background-color: #fff;
-            border-radius: 50%;
-            filter: drop-shadow(0 0 3px var(--glow-color));
-            will-change: transform;
-        }
-        
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 5px var(--glow-color);
-            }
-            to {
-                text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color);
-            }
-        }
-        
-        .blink {
-            animation: blink 1s step-end infinite;
-        }
-        
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        
-        /* Settings Panel */
-        .settings-panel {
-            position: fixed;
-            bottom: 90px;
-            right: 30px;
-            background-color: rgba(0, 0, 0, 0.8);
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.5);
             border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 5px;
-            display: none;
-            flex-direction: column;
-            width: 200px;
-            z-index: 100;
-            box-shadow: 0 0 15px var(--glow-color);
+            color: white;
+            font-family: 'Share Tech Mono', monospace;
         }
         
-        .settings-panel h3 {
-            margin-top: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 5px;
-        }
-        
-        .bg-option {
+        .suggestions {
+            position: absolute;
             width: 100%;
-            height: 60px;
-            margin: 5px 0;
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--border-color);
+            border-top: none;
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .suggestion-item {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+        }
+        
+        .suggestion-item:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        
+        .results-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .track-item {
+            padding: 10px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .track-item:hover {
+            background-color: rgba(0, 255, 0, 0.1);
+        }
+        
+        .track-item.active {
+            background-color: rgba(0, 255, 0, 0.2);
+            color: var(--border-color);
+        }
+        
+        .track-thumbnail {
+            width: 100%;
+            aspect-ratio: 1;
             background-size: cover;
             background-position: center;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: all 0.2s;
+            margin-bottom: 5px;
         }
         
-        .bg-option:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px var(--glow-color);
+        .track-title {
+            font-size: 0.8em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
-        .color-option {
-            width: 30px;
-            height: 30px;
-            margin: 5px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
+        .track-artist {
+            font-size: 0.7em;
+            color: #aaa;
         }
         
-        .color-option:hover {
-            transform: scale(1.1);
-            border-color: white;
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
-        .settings-gear {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
+        .player-iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+            margin-bottom: 10px;
+        }
+        
+        .player-controls {
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 15px;
+        }
+        
+        .player-controls button {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--border-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 0 10px var(--glow-color);
+            font-size: 16px;
             transition: all 0.3s;
         }
         
-        .settings-gear:hover {
-            transform: rotate(90deg) scale(1.1);
+        .player-controls button:hover {
+            background-color: var(--border-color);
+            color: black;
         }
         
-        .gear-icon {
-            color: var(--border-color);
-            font-size: 25px;
-            animation: spin 6s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .footer {
+        .now-playing {
             text-align: center;
-            margin-top: 30px;
-            font-size: 0.8em;
+            margin-top: 10px;
+            font-size: 0.9em;
             color: var(--border-color);
+            min-height: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Nền có thể thay đổi -->
-    <div id="bg"></div>
-    
-    <!-- Hiệu ứng tuyết rơi -->
-    <div id="snow-container" class="snow-container"></div>
-    
-    <!-- Nút cài đặt -->
-    <div class="settings-gear" id="settingsGear">
-        <div class="gear-icon">⚙</div>
-    </div>
-    
-    <!-- Panel cài đặt -->
-    <div class="settings-panel" id="settingsPanel">
-        <h3>Cài Đặt</h3>
-        
-        <h4>Màu sắc:</h4>
-        <div style="display: flex; flex-wrap: wrap;">
-            <div class="color-option" style="background-color: #0f0;" data-color="#0f0"></div>
-            <div class="color-option" style="background-color: #ff0;" data-color="#ff0"></div>
-            <div class="color-option" style="background-color: #f0f;" data-color="#f0f"></div>
-            <div class="color-option" style="background-color: #0ff;" data-color="#0ff"></div>
-            <div class="color-option" style="background-color: #f00;" data-color="#f00"></div>
-            <div class="color-option" style="background-color: #00f;" data-color="#00f"></div>
-            <div class="color-option" style="background-color: #f90;" data-color="#f90"></div>
-            <div class="color-option" style="background-color: #fff;" data-color="#fff"></div>
-        </div>
-        
-        <h4>Ảnh nền:</h4>
-        <div class="bg-option" style="background-image: url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif');" data-bg="url('https://i.pinimg.com/originals/f5/f2/74/f5f27448c036af645c27467c789ad759.gif')"></div>
-        <div class="bg-option" style="background-image: url('https://64.media.tumblr.com/tumblr_m6k9ldnVUm1qjtue2o1_500.gifv');" data-bg="url('https://64.media.tumblr.com/tumblr_m6k9ldnVUm1qjtue2o1_500.gifv')"></div>
-    </div>
+    <!-- Các phần hiện có... -->
     
     <div class="container">
         <header>
-            <div class="logo">
-                <img src="https://i.pinimg.com/originals/fd/17/51/fd175129e200299ec0dba35fcffd87fc.gif" alt="Logo">
-            </div>
-            <h1>PHẠM THÀNH PHÚC</h1>
-            <div class="caption">"Code không chỉ là công việc, mà còn là tình yêu <span class="blink">❤</span>"</div>
+            <!-- Các phần header hiện có... -->
             
             <div class="social-links">
-                <a href="https://github.com/PhamThanhPhucDev" class="social-icon" target="_blank" title="GitHub">
-                    <img src="https://c.top4top.io/p_3411kz8cr1.png" alt="GitHub">
-                </a>
-                <a href="https://www.facebook.com/thwhphutd3v" class="social-icon" target="_blank" title="Facebook">
-                    <img src="https://f.top4top.io/p_3411xc3dr1.png" alt="Facebook">
-                </a>
-                <a href="https://t.me/ThanhPhucD3v" class="social-icon" target="_blank" title="Telegram">
-                    <img src="https://k.top4top.io/p_3411u1fh01.png" alt="Telegram">
-                </a>
+                <!-- Các liên kết mạng xã hội hiện có... -->
+            </div>
+            
+            <!-- Thêm trình phát nhạc YouTube ở đây -->
+            <div class="music-player">
+                <h2>TRÌNH PHÁT NHẠC YOUTUBE</h2>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm bài hát...">
+                    <div class="suggestions" id="suggestions"></div>
+                </div>
+                <div class="results-container" id="resultsContainer"></div>
+                <div class="player-container">
+                    <div class="player-iframe" id="player"></div>
+                    <div class="player-controls">
+                        <button id="prevButton">⏮</button>
+                        <button id="playButton">▶</button>
+                        <button id="nextButton">⏭</button>
+                    </div>
+                    <div class="now-playing" id="nowPlaying">Chọn bài hát để phát</div>
+                </div>
             </div>
         </header>
         
-        <div class="sections">
-            <div class="section">
-                <h2>Thanh Toán</h2>
-                <p>Thông tin tài khoản ngân hàng sẽ hiển thị ở đây</p>
-            </div>
-            
-            <div class="section" onclick="window.open('#', '_blank')">
-                <h2>Xem Anime</h2>
-                <p>Nhấn để mở trang xem anime</p>
-            </div>
-            
-            <div class="section" onclick="window.open('#', '_blank')">
-                <h2>Tool</h2>
-                <p>Nhấn để mở trang công cụ</p>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <span class="blink">_</span> Cyber Profile - © 2023 Phạm Thành Phúc
-        </div>
+        <!-- Các phần còn lại của trang web... -->
     </div>
 
+    <!-- YouTube IFrame API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // Hiệu ứng tuyết rơi đơn giản
-        function createSnow() {
-            const snowContainer = document.getElementById('snow-container');
-            const snowflakeCount = 100;
-            
-            for (let i = 0; i < snowflakeCount; i++) {
-                const snowflake = document.createElement('div');
-                snowflake.className = 'snowflake';
-                
-                // Kích thước ngẫu nhiên
-                const size = Math.random() * 5 + 2;
-                snowflake.style.width = `${size}px`;
-                snowflake.style.height = `${size}px`;
-                
-                // Vị trí ban đầu ngẫu nhiên
-                snowflake.style.left = `${Math.random() * 100}vw`;
-                snowflake.style.top = `${Math.random() * 100}vh`;
-                
-                // Tốc độ rơi ngẫu nhiên
-                const speed = Math.random() * 3 + 1;
-                const animationDuration = `${Math.random() * 5 + 5}s`;
-                
-                snowflake.style.animation = `fall ${animationDuration} linear infinite`;
-                snowflake.style.opacity = Math.random() * 0.5 + 0.5;
-                
-                // Thêm vào container
-                snowContainer.appendChild(snowflake);
-                
-                // Keyframes cho animation rơi
-                const keyframes = `
-                    @keyframes fall {
-                        to {
-                            transform: translateY(100vh) translateX(${Math.random() * 100 - 50}px);
-                        }
-                    }
-                `;
-                
-                // Thêm keyframes vào style
-                const style = document.createElement('style');
-                style.innerHTML = keyframes;
-                document.head.appendChild(style);
+        // Biến toàn cục
+        let player;
+        let currentTracks = [];
+        let currentTrackIndex = -1;
+        let searchTimer;
+        let isPlaying = false;
+
+        // Khởi tạo trình phát YouTube
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '200',
+                width: '100%',
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            console.log('Trình phát đã sẵn sàng');
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.ENDED) {
+                playNextTrack();
             }
         }
-        
-        // Mở/đóng panel cài đặt
-        const settingsGear = document.getElementById('settingsGear');
-        const settingsPanel = document.getElementById('settingsPanel');
-        
-        settingsGear.addEventListener('click', () => {
-            settingsPanel.style.display = settingsPanel.style.display === 'flex' ? 'none' : 'flex';
+
+        // Tìm kiếm gợi ý khi nhập
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            clearTimeout(searchTimer);
+            const query = e.target.value.trim();
+            
+            if (query.length < 2) {
+                document.getElementById('suggestions').style.display = 'none';
+                return;
+            }
+            
+            searchTimer = setTimeout(() => {
+                fetchSuggestions(query);
+            }, 300);
         });
-        
-        // Đổi màu sắc
-        document.querySelectorAll('.color-option').forEach(option => {
-            option.addEventListener('click', () => {
-                const color = option.getAttribute('data-color');
-                document.documentElement.style.setProperty('--border-color', color);
-                document.documentElement.style.setProperty('--glow-color', color);
-            });
-        });
-        
-        // Đổi ảnh nền
-        document.querySelectorAll('.bg-option').forEach(option => {
-            option.addEventListener('click', () => {
-                const bgUrl = option.getAttribute('data-bg');
-                document.documentElement.style.setProperty('--bg-url', bgUrl);
-            });
-        });
-        
-        // Đóng panel khi click ra ngoài
-        document.addEventListener('click', (e) => {
-            if (!settingsGear.contains(e.target) && !settingsPanel.contains(e.target)) {
-                settingsPanel.style.display = 'none';
+
+        // Tìm kiếm khi nhấn Enter
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchTracks(this.value.trim());
+                document.getElementById('suggestions').style.display = 'none';
             }
         });
-        
-        // Khởi tạo hiệu ứng tuyết
-        createSnow();
+
+        // Lấy gợi ý tìm kiếm từ YouTube
+        async function fetchSuggestions(query) {
+            try {
+                const response = await fetch(`https://suggestqueries-clients6.youtube.com/complete/search?client=youtube&q=${encodeURIComponent(query)}&ds=yt`);
+                const data = await response.text();
+                
+                // Parse dữ liệu JSONP
+                const json = JSON.parse(data.substring(data.indexOf('(') + 1, data.lastIndexOf(')')));
+                const suggestions = json[1].map(item => item[0]);
+                
+                displaySuggestions(suggestions);
+            } catch (error) {
+                console.error('Lỗi khi lấy gợi ý:', error);
+            }
+        }
+
+        // Hiển thị gợi ý tìm kiếm
+        function displaySuggestions(suggestions) {
+            const suggestionsContainer = document.getElementById('suggestions');
+            suggestionsContainer.innerHTML = '';
+            
+            suggestions.slice(0, 5).forEach(suggestion => {
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.textContent = suggestion;
+                item.addEventListener('click', () => {
+                    document.getElementById('searchInput').value = suggestion;
+                    searchTracks(suggestion);
+                    suggestionsContainer.style.display = 'none';
+                });
+                suggestionsContainer.appendChild(item);
+            });
+            
+            suggestionsContainer.style.display = suggestions.length > 0 ? 'block' : 'none';
+        }
+
+        // Tìm kiếm bài hát trên YouTube
+        async function searchTracks(query) {
+            if (!query) return;
+            
+            try {
+                // Sử dụng YouTube Data API (cần API key thực)
+                // Đây là giải pháp tạm thời cho demo
+                const response = await fetch(`https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`);
+                const html = await response.text();
+                
+                // Phân tích HTML để lấy thông tin video (cách này không ổn định)
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const videoElements = doc.querySelectorAll('ytd-video-renderer');
+                
+                currentTracks = [];
+                const resultsContainer = document.getElementById('resultsContainer');
+                resultsContainer.innerHTML = '';
+                
+                // Lấy 3 video đầu tiên
+                Array.from(videoElements).slice(0, 3).forEach((element, index) => {
+                    const title = element.querySelector('#video-title')?.textContent.trim() || 'Không có tiêu đề';
+                    const channel = element.querySelector('.ytd-channel-name a')?.textContent.trim() || 'Không rõ nghệ sĩ';
+                    const thumbnail = element.querySelector('img')?.src || '';
+                    const videoId = element.querySelector('a#thumbnail')?.href.match(/v=([^&]+)/)?.[1] || '';
+                    
+                    if (videoId) {
+                        currentTracks.push({
+                            id: videoId,
+                            title: title,
+                            artist: channel,
+                            thumbnail: thumbnail
+                        });
+                        
+                        const trackItem = document.createElement('div');
+                        trackItem.className = 'track-item';
+                        trackItem.innerHTML = `
+                            <div class="track-thumbnail" style="background-image: url('${thumbnail}')"></div>
+                            <div class="track-title">${title}</div>
+                            <div class="track-artist">${channel}</div>
+                        `;
+                        trackItem.addEventListener('click', () => playTrack(index));
+                        resultsContainer.appendChild(trackItem);
+                    }
+                });
+                
+                if (currentTracks.length === 0) {
+                    resultsContainer.innerHTML = '<div class="track-item">Không tìm thấy bài hát</div>';
+                }
+            } catch (error) {
+                console.error('Lỗi khi tìm kiếm bài hát:', error);
+                document.getElementById('resultsContainer').innerHTML = '<div class="track-item">Lỗi khi tải dữ liệu</div>';
+            }
+        }
+
+        // Phát bài hát
+        function playTrack(index) {
+            if (index < 0 || index >= currentTracks.length) return;
+            
+            currentTrackIndex = index;
+            const track = currentTracks[currentTrackIndex];
+            
+            // Cập nhật giao diện
+            document.querySelectorAll('.track-item').forEach((item, i) => {
+                if (i === currentTrackIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            document.getElementById('nowPlaying').textContent = `Đang phát: ${track.title} - ${track.artist}`;
+            
+            // Phát video YouTube
+            player.loadVideoById(track.id);
+            isPlaying = true;
+            document.getElementById('playButton').textContent = '⏸';
+        }
+
+        // Điều khiển trình phát
+        document.getElementById('playButton').addEventListener('click', () => {
+            if (currentTrackIndex === -1 && currentTracks.length > 0) {
+                playTrack(0);
+                return;
+            }
+            
+            if (isPlaying) {
+                player.pauseVideo();
+                document.getElementById('playButton').textContent = '▶';
+            } else {
+                player.playVideo();
+                document.getElementById('playButton').textContent = '⏸';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        document.getElementById('prevButton').addEventListener('click', playPrevTrack);
+        document.getElementById('nextButton').addEventListener('click', playNextTrack);
+
+        function playPrevTrack() {
+            if (currentTracks.length === 0) return;
+            const newIndex = (currentTrackIndex - 1 + currentTracks.length) % currentTracks.length;
+            playTrack(newIndex);
+        }
+
+        function playNextTrack() {
+            if (currentTracks.length === 0) return;
+            const newIndex = (currentTrackIndex + 1) % currentTracks.length;
+            playTrack(newIndex);
+        }
+
+        // Ẩn gợi ý khi click ra ngoài
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                document.getElementById('suggestions').style.display = 'none';
+            }
+        });
+
+        // Các script hiện có khác...
     </script>
 </body>
 </html>
