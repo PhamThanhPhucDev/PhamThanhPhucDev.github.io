@@ -55,23 +55,24 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #e6ffe6;
+      background-color: #ffffff;
       color: green;
-      padding: 20px 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 25px 30px;
+      border-radius: 10px;
+      border: 2px solid #32cd32;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
       display: none;
       font-weight: bold;
       z-index: 1000;
       font-size: 16px;
-      animation: fadeInOut 3s ease forwards;
+      text-align: center;
     }
 
-    @keyframes fadeInOut {
-      0% { opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { opacity: 0; }
+    .toast span {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #444;
     }
   </style>
 </head>
@@ -90,6 +91,7 @@
   <!-- Thông báo -->
   <div class="toast" id="toast">
     ✅ Nhận thành công! Đã gửi vào hộp thư của bạn.
+    <span id="countdown">Bạn có thể rút tiếp sau 3 giây...</span>
   </div>
 
   <script>
@@ -119,16 +121,27 @@
 
       // Hiện thông báo
       let toast = document.getElementById("toast");
+      let countdown = document.getElementById("countdown");
       toast.style.display = "block";
 
-      // Khóa nút trong 3s
+      // Khóa nút
       let button = document.getElementById("btnRut");
       button.disabled = true;
 
-      setTimeout(() => {
-        toast.style.display = "none";
-        button.disabled = false;
-      }, 3000);
+      // Đếm ngược 3s
+      let timeLeft = 3;
+      countdown.textContent = `Bạn có thể rút tiếp sau ${timeLeft} giây...`;
+
+      let countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft > 0) {
+          countdown.textContent = `Bạn có thể rút tiếp sau ${timeLeft} giây...`;
+        } else {
+          clearInterval(countdownInterval);
+          toast.style.display = "none";
+          button.disabled = false;
+        }
+      }, 1000);
     }
   </script>
 </body>
