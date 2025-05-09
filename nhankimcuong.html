@@ -11,6 +11,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      position: relative;
     }
 
     .container {
@@ -44,42 +45,53 @@
       cursor: pointer;
     }
 
-    .success-message {
-      display: none;
-      padding: 20px;
-      border: 1px solid green;
-      border-radius: 5px;
+    .toast {
+      position: fixed;
+      top: 30px;
+      right: 30px;
       background-color: #e6ffe6;
       color: green;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none;
       font-weight: bold;
-      text-align: center;
+      z-index: 1000;
     }
 
-    .tick-icon {
-      font-size: 40px;
+    .toast .tick {
+      font-size: 24px;
+      margin-right: 8px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="kc-text">Hiện có : <span id="kcAmount">238786</span> Kim Cương</div>
+    <div class="kc-text">
+      Hiện có : <span id="kcAmount">732.786</span> Kim Cương
+    </div>
 
     <input type="text" id="gameID" placeholder="ID GAME" />
     <input type="number" id="kcToWithdraw" placeholder="Muốn Rút [Kim Cương]" />
     <textarea id="note" placeholder="Ghi chú cho admin"></textarea>
     <button onclick="rutKimCuong()">Rút vật phẩm</button>
+  </div>
 
-    <div class="success-message" id="successMsg">
-      <div class="tick-icon">✅</div>
-      Nhận thành công! Đã gửi vào hộp thư của bạn.
-    </div>
+  <!-- Toast Thông Báo -->
+  <div class="toast" id="toast">
+    <span class="tick">✅</span> Nhận thành công! Đã gửi vào hộp thư của bạn.
   </div>
 
   <script>
+    function formatNumberWithDot(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     function rutKimCuong() {
-      let id = document.getElementById("gameID").value;
+      let id = document.getElementById("gameID").value.trim();
       let kc = parseInt(document.getElementById("kcToWithdraw").value);
-      let currentKC = parseInt(document.getElementById("kcAmount").textContent);
+      let kcDisplay = document.getElementById("kcAmount").textContent.replace(/\./g, '');
+      let currentKC = parseInt(kcDisplay);
 
       if (!id || isNaN(kc) || kc <= 0) {
         alert("Vui lòng nhập ID và số kim cương hợp lệ!");
@@ -93,10 +105,16 @@
 
       // Trừ kim cương
       let newKC = currentKC - kc;
-      document.getElementById("kcAmount").textContent = newKC;
+      document.getElementById("kcAmount").textContent = formatNumberWithDot(newKC);
 
-      // Hiện thông báo thành công
-      document.getElementById("successMsg").style.display = "block";
+      // Hiển thị toast
+      let toast = document.getElementById("toast");
+      toast.style.display = "block";
+
+      // Ẩn sau 3 giây
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 3000);
     }
   </script>
 </body>
