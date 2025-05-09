@@ -45,41 +45,51 @@
       cursor: pointer;
     }
 
+    button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
     .toast {
       position: fixed;
-      top: 30px;
-      right: 30px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background-color: #e6ffe6;
       color: green;
-      padding: 16px 24px;
+      padding: 20px 30px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       display: none;
       font-weight: bold;
       z-index: 1000;
+      font-size: 16px;
+      animation: fadeInOut 3s ease forwards;
     }
 
-    .toast .tick {
-      font-size: 24px;
-      margin-right: 8px;
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="kc-text">
-      Hiện có : <span id="kcAmount">732.786</span> Kim Cương
+      Hiện có : <span id="kcAmount">999.999</span> Kim Cương
     </div>
 
     <input type="text" id="gameID" placeholder="ID GAME" />
     <input type="number" id="kcToWithdraw" placeholder="Muốn Rút [Kim Cương]" />
     <textarea id="note" placeholder="Ghi chú cho admin"></textarea>
-    <button onclick="rutKimCuong()">Rút vật phẩm</button>
+    <button id="btnRut" onclick="rutKimCuong()">Rút vật phẩm</button>
   </div>
 
-  <!-- Toast Thông Báo -->
+  <!-- Thông báo -->
   <div class="toast" id="toast">
-    <span class="tick">✅</span> Nhận thành công! Đã gửi vào hộp thư của bạn.
+    ✅ Nhận thành công! Đã gửi vào hộp thư của bạn.
   </div>
 
   <script>
@@ -107,13 +117,17 @@
       let newKC = currentKC - kc;
       document.getElementById("kcAmount").textContent = formatNumberWithDot(newKC);
 
-      // Hiển thị toast
+      // Hiện thông báo
       let toast = document.getElementById("toast");
       toast.style.display = "block";
 
-      // Ẩn sau 3 giây
+      // Khóa nút trong 3s
+      let button = document.getElementById("btnRut");
+      button.disabled = true;
+
       setTimeout(() => {
         toast.style.display = "none";
+        button.disabled = false;
       }, 3000);
     }
   </script>
