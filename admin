@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER TOOLS | Hacker Toolkit</title>
+    <style>
+        :root {
+            --primary: #0ff;
+            --secondary: #f0f;
+            --bg-dark: #111;
+            --bg-darker: #0a0a0a;
+            --text: #0f0;
+            --text-dim: #0a0;
+            --alert: #f00;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .cyber-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            border-left: 1px solid var(--primary);
+            border-right: 1px solid var(--primary);
+            min-height: 100vh;
+        }
+        
+        .cyber-header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--primary);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyber-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 255, 255, 0.1),
+                transparent
+            );
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        
+        .cyber-title {
+            font-size: 2.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+        
+        .cyber-subtitle {
+            color: var(--text-dim);
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .cyber-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .cyber-nav a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid var(--primary);
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .cyber-nav a:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px var(--primary);
+        }
+        
+        .cyber-toolbox {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .cyber-tool {
+            background: var(--bg-darker);
+            border: 1px solid var(--secondary);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+        
+        .cyber-tool:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+        }
+        
+        .cyber-tool::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                transparent,
+                rgba(255, 0, 255, 0.05),
+                transparent
+            );
+            pointer-events: none;
+        }
+        
+        .tool-title {
+            color: var(--primary);
+            margin-top: 0;
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .tool-desc {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .tool-btn {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--primary);
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Courier New', monospace;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        
+        .tool-btn:hover {
+            background: var(--primary);
+            color: var(--bg-dark);
+        }
+        
+        .cyber-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px 0;
+            border-top: 1px solid var(--primary);
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+        
+        /* Terminal effect */
+        .terminal {
+            background: #000;
+            border: 1px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            position: relative;
+        }
+        
+        .terminal::before {
+            content: ">_";
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--primary);
+            color: #000;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+        
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Tool form styles */
+        .tool-form {
+            margin-top: 20px;
+        }
+        
+        .tool-form input[type="text"],
+        .tool-form input[type="url"],
+        .tool-form textarea {
+            width: 100%;
+            background: var(--bg-darker);
+            border: 1px solid var(--secondary);
+            color: var(--text);
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .tool-form input[type="submit"] {
+            background: var(--primary);
+            color: var(--bg-dark);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cyber-toolbox {
+                grid-template-columns: 1fr;
+            }
+            
+            .cyber-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-container">
+        <header class="cyber-header">
+            <h1 class="cyber-title">CYBER TOOLS<span class="blink">_</span></h1>
+            <p class="cyber-subtitle">// HACKER TOOLKIT v2.0 // ACCESS: GRANTED</p>
+        </header>
+        
+        <nav class="cyber-nav">
+            <a href="#networking">NETWORK</a>
+            <a href="#pentesting">PENTEST</a>
+            <a href="#programming">CODE</a>
+            <a href="#generators">GENERATORS</a>
+            <a href="#encryption">CRYPTO</a>
+            <a href="#utilities">UTILS</a>
+        </nav>
+        
+        <div class="terminal">
+            <p>root@cybertools:~# Initializing system...</p>
+            <p>root@cybertools:~# Loading modules: [##########] 100%</p>
+            <p>root@cybertools:~# System ready. Type 'help' for commands.</p>
+            <p>root@cybertools:~# <span class="blink">_</span></p>
+        </div>
+        
+        <!-- ADMIN FINDER TOOL -->
+        <section id="pentesting">
+            <div class="cyber-tool">
+                <h3 class="tool-title">ADMIN FINDER</h3>
+                <p class="tool-desc">Locate admin panels on target websites</p>
+                
+                <div class="tool-form">
+                    <form method="POST" action="">
+                        <input type="url" name="url" placeholder="https://target.com/" required>
+                        <input type="submit" value="SCAN NOW">
+                    </form>
+                </div>
+                
+                <div class="terminal" style="margin-top: 20px; display: none;" id="result-terminal">
+                    <p>Scan results will appear here...</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- WHOIS LOOKUP TOOL -->
+        <section id="networking">
+            <div class="cyber-tool">
+                <h3 class="tool-title">WHOIS LOOKUP</h3>
+                <p class="tool-desc">Retrieve domain registration information</p>
+                
+                <div class="tool-form">
+                    <form method="POST" action="">
+                        <input type="text" name="domain" placeholder="example.com" required>
+                        <input type="submit" value="QUERY">
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ENCODE/DECODE TOOL -->
+        <section id="encryption">
+            <div class="cyber-tool">
+                <h3 class="tool-title">ENCODE/DECODE</h3>
+                <p class="tool-desc">Multiple encoding/decoding methods</p>
+                
+                <div class="tool-form">
+                    <form method="POST" action="">
+                        <textarea name="text" placeholder="Enter text to encode/decode" rows="3"></textarea>
+                        <select name="method" style="width: 100%; padding: 10px; margin-bottom: 10px; background: var(--bg-darker); color: var(--text); border: 1px solid var(--secondary);">
+                            <option value="base64">Base64</option>
+                            <option value="url">URL Encoding</option>
+                            <option value="html">HTML Entities</option>
+                            <option value="hex">Hex</option>
+                        </select>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="submit" name="encode" value="ENCODE" style="flex: 1;">
+                            <input type="submit" name="decode" value="DECODE" style="flex: 1;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- IP GEOLOCATION TOOL -->
+        <section id="networking">
+            <div class="cyber-tool">
+                <h3 class="tool-title">IP GEOLOCATION</h3>
+                <p class="tool-desc">Track IP addresses worldwide</p>
+                
+                <div class="tool-form">
+                    <form method="POST" action="">
+                        <input type="text" name="ip" placeholder="8.8.8.8" required>
+                        <input type="submit" value="LOCATE">
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- QR CODE GENERATOR -->
+        <section id="generators">
+            <div class="cyber-tool">
+                <h3 class="tool-title">QR CODE GENERATOR</h3>
+                <p class="tool-desc">Create QR codes from text/URLs</p>
+                
+                <div class="tool-form">
+                    <form method="POST" action="">
+                        <input type="text" name="qrtext" placeholder="Enter text or URL" required>
+                        <input type="submit" value="GENERATE">
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="cyber-footer">
+            <p>CYBER TOOLS v2.0 | &copy; 2023 CYBER SECURITY RESEARCH | ACCESS: [<span style="color: var(--primary)">GRANTED</span>]</p>
+            <p>WARNING: UNAUTHORIZED ACCESS PROHIBITED</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple terminal typing effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const terminal = document.querySelector('.terminal');
+            if (terminal) {
+                setTimeout(() => {
+                    terminal.innerHTML += '<p>root@cybertools:~# <span class="blink">_</span></p>';
+                }, 2000);
+            }
+            
+            // Form submission simulation
+            const forms = document.querySelectorAll('.tool-form form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const resultTerminal = document.getElementById('result-terminal');
+                    if (resultTerminal) {
+                        resultTerminal.style.display = 'block';
+                        resultTerminal.innerHTML = `
+                            <p>Scanning target: ${this.url.value}</p>
+                            <p>Checking common admin paths...</p>
+                            <p>/admin/ => 404</p>
+                            <p>/wp-admin/ => 200 FOUND!</p>
+                            <p>/administrator/ => 403</p>
+                            <p>Scan completed. 1 potential entry point found.</p>
+                            <p>root@cybertools:~# <span class="blink">_</span></p>
+                        `;
+                    }
+                    
+                    // Simulate API call delay
+                    setTimeout(() => {
+                        alert('Operation completed. Check terminal for results.');
+                    }, 1500);
+                });
+            });
+            
+            // Tool buttons effect
+            const toolBtns = document.querySelectorAll('.tool-btn, input[type="submit"]');
+            toolBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.boxShadow = '0 0 10px var(--primary)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
