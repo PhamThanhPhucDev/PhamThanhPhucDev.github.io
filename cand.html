@@ -1,46 +1,49 @@
-<!DOCTYPE html>
-<html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Khóa Ctrl + U và F12 vĩnh viễn</title>
-    <script>
-        // Chặn Ctrl + U, F12 và các phím tắt khác VĨNH VIỄN
-        document.addEventListener('keydown', function(e) {
-            // Chặn Ctrl + U (mã keyCode: 85)
-            if (e.ctrlKey && e.keyCode === 85) {
-                e.preventDefault();
-                alert("Bạn không thể xem mã nguồn bằng Ctrl + U!");
-                return false;
-            }
-            
-            // Chặn F12 (mã keyCode: 123)
-            if (e.keyCode === 123) {
-                e.preventDefault();
-                alert("Bạn không được phép mở DevTools (F12)!");
-                return false;
-            }
-            
-            // Chặn Ctrl + Shift + I (mở DevTools)
-            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                e.preventDefault();
-                alert("Không được phép mở Inspector (Ctrl + Shift + I)!");
-                return false;
-            }
-        });
-
-        // Chặn chuột phải để ngăn mở DevTools bằng menu
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-            alert("Không được phép sử dụng chuột phải!");
-        });
-
-        // Chặn kéo chọn văn bản (tùy chọn)
-        document.addEventListener('selectstart', function(e) {
-            e.preventDefault();
-        });
-    </script>
+    <title></title>
+    <link rel="Shortcut Icon" href="images/favicon.ico" type="image/x-icon" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta content="INDEX,FOLLOW" name="robots" />
 </head>
 <body>
-    <h1 style="text-align: center; color: red;">TRANG WEB ĐƯỢC BẢO VỆ</h1>
-    <p style="text-align: center;">Bạn không thể xem mã nguồn hoặc mở DevTools trên trang này.</p>
+    <div style="text-align: center">
+        BỘ CÔNG AN<br />
+        <b>CỤC AN NINH MẠNG VÀ PHÒNG CHỐNG TỘI PHẠM SỬ DỤNG CÔNG NGHỆ CAO</b>
+    </div>
+    <div style="text-align: center;">
+        <!-- Thay đổi hình ảnh ở đây -->
+        <img src="https://b.top4top.io/p_3411o4evi1.jpg" alt="Logo" />
+    </div>
+    <div style="text-align: center; font-size: 25px; padding-top: 20px; font-weight: bold;">
+        CẢNH BÁO
+    </div>
+    <div style="text-align: center; font-size: 18px; padding-top: 5px;">
+        Việc tham gia đánh bạc là hành vi vi phạm pháp luật,
+        <br />
+        quy định tại Điều 321, Điều 322 - Bộ luật Hình sự 2015 (SĐBS 2017) nước Cộng hòa Xã hội chủ nghĩa Việt Nam
+    </div>
+    <div style="text-align: center; font-size: 18px; padding-top: 10px;">
+        Cơ quan công an sẽ lưu lại log truy cập này để tập hợp xử lý!
+    </div>
+    <div style="text-align: center; font-size: 15px; padding-top: 30px;">
+        Mọi thông tin tố giác tội phạm có liên quan xin gửi về:
+        <br />
+        Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao, Lô E2, Dương Đình Nghệ, Yên Hòa, Cầu Giấy, Hà Nội.
+    </div>
+
+<div style="text-align: center; font-size: 15px; padding-top: 5px;">
+<img alt="" src="http://www.wieistmeineip.de/ip-address" />
+</div>
+ <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129675600-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-129675600-1');
+</script>
 </body>
 </html>
