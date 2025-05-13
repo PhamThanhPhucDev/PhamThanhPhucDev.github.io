@@ -5,6 +5,30 @@
     <link rel="Shortcut Icon" href="images/favicon.ico" type="image/x-icon" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta content="INDEX,FOLLOW" name="robots" />
+    <script>
+        // Chặn Ctrl + U, Ctrl + Shift + I, F12, Chuột phải
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 83)) {
+                e.preventDefault();
+                alert('Không được phép xem mã nguồn!');
+            }
+            if (e.keyCode === 123) { // Chặn F12
+                e.preventDefault();
+                alert('Không được phép mở Developer Tools!');
+            }
+        });
+
+        // Chặn chuột phải
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('Không được phép sử dụng chuột phải!');
+        });
+
+        // Chặn kéo chọn text (tùy chọn)
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+    </script>
 </head>
 <body>
     <div style="text-align: center">
@@ -32,17 +56,17 @@
         Cục An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao, Lô E2, Dương Đình Nghệ, Yên Hòa, Cầu Giấy, Hà Nội.
     </div>
 
-<div style="text-align: center; font-size: 15px; padding-top: 5px;">
-<img alt="" src="http://www.wieistmeineip.de/ip-address" />
-</div>
- <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-129675600-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <div style="text-align: center; font-size: 15px; padding-top: 5px;">
+        <img alt="" src="http://www.wieistmeineip.de/ip-address" />
+    </div>
 
-  gtag('config', 'UA-129675600-1');
-</script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129675600-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-129675600-1');
+    </script>
 </body>
 </html>
