@@ -6,6 +6,28 @@
   <title>Công cụ Dự đoán Tài/Xỉu</title>
   <title>THANHPHUTDEV</title>
 <style>
+  @keyframes rainbowColors {
+  0%   { color: #FF0000; }
+  14%  { color: #FF7F00; }
+  28%  { color: #FFFF00; }
+  42%  { color: #00FF00; }
+  57%  { color: #0000FF; }
+  71%  { color: #4B0082; }
+  85%  { color: #8F00FF; }
+  100% { color: #FF0000; }
+}
+
+#rainbowName {
+  text-align: center;
+  font-size: 2.8em;
+  font-weight: 900;
+  margin: 10px 0 30px 0;
+  animation: rainbowColors 10s linear infinite;
+  user-select: none;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 10px rgba(255,255,255,0.7);
+}
+
   @keyframes bgColors {
     0% { background-color: #FFB6C1; }
     14% { background-color: #FFA07A; }
@@ -143,7 +165,7 @@
 <body>
 
 <button id="musicControl" title="Phát / Tạm dừng nhạc">▶</button>
-
+<h1 id="rainbowName">THANHPHUCDEV</h1>
 <div class="container">
   <h1>Công cụ Dự đoán Tài/Xỉu</h1>
 
