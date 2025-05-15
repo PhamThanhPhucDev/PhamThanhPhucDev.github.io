@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Công cụ Dự đoán Tài/Xỉu</title>
+<style>
+  @keyframes bgColors {
+    0% { background-color: #FFB6C1; }
+    14% { background-color: #FFA07A; }
+    28% { background-color: #FFD700; }
+    42% { background-color: #90EE90; }
+    57% { background-color: #87CEFA; }
+    71% { background-color: #BA55D3; }
+    85% { background-color: #FF69B4; }
+    100% { background-color: #FFB6C1; }
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: bgColors 30s infinite;
+    margin: 0; padding: 20px;
+    color: #222;
+  }
+  h1 {
+    color: #222;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .container {
+    max-width: 900px;
+    margin: auto;
+    background: rgba(255 255 255 / 0.9);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    padding: 25px 30px;
+  }
+  .section {
+    margin-bottom: 30px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: inset 0 0 10px #ccc;
+  }
+  label {
+    font-weight: 700;
+    color: #555;
+  }
+  input[type="text"], select, input[type="file"] {
+    font-size: 16px;
+    padding: 10px 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    width: 180px;
+    box-sizing: border-box;
+    color: #222;
+  }
+  input[type="file"] {
+    width: auto;
+  }
+  button {
+    background: #007acc;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,122,204,0.4);
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #005f99;
+  }
+  #loadStatus, #addDataStatus {
+    margin-top: 10px;
+    font-weight: 600;
+    color: #007acc;
+  }
+  #predictionResult {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #e0f0ff;
+    font-weight: 700;
+    color: #007acc;
+  }
+  #overallStats p {
+    margin: 8px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  th {
+    background: #007acc;
+    color: white;
+  }
+  td.tai {
+    color: #28a745;
+    font-weight: 700;
+  }
+  td.xiu {
+    color: #dc3545;
+    font-weight: 700;
+  }
+  #musicControl {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: #007acc;
+    color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 0 15px #007acc;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    z-index: 9999;
+  }
+  #musicControl.playing {
+    background: #28a745;
+    box-shadow: 0 0 15px #28a745;
+  }
+</style>
+</head>
+<body>
+
+<button id="musicControl" title="Phát / Tạm dừng nhạc">▶</button>
+
+<div class="container">
+  <h1>Công cụ Dự đoán Tài/Xỉu</h1>
+
+  <div class="section">
+    <label>1. Tải file dữ liệu (.txt):</label><br />
+    <input type="file" id="fileInput" accept=".txt" />
+    <div id="loadStatus">
+      <p style="margin-top:10px; color:#777;">
+        Nếu chưa có file, bạn có thể tải file mẫu tại đây:
+        <a href="https://www.mediafire.com/file/2bhxp1s6ph6jhfu/cautaixiu.txt/file" target="_blank" rel="noopener noreferrer">Tải file mẫu</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="section" id="predictionSection" style="display:none;">
+    <label>2. Nhập bộ xúc xắc ván trước (3 số, cách nhau dấu cách):</label><br />
+    <input type="text" id="diceInput" placeholder="VD: 1 2 3" maxlength="5" />
+    <button id="predictBtn">Dự đoán</button>
+    <div id="predictionResult"></div>
+  </div>
+
+  <div class="section" id="statisticsSection" style="display:none;">
+    <h2>Thống kê tổng quan</h2>
+    <div id="overallStats"></div>
+    <h3>Top bộ số phổ biến</h3>
+    <table id="topPatternsTable">
+      <thead><tr><th>STT</th><th>Bộ số</th><th>Tài</th><th>% Tài</th><th>Xỉu</th><th>% Xỉu</th><th>Tổng</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="section" id="inputNewSection" style="display:none;">
+    <h2>3. Nhập dữ liệu mới và lưu lịch sử</h2>
+    <label>Nhập bộ xúc xắc (3 số, cách nhau dấu cách):</label><br />
+    <input type="text" id="newDiceInput" placeholder="VD: 1 2 3" maxlength="5" />
+    <br />
+    <label>Chọn kết quả:</label><br />
+    <select id="newResultSelect">
+      <option value="Tai">Tài</option>
+      <option value="Xiu">Xỉu</option>
+    </select>
+    <br />
+    <button id="addDataBtn">Thêm dữ liệu vào lịch sử</button>
+    <div id="addDataStatus"></div>
+    <br />
+    <button id="downloadBtn">Tải file .txt lịch sử đã cập nhật</button>
+  </div>
+</div>
+
+<audio id="backgroundMusic" src="https://d.top4top.io/m_3411eg4pz1.mp3" loop></audio>
+
+<script>
+(() => {
+  let history = [];
+  let patterns = {};
+
+  function normalizeResult(res) {
+    res = res.trim().toLowerCase();
+    if (res === 't' || res === 'tai') return 'Tai';
+    if (res === 'x' || res === 'xiu') return 'Xiu';
+    return null;
+  }
+
+  function readFile(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = e => resolve(e.target.result);
+      reader.onerror = e => reject(e);
+      reader.readAsText(file, 'UTF-8');
+    });
+  }
+
+  function processData(text) {
+    history = [];
+    patterns = {};
+    const lines = text.split(/\r?\n/);
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      const parts = line.split('|');
+      if (parts.length !== 2) continue;
+      const diceStr = parts[0].trim();
+      const resultRaw = parts[1].trim();
+      const diceArr = diceStr.split(' ').map(x => parseInt(x)).sort((a,b) => a-b);
+      if (diceArr.length !== 3 || diceArr.some(x => isNaN(x) || x < 1 || x > 6)) continue;
+      const result = normalizeResult(resultRaw);
+      if (!result) continue;
+      history.push({dice: diceArr, result});
+      const key = diceArr.join(' ');
+      if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
+      patterns[key][result]++;
+    }
+  }
+
+  function predict(dice) {
+    const key = dice.slice().sort((a,b) => a-b).join(' ');
+    const stats = patterns[key] || {Tai: 0, Xiu: 0};
+    const total = stats.Tai + stats.Xiu;
+    if (total === 0) {
+      const sumDice = dice.reduce((a,b) => a+b, 0);
+      const similar = history.filter(h => h.dice.reduce((a,b) => a+b, 0) === sumDice);
+      if (similar.length === 0) {
+        return {
+          prediction: 'Không đủ dữ liệu',
+          taiPercent: 0,
+          xiuPercent: 0,
+          totalMatches: 0,
+          method: 'Không có dữ liệu'
+        };
+      }
+      const taiCount = similar.filter(h => h.result === 'Tai').length;
+      const xiuCount = similar.length - taiCount;
+      const taiPercent = taiCount / similar.length * 100;
+      const xiuPercent = xiuCount / similar.length * 100;
+      return {
+        prediction: taiPercent > xiuPercent ? 'Tai' : 'Xiu',
+        confidence: Math.max(taiPercent, xiuPercent),
+        taiPercent,
+        xiuPercent,
+        totalMatches: similar.length,
+        method: `Dựa trên ${similar.length} ván có tổng điểm ${sumDice}`
+      };
+    } else {
+      const taiPercent = stats.Tai / total * 100;
+      const xiuPercent = stats.Xiu / total * 100;
+      return {
+        prediction: taiPercent > xiuPercent ? 'Tai' : 'Xiu',
+        confidence: Math.max(taiPercent, xiuPercent),
+        taiPercent,
+        xiuPercent,
+        totalMatches: total,
+        method: `Dựa trên ${total} ván có bộ số ${key}`
+      };
+    }
+  }
+
+  function displayPrediction(pred) {
+    const container = document.getElementById('predictionResult');
+    container.innerHTML = '';
+    if (pred.totalMatches === 0) {
+      container.innerHTML = `<p style="color:#ff6666;">${pred.prediction}</p>`;
+      return;
+    }
+    const taiBar = '█'.repeat(Math.round(pred.taiPercent / 5));
+    const xiuBar = '█'.repeat(Math.round(pred.xiuPercent / 5));
+    container.innerHTML = `
+      <p><b>Phương pháp:</b> ${pred.method}</p>
+      <p>Tỷ lệ dựa trên <b>${pred.totalMatches}</b> lần xuất hiện:</p>
+      <p style="color:#28a745;">Tài: ${taiBar} ${pred.taiPercent.toFixed(1)}%</p>
+      <p style="color:#dc3545;">Xỉu: ${xiuBar} ${pred.xiuPercent.toFixed(1)}%</p>
+      <p><b>Dự đoán:</b> ${pred.prediction} (<i>${pred.confidence.toFixed(1)}% tin cậy</i>)</p>
+    `;
+  }
+
+  function displayStatistics() {
+    const overallDiv = document.getElementById('overallStats');
+    const totalGames = history.length;
+    if (totalGames === 0) {
+      overallDiv.innerHTML = '<p class="error">Chưa có dữ liệu thống kê!</p>';
+      return;
+    }
+    const taiCount = history.filter(h => h.result === 'Tai').length;
+    const xiuCount = totalGames - taiCount;
+    overallDiv.innerHTML = `
+      <p><b>Tổng số ván đã ghi nhận:</b> ${totalGames}</p>
+      <p style="color:#28a745;"><b>Số lần Tài:</b> ${taiCount} (${(taiCount / totalGames * 100).toFixed(1)}%)</p>
+      <p style="color:#dc3545;"><b>Số lần Xỉu:</b> ${xiuCount} (${(xiuCount / totalGames * 100).toFixed(1)}%)</p>
+    `;
+    const topPatterns = Object.entries(patterns)
+      .map(([dice, stats]) => {
+        const total = stats.Tai + stats.Xiu;
+        return {
+          dice,
+          Tai: stats.Tai,
+          Xiu: stats.Xiu,
+          total,
+          taiPercent: total ? (stats.Tai / total * 100) : 0,
+          xiuPercent: total ? (stats.Xiu / total * 100) : 0
+        };
+      })
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10);
+    const tbody = document.querySelector('#topPatternsTable tbody');
+    tbody.innerHTML = '';
+    topPatterns.forEach((p, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${p.dice}</td>
+        <td class="tai">${p.Tai}</td>
+        <td class="tai">${p.taiPercent.toFixed(1)}%</td>
+        <td class="xiu">${p.Xiu}</td>
+        <td class="xiu">${p.xiuPercent.toFixed(1)}%</td>
+        <td>${p.total}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function showInputNewSection() {
+    document.getElementById('inputNewSection').style.display = history.length > 0 ? 'block' : 'none';
+  }
+
+  // Xử lý tải file dữ liệu lên
+  document.getElementById('fileInput').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    document.getElementById('loadStatus').textContent = 'Đang tải và xử lý dữ liệu...';
+    try {
+      const text = await readFile(file);
+      processData(text);
+      document.getElementById('loadStatus').textContent = `Đã tải ${history.length} ván dữ liệu.`;
+      document.getElementById('predictionSection').style.display = 'block';
+      document.getElementById('statisticsSection').style.display = 'block';
+      displayStatistics();
+      document.getElementById('predictionResult').innerHTML = '';
+      showInputNewSection();
+    } catch (err) {
+      document.getElementById('loadStatus').textContent = 'Lỗi khi đọc file.';
+      console.error(err);
+    }
+  });
+
+  // Nút dự đoán
+  document.getElementById('predictBtn').addEventListener('click', () => {
+    const input = document.getElementById('diceInput').value.trim();
+    const parts = input.split(' ').map(x => parseInt(x));
+    if (parts.length !== 3 || parts.some(x => isNaN(x) || x < 1 || x > 6)) {
+      alert('Vui lòng nhập đúng 3 số xúc xắc (1 đến 6), cách nhau dấu cách.');
+      return;
+    }
+    const pred = predict(parts);
+    displayPrediction(pred);
+  });
+
+  // Thêm dữ liệu mới
+  document.getElementById('addDataBtn').addEventListener('click', () => {
+    const diceInput = document.getElementById('newDiceInput').value.trim();
+    const diceParts = diceInput.split(' ').map(x => parseInt(x));
+    if (diceParts.length !== 3 || diceParts.some(x => isNaN(x) || x < 1 || x > 6)) {
+      alert('Vui lòng nhập đúng 3 số xúc xắc (1 đến 6), cách nhau dấu cách.');
+      return;
+    }
+    const result = document.getElementById('newResultSelect').value;
+    const sortedDice = diceParts.slice().sort((a,b) => a-b);
+    history.push({dice: sortedDice, result});
+    const key = sortedDice.join(' ');
+    if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
+    patterns[key][result]++;
+    displayStatistics();
+    document.getElementById('addDataStatus').textContent = `Đã thêm bộ số [${key}] với kết quả ${result} vào lịch sử.`;
+    document.getElementById('newDiceInput').value = '';
+  });
+
+  // Tải file lịch sử
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (history.length === 0) {
+      alert('Chưa có dữ liệu để tải xuống.');
+      return;
+    }
+    let content = '';
+    for (const entry of history) {
+      content += `${entry.dice.join(' ')}|${entry.result}\n`;
+    }
+    const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cautaixiu_updated.txt';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  });
+
+  // Nhạc nền bật tắt
+  const musicBtn = document.getElementById('musicControl');
+const music = document.getElementById('backgroundMusic');
+musicBtn.addEventListener('click', () => {
+if (music.paused) {
+music.play();
+musicBtn.textContent = '❚❚';
+musicBtn.classList.add('playing');
+} else {
+music.pause();
+musicBtn.textContent = '▶';
+musicBtn.classList.remove('playing');
+}
+});
+
+})();
+</script>
+
+</body> </html>
