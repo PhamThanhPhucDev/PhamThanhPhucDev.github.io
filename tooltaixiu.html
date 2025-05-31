@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Công cụ Dự đoán Tài/Xỉu Nâng Cao</title>
+<title>Công cụ Dự đoán Tài/Xỉu - ThanhPhucDev PRO+</title>
 <style>
   @keyframes rainbowColors {
     0%   { color: #FF0000; }
@@ -74,7 +74,7 @@
     color: #555;
   }
   
-  input[type="text"], select, input[type="file"], input[type="number"] {
+  input[type="text"], select, input[type="file"] {
     font-size: 16px;
     padding: 10px 12px;
     margin-top: 10px;
@@ -179,70 +179,6 @@
     box-shadow: 0 0 15px #28a745;
   }
   
-  /* New styles for enhanced features */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    margin-left: 15px;
-    vertical-align: middle;
-  }
-  
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
-  }
-  
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-  }
-  
-  input:checked + .slider {
-    background-color: #28a745;
-  }
-  
-  input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  
-  .chart-container {
-    width: 100%;
-    height: 300px;
-    margin-top: 20px;
-  }
-  
-  .warning {
-    color: #ff6b00;
-    font-weight: bold;
-    background-color: #fff3e0;
-    padding: 10px;
-    border-radius: 5px;
-    margin: 10px 0;
-    border-left: 5px solid #ff6b00;
-  }
-  
   .accuracy-meter {
     height: 20px;
     background-color: #e0e0e0;
@@ -256,19 +192,6 @@
     background-color: #4caf50;
     width: 0%;
     transition: width 0.5s;
-  }
-  
-  .betting-controls {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    margin-top: 15px;
-  }
-  
-  .bet-input {
-    display: flex;
-    align-items: center;
-    gap: 10px;
   }
   
   .history-item {
@@ -291,14 +214,149 @@
     padding: 15px;
     border-radius: 8px;
     margin-top: 15px;
+  }
+  
+  .warning {
+    color: #ff6b00;
+    font-weight: bold;
+    background-color: #fff3e0;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border-left: 5px solid #ff6b00;
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+  }
+  
+  .blocker-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.8);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+    padding: 20px;
     display: none;
+  }
+  
+  .blocker-content {
+    background: #dc3545;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+  
+  .blocker-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .blocker-message {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .stock-chart {
+    width: 100%;
+    height: 300px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .chart-line {
+    position: absolute;
+    height: 2px;
+    background: #007acc;
+    transform-origin: left center;
+    z-index: 1;
+  }
+  
+  .chart-point {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #007acc;
+    z-index: 2;
+  }
+  
+  .chart-label {
+    position: absolute;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .result-input-section {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+  }
+  
+  .result-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .result-buttons button {
+    flex: 1;
+    margin-top: 0;
+  }
+  
+  .tai-btn {
+    background: #28a745;
+  }
+  
+  .xiu-btn {
+    background: #dc3545;
+  }
+  
+  .save-notice {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+    font-style: italic;
   }
 </style>
 </head>
 <body>
 
 <button id="musicControl" title="Phát / Tạm dừng nhạc">▶</button>
-<h1 id="rainbowName">THANHPHUCDEV PRO</h1>
+<div class="blocker-overlay" id="lossBlocker">
+  <div class="blocker-content">
+    <div class="blocker-title">⚠️ CẢNH BÁO NGHIÊM TÚC</div>
+    <div class="blocker-message">
+      Bạn đã dự đoán sai 8 lần liên tiếp!<br><br>
+      Tài xỉu là trò chơi may rủi, không có cách nào dự đoán chính xác 100%.<br>
+      Tiếp tục chơi chỉ khiến bạn mất nhiều hơn được.<br><br>
+      Hãy dừng lại ngay hôm nay!<br>
+      Tìm những trò giải trí lành mạnh khác tốt hơn cho cuộc sống của bạn.
+    </div>
+    <button onclick="document.getElementById('lossBlocker').style.display='none'" style="background: white; color: #dc3545; font-weight: bold;">
+      Tôi hiểu, sẽ cân nhắc
+    </button>
+  </div>
+</div>
+
+<h1 id="rainbowName">THANHPHUCDEV PRO+</h1>
 <div class="container">
   <h1>Công cụ Dự đoán Tài/Xỉu Nâng Cao</h1>
 
@@ -319,6 +377,15 @@
     <button id="predictBtn">Dự đoán</button>
     <div id="predictionResult"></div>
     
+    <div class="result-input-section">
+      <label>Xác nhận kết quả thực tế:</label>
+      <div class="result-buttons">
+        <button id="confirmTaiBtn" class="tai-btn">Tài</button>
+        <button id="confirmXiuBtn" class="xiu-btn">Xỉu</button>
+      </div>
+      <p class="save-notice">Lưu ý: Lịch sử sẽ mất khi tải lại trang. Hãy tải file lịch sử để lưu lại.</p>
+    </div>
+    
     <div id="accuracyTracker" style="display:none;">
       <h3>Độ chính xác dự đoán</h3>
       <div class="accuracy-meter">
@@ -336,9 +403,8 @@
     <h2>Thống kê tổng quan</h2>
     <div id="overallStats"></div>
     
-    <div class="chart-container">
-      <canvas id="statsChart"></canvas>
-    </div>
+    <h3>Biểu đồ chuỗi kết quả</h3>
+    <div class="stock-chart" id="stockChart"></div>
     
     <h3>Top bộ số phổ biến</h3>
     <table id="topPatternsTable">
@@ -348,76 +414,58 @@
   </div>
 
   <div class="section" id="inputNewSection" style="display:none;">
-    <h2>3. Nhập dữ liệu mới và lưu lịch sử</h2>
-    
-    <div class="betting-controls">
-      <div class="bet-input">
-        <label>Số tiền cược:</label>
-        <input type="number" id="betAmount" min="0" value="0" />
-      </div>
-      
-      <label class="switch">
-        <input type="checkbox" id="autoConfirmToggle" checked>
-        <span class="slider"></span>
-      </label>
-      <span>Xác nhận kết quả tự động</span>
-    </div>
-    
-    <label>Nhập bộ xúc xắc (3 số, cách nhau dấu cách):</label><br />
-    <input type="text" id="newDiceInput" placeholder="VD: 1 2 3" maxlength="5" />
+    <h2>3. Lịch sử dự đoán</h2>
+    <div id="historyList" style="max-height:300px; overflow-y:auto;"></div>
     <br />
-    <label>Chọn kết quả:</label><br />
-    <select id="newResultSelect">
-      <option value="Tai">Tài</option>
-      <option value="Xiu">Xỉu</option>
-    </select>
-    <br />
-    <button id="addDataBtn">Thêm dữ liệu vào lịch sử</button>
-    <div id="addDataStatus"></div>
-    
-    <div class="result-confirmation" id="resultConfirmation">
-      <h3>Xác nhận kết quả thực tế</h3>
-      <p>Kết quả thực tế của <span id="confirmDiceText"></span> là gì?</p>
-      <button id="confirmTaiBtn">Tài</button>
-      <button id="confirmXiuBtn">Xỉu</button>
-    </div>
-    
-    <div id="bettingStats">
-      <h3>Thống kê cá cược</h3>
-      <p>Tổng số ván: <span id="totalBets">0</span></p>
-      <p>Tổng tiền cược: <span id="totalBetAmount">0</span></p>
-      <p>Tổng tiền thắng: <span id="totalWinAmount">0</span></p>
-      <p>Tổng lợi nhuận: <span id="totalProfit">0</span></p>
-      <p>Tỷ lệ thắng: <span id="winRate">0%</span></p>
-    </div>
-    
-    <div id="predictionHistory">
-      <h3>Lịch sử dự đoán</h3>
-      <div id="historyList"></div>
-    </div>
-    
-    <br />
-    <button id="downloadBtn">Tải file .txt lịch sử đã cập nhật</button>
+    <button id="downloadBtn">Tải file .txt lịch sử</button>
   </div>
 </div>
 
 <audio id="backgroundMusic" src="https://d.top4top.io/m_3411eg4pz1.mp3" loop></audio>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 (() => {
   let history = [];
   let patterns = {};
   let predictionHistory = [];
-  let bettingStats = {
-    totalBets: 0,
-    totalBetAmount: 0,
-    totalWinAmount: 0,
-    correctPredictions: 0,
-    incorrectPredictions: 0
-  };
   let currentPrediction = null;
-  let statsChart = null;
+  let consecutiveLosses = 0;
+
+  // Load saved history from localStorage
+  function loadHistory() {
+    const savedHistory = localStorage.getItem('taiXiuHistory');
+    if (savedHistory) {
+      try {
+        const parsed = JSON.parse(savedHistory);
+        history = parsed.history || [];
+        patterns = parsed.patterns || {};
+        predictionHistory = parsed.predictionHistory || [];
+        
+        if (history.length > 0) {
+          document.getElementById('predictionSection').style.display = 'block';
+          document.getElementById('statisticsSection').style.display = 'block';
+          document.getElementById('inputNewSection').style.display = 'block';
+          document.getElementById('loadStatus').textContent = `Đã tải ${history.length} ván dữ liệu từ bộ nhớ tạm.`;
+          displayStatistics();
+          updateHistoryList();
+          updateAccuracyDisplay();
+          updateStockChart();
+        }
+      } catch (e) {
+        console.error('Lỗi khi đọc lịch sử:', e);
+      }
+    }
+  }
+
+  // Save history to localStorage
+  function saveHistory() {
+    const data = {
+      history,
+      patterns,
+      predictionHistory
+    };
+    localStorage.setItem('taiXiuHistory', JSON.stringify(data));
+  }
 
   function normalizeResult(res) {
     res = res.trim().toLowerCase();
@@ -454,10 +502,10 @@
       if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
       patterns[key][result]++;
     }
+    saveHistory();
   }
 
   function detectSuspiciousPatterns() {
-    // Check for streaks
     const last10 = history.slice(-10).map(h => h.result);
     const taiStreak = last10.filter(r => r === 'Tai').length;
     const xiuStreak = last10.filter(r => r === 'Xiu').length;
@@ -469,7 +517,6 @@
       };
     }
     
-    // Check for unusual patterns
     if (last10.length >= 5) {
       const pattern = last10.join('');
       if (/(Tai){5}|(Xiu){5}/.test(pattern)) {
@@ -488,12 +535,10 @@
     const stats = patterns[key] || {Tai: 0, Xiu: 0};
     const total = stats.Tai + stats.Xiu;
     
-    // Check sequence patterns
     const lastResults = history.slice(-5).map(h => h.result);
     const sequencePattern = lastResults.join('');
     let sequenceAnalysis = {Tai: 0, Xiu: 0};
     
-    // Analyze based on recent sequence
     if (lastResults.length >= 3) {
       sequenceAnalysis = {
         Tai: sequencePattern.split('Tai').length - 1,
@@ -526,7 +571,6 @@
         method: `Dựa trên ${similar.length} ván có tổng điểm ${sumDice}`
       };
     } else {
-      // Combine direct pattern with sequence analysis
       const combinedTai = stats.Tai * 0.7 + sequenceAnalysis.Tai * 0.3;
       const combinedXiu = stats.Xiu * 0.7 + sequenceAnalysis.Xiu * 0.3;
       const combinedTotal = combinedTai + combinedXiu;
@@ -564,11 +608,9 @@
       <p><b>Dự đoán:</b> ${pred.prediction} (<i>${pred.confidence.toFixed(1)}% tin cậy</i>)</p>
     `;
     
-    // Show accuracy tracker if we have predictions
     document.getElementById('accuracyTracker').style.display = 'block';
     updateAccuracyDisplay();
     
-    // Check for suspicious patterns
     const patternCheck = detectSuspiciousPatterns();
     const warningDiv = document.getElementById('patternWarning');
     if (patternCheck.warning) {
@@ -590,28 +632,6 @@
       'Chưa có dữ liệu đánh giá';
   }
 
-  function updateBettingStats() {
-    document.getElementById('totalBets').textContent = bettingStats.totalBets;
-    document.getElementById('totalBetAmount').textContent = formatMoney(bettingStats.totalBetAmount);
-    document.getElementById('totalWinAmount').textContent = formatMoney(bettingStats.totalWinAmount);
-    
-    const profit = bettingStats.totalWinAmount - bettingStats.totalBetAmount;
-    document.getElementById('totalProfit').textContent = formatMoney(profit);
-    if (profit >= 0) {
-      document.getElementById('totalProfit').style.color = '#28a745';
-    } else {
-      document.getElementById('totalProfit').style.color = '#dc3545';
-    }
-    
-    const winRate = bettingStats.totalBets > 0 ? 
-      (bettingStats.correctPredictions / bettingStats.totalBets * 100) : 0;
-    document.getElementById('winRate').textContent = winRate.toFixed(1) + '%';
-  }
-
-  function formatMoney(amount) {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
-  }
-
   function updateHistoryList() {
     const historyList = document.getElementById('historyList');
     historyList.innerHTML = '';
@@ -627,77 +647,118 @@
     });
   }
 
-  function updateChart() {
-    const ctx = document.getElementById('statsChart').getContext('2d');
+  function updateStockChart() {
+    const chartEl = document.getElementById('stockChart');
+    chartEl.innerHTML = '';
     
-    // Prepare data for chart
-    const last20 = history.slice(-20);
-    const taiCount = last20.filter(h => h.result === 'Tai').length;
-    const xiuCount = last20.length - taiCount;
+    if (predictionHistory.length < 2) return;
     
-    const sequenceData = [];
-    let currentStreak = 0;
-    let currentResult = '';
+    const width = chartEl.clientWidth;
+    const height = chartEl.clientHeight;
+    const padding = 30;
+    const chartWidth = width - padding * 2;
+    const chartHeight = height - padding * 2;
     
-    history.forEach(h => {
-      if (h.result === currentResult) {
-        currentStreak++;
-      } else {
-        if (currentStreak > 0) {
-          sequenceData.push({
-            result: currentResult,
-            length: currentStreak
-          });
-        }
-        currentResult = h.result;
-        currentStreak = 1;
-      }
+    // Create X axis
+    const xAxis = document.createElement('div');
+    xAxis.style.position = 'absolute';
+    xAxis.style.left = `${padding}px`;
+    xAxis.style.bottom = `${padding}px`;
+    xAxis.style.width = `${chartWidth}px`;
+    xAxis.style.height = '1px';
+    xAxis.style.background = '#ccc';
+    chartEl.appendChild(xAxis);
+    
+    // Create Y axis
+    const yAxis = document.createElement('div');
+    yAxis.style.position = 'absolute';
+    yAxis.style.left = `${padding}px`;
+    yAxis.style.bottom = `${padding}px`;
+    yAxis.style.width = '1px';
+    yAxis.style.height = `${chartHeight}px`;
+    yAxis.style.background = '#ccc';
+    chartEl.appendChild(yAxis);
+    
+    // Calculate points
+    const points = [];
+    let minValue = 0;
+    let maxValue = 0;
+    let currentValue = 0;
+    
+    // Calculate cumulative accuracy
+    const values = predictionHistory.map((p, i) => {
+      currentValue += p.correct ? 1 : -1;
+      return currentValue;
     });
     
-    // Create or update chart
-    if (statsChart) {
-      statsChart.data.labels = ['Tài', 'Xỉu'];
-      statsChart.data.datasets[0].data = [taiCount, xiuCount];
-      statsChart.update();
-    } else {
-      statsChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['Tài', 'Xỉu'],
-          datasets: [{
-            label: 'Phân bố kết quả (20 ván gần nhất)',
-            data: [taiCount, xiuCount],
-            backgroundColor: [
-              'rgba(40, 167, 69, 0.7)',
-              'rgba(220, 53, 69, 0.7)'
-            ],
-            borderColor: [
-              'rgba(40, 167, 69, 1)',
-              'rgba(220, 53, 69, 1)'
-            ],
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
+    minValue = Math.min(...values);
+    maxValue = Math.max(...values);
+    
+    // Normalize to chart coordinates
+    const yScale = chartHeight / (maxValue - minValue || 1);
+    
+    predictionHistory.forEach((p, i) => {
+      const x = padding + (i / (predictionHistory.length - 1)) * chartWidth;
+      const y = padding + chartHeight - (values[i] - minValue) * yScale;
+      
+      points.push({ x, y, value: values[i], correct: p.correct });
+    });
+    
+    // Draw lines between points
+    for (let i = 1; i < points.length; i++) {
+      const prev = points[i - 1];
+      const curr = points[i];
+      
+      const line = document.createElement('div');
+      line.className = 'chart-line';
+      line.style.left = `${prev.x}px`;
+      line.style.top = `${prev.y}px`;
+      line.style.width = `${Math.sqrt(Math.pow(curr.x - prev.x, 2) + Math.pow(curr.y - prev.y, 2))}px`;
+      line.style.transform = `rotate(${Math.atan2(curr.y - prev.y, curr.x - prev.x)}rad)`;
+      line.style.background = curr.correct ? '#28a745' : '#dc3545';
+      chartEl.appendChild(line);
+      
+      const point = document.createElement('div');
+      point.className = 'chart-point';
+      point.style.left = `${curr.x - 4}px`;
+      point.style.top = `${curr.y - 4}px`;
+      point.style.background = curr.correct ? '#28a745' : '#dc3545';
+      chartEl.appendChild(point);
+      
+      // Add label for every 5 points or last point
+      if (i % 5 === 0 || i === points.length - 1) {
+        const label = document.createElement('div');
+        label.className = 'chart-label';
+        label.style.left = `${curr.x}px`;
+        label.style.top = `${curr.y - 20}px`;
+        label.textContent = `${curr.value > 0 ? '+' : ''}${curr.value}`;
+        chartEl.appendChild(label);
+      }
     }
+    
+    // Add start and end labels
+    const startLabel = document.createElement('div');
+    startLabel.className = 'chart-label';
+    startLabel.style.left = `${points[0].x}px`;
+    startLabel.style.top = `${points[0].y - 20}px`;
+    startLabel.textContent = '0';
+    chartEl.appendChild(startLabel);
+    
+    const endLabel = document.createElement('div');
+    endLabel.className = 'chart-label';
+    endLabel.style.left = `${points[points.length - 1].x}px`;
+    endLabel.style.top = `${points[points.length - 1].y - 20}px`;
+    endLabel.textContent = `${values[values.length - 1] > 0 ? '+' : ''}${values[values.length - 1]}`;
+    chartEl.appendChild(endLabel);
   }
 
   function displayStatistics() {
     const overallDiv = document.getElementById('overallStats');
     const totalGames = history.length;
     if (totalGames === 0) {
-      overallDiv.innerHTML = '<p class="error">Chưa có dữ liệu thống kê!</p>';
+      overallDiv.innerHTML = '<p style="color:#dc3545;">Chưa có dữ liệu thống kê!</p>';
       return;
     }
-    
     const taiCount = history.filter(h => h.result === 'Tai').length;
     const xiuCount = totalGames - taiCount;
     overallDiv.innerHTML = `
@@ -705,7 +766,6 @@
       <p style="color:#28a745;"><b>Số lần Tài:</b> ${taiCount} (${(taiCount / totalGames * 100).toFixed(1)}%)</p>
       <p style="color:#dc3545;"><b>Số lần Xỉu:</b> ${xiuCount} (${(xiuCount / totalGames * 100).toFixed(1)}%)</p>
     `;
-    
     const topPatterns = Object.entries(patterns)
       .map(([dice, stats]) => {
         const total = stats.Tai + stats.Xiu;
@@ -720,7 +780,6 @@
       })
       .sort((a, b) => b.total - a.total)
       .slice(0, 10);
-    
     const tbody = document.querySelector('#topPatternsTable tbody');
     tbody.innerHTML = '';
     topPatterns.forEach((p, i) => {
@@ -737,11 +796,18 @@
       tbody.appendChild(tr);
     });
     
-    updateChart();
+    updateStockChart();
   }
 
-  function showInputNewSection() {
-    document.getElementById('inputNewSection').style.display = history.length > 0 ? 'block' : 'none';
+  function checkConsecutiveLosses() {
+    // Check last 8 predictions
+    const last8 = predictionHistory.slice(-8);
+    if (last8.length < 8) return;
+    
+    const allLosses = last8.every(p => !p.correct);
+    if (allLosses) {
+      document.getElementById('lossBlocker').style.display = 'flex';
+    }
   }
 
   // Xử lý tải file dữ liệu lên
@@ -755,9 +821,10 @@
       document.getElementById('loadStatus').textContent = `Đã tải ${history.length} ván dữ liệu.`;
       document.getElementById('predictionSection').style.display = 'block';
       document.getElementById('statisticsSection').style.display = 'block';
+      document.getElementById('inputNewSection').style.display = 'block';
       displayStatistics();
       document.getElementById('predictionResult').innerHTML = '';
-      showInputNewSection();
+      updateHistoryList();
     } catch (err) {
       document.getElementById('loadStatus').textContent = 'Lỗi khi đọc file.';
       console.error(err);
@@ -777,23 +844,25 @@
   });
 
   // Xác nhận kết quả thực tế
-  document.getElementById('confirmTaiBtn').addEventListener('click', () => {
-    confirmResult('Tai');
-  });
-
-  document.getElementById('confirmXiuBtn').addEventListener('click', () => {
-    confirmResult('Xiu');
-  });
+  document.getElementById('confirmTaiBtn').addEventListener('click', () => confirmResult('Tai'));
+  document.getElementById('confirmXiuBtn').addEventListener('click', () => confirmResult('Xiu'));
 
   function confirmResult(actualResult) {
-    const diceInput = document.getElementById('newDiceInput').value.trim();
+    const diceInput = document.getElementById('diceInput').value.trim();
     const diceParts = diceInput.split(' ').map(x => parseInt(x));
     const sortedDice = diceParts.slice().sort((a,b) => a-b);
     const key = sortedDice.join(' ');
     
-    // Record prediction accuracy
     if (currentPrediction && currentPrediction.prediction !== 'Không đủ dữ liệu') {
       const isCorrect = currentPrediction.prediction === actualResult;
+      
+      // Update consecutive losses counter
+      if (isCorrect) {
+        consecutiveLosses = 0;
+      } else {
+        consecutiveLosses++;
+      }
+      
       predictionHistory.push({
         dice: key,
         prediction: currentPrediction.prediction,
@@ -803,66 +872,21 @@
         timestamp: new Date()
       });
       
-      // Update betting stats
-      const betAmount = parseInt(document.getElementById('betAmount').value) || 0;
-      bettingStats.totalBets++;
-      bettingStats.totalBetAmount += betAmount;
-      
-      if (isCorrect) {
-        bettingStats.correctPredictions++;
-        bettingStats.totalWinAmount += betAmount * 2; // Assuming 1:1 payout
-      } else {
-        bettingStats.incorrectPredictions++;
-      }
+      history.push({dice: sortedDice, result: actualResult});
+      if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
+      patterns[key][actualResult]++;
       
       updateAccuracyDisplay();
-      updateBettingStats();
       updateHistoryList();
-    }
-    
-    // Add to history
-    history.push({dice: sortedDice, result: actualResult});
-    if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
-    patterns[key][actualResult]++;
-    
-    // Update UI
-    document.getElementById('addDataStatus').textContent = 
-      `Đã thêm bộ số [${key}] với kết quả ${actualResult} vào lịch sử.`;
-    document.getElementById('newDiceInput').value = '';
-    document.getElementById('resultConfirmation').style.display = 'none';
-    displayStatistics();
-  }
-
-  // Thêm dữ liệu mới
-  document.getElementById('addDataBtn').addEventListener('click', () => {
-    const diceInput = document.getElementById('newDiceInput').value.trim();
-    const diceParts = diceInput.split(' ').map(x => parseInt(x));
-    if (diceParts.length !== 3 || diceParts.some(x => isNaN(x) || x < 1 || x > 6)) {
-      alert('Vui lòng nhập đúng 3 số xúc xắc (1 đến 6), cách nhau dấu cách.');
-      return;
-    }
-    
-    const autoConfirm = document.getElementById('autoConfirmToggle').checked;
-    const result = document.getElementById('newResultSelect').value;
-    const sortedDice = diceParts.slice().sort((a,b) => a-b);
-    const key = sortedDice.join(' ');
-    
-    if (autoConfirm) {
-      // Add directly if auto-confirm is on
-      history.push({dice: sortedDice, result});
-      if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
-      patterns[key][result]++;
-      
-      document.getElementById('addDataStatus').textContent = 
-        `Đã thêm bộ số [${key}] với kết quả ${result} vào lịch sử.`;
-      document.getElementById('newDiceInput').value = '';
       displayStatistics();
-    } else {
-      // Show confirmation dialog
-      document.getElementById('confirmDiceText').textContent = key;
-      document.getElementById('resultConfirmation').style.display = 'block';
+      saveHistory();
+      
+      // Check for 8 consecutive losses
+      checkConsecutiveLosses();
     }
-  });
+    
+    document.getElementById('diceInput').value = '';
+  }
 
   // Tải file lịch sử
   document.getElementById('downloadBtn').addEventListener('click', () => {
@@ -901,6 +925,9 @@
       musicBtn.classList.remove('playing');
     }
   });
+
+  // Load history when page loads
+  loadHistory();
 
 })();
 </script>
