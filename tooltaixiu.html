@@ -3,30 +3,29 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Công cụ Dự đoán Tài/Xỉu</title>
-  <title>THANHPHUTDEV</title>
+<title>Công cụ Dự đoán Tài/Xỉu Nâng Cao</title>
 <style>
   @keyframes rainbowColors {
-  0%   { color: #FF0000; }
-  14%  { color: #FF7F00; }
-  28%  { color: #FFFF00; }
-  42%  { color: #00FF00; }
-  57%  { color: #0000FF; }
-  71%  { color: #4B0082; }
-  85%  { color: #8F00FF; }
-  100% { color: #FF0000; }
-}
+    0%   { color: #FF0000; }
+    14%  { color: #FF7F00; }
+    28%  { color: #FFFF00; }
+    42%  { color: #00FF00; }
+    57%  { color: #0000FF; }
+    71%  { color: #4B0082; }
+    85%  { color: #8F00FF; }
+    100% { color: #FF0000; }
+  }
 
-#rainbowName {
-  text-align: center;
-  font-size: 2.8em;
-  font-weight: 900;
-  margin: 10px 0 30px 0;
-  animation: rainbowColors 10s linear infinite;
-  user-select: none;
-  letter-spacing: 0.15em;
-  text-shadow: 0 0 10px rgba(255,255,255,0.7);
-}
+  #rainbowName {
+    text-align: center;
+    font-size: 2.8em;
+    font-weight: 900;
+    margin: 10px 0 30px 0;
+    animation: rainbowColors 10s linear infinite;
+    user-select: none;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px rgba(255,255,255,0.7);
+  }
 
   @keyframes bgColors {
     0% { background-color: #FFB6C1; }
@@ -38,17 +37,20 @@
     85% { background-color: #FF69B4; }
     100% { background-color: #FFB6C1; }
   }
+  
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     animation: bgColors 30s infinite;
     margin: 0; padding: 20px;
     color: #222;
   }
+  
   h1 {
     color: #222;
     text-align: center;
     margin-bottom: 20px;
   }
+  
   .container {
     max-width: 900px;
     margin: auto;
@@ -57,6 +59,7 @@
     box-shadow: 0 0 20px rgba(0,0,0,0.15);
     padding: 25px 30px;
   }
+  
   .section {
     margin-bottom: 30px;
     border: 2px solid #ddd;
@@ -65,11 +68,13 @@
     background: #fff;
     box-shadow: inset 0 0 10px #ccc;
   }
+  
   label {
     font-weight: 700;
     color: #555;
   }
-  input[type="text"], select, input[type="file"] {
+  
+  input[type="text"], select, input[type="file"], input[type="number"] {
     font-size: 16px;
     padding: 10px 12px;
     margin-top: 10px;
@@ -80,9 +85,11 @@
     box-sizing: border-box;
     color: #222;
   }
+  
   input[type="file"] {
     width: auto;
   }
+  
   button {
     background: #007acc;
     color: white;
@@ -96,14 +103,17 @@
     box-shadow: 0 4px 8px rgba(0,122,204,0.4);
     transition: background 0.3s ease;
   }
+  
   button:hover {
     background: #005f99;
   }
+  
   #loadStatus, #addDataStatus {
     margin-top: 10px;
     font-weight: 600;
     color: #007acc;
   }
+  
   #predictionResult {
     margin-top: 15px;
     padding: 12px;
@@ -112,31 +122,38 @@
     font-weight: 700;
     color: #007acc;
   }
+  
   #overallStats p {
     margin: 8px 0;
   }
+  
   table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
   }
+  
   th, td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: center;
   }
+  
   th {
     background: #007acc;
     color: white;
   }
+  
   td.tai {
     color: #28a745;
     font-weight: 700;
   }
+  
   td.xiu {
     color: #dc3545;
     font-weight: 700;
   }
+  
   #musicControl {
     position: fixed;
     top: 15px;
@@ -156,18 +173,134 @@
     user-select: none;
     z-index: 9999;
   }
+  
   #musicControl.playing {
     background: #28a745;
     box-shadow: 0 0 15px #28a745;
+  }
+  
+  /* New styles for enhanced features */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-left: 15px;
+    vertical-align: middle;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #28a745;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  .chart-container {
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+  }
+  
+  .warning {
+    color: #ff6b00;
+    font-weight: bold;
+    background-color: #fff3e0;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border-left: 5px solid #ff6b00;
+  }
+  
+  .accuracy-meter {
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin: 10px 0;
+    overflow: hidden;
+  }
+  
+  .accuracy-progress {
+    height: 100%;
+    background-color: #4caf50;
+    width: 0%;
+    transition: width 0.5s;
+  }
+  
+  .betting-controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .bet-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .history-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .history-item.correct {
+    background-color: #e8f5e9;
+  }
+  
+  .history-item.incorrect {
+    background-color: #ffebee;
+  }
+  
+  .result-confirmation {
+    background-color: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    display: none;
   }
 </style>
 </head>
 <body>
 
 <button id="musicControl" title="Phát / Tạm dừng nhạc">▶</button>
-<h1 id="rainbowName">THANHPHUCDEV</h1>
+<h1 id="rainbowName">THANHPHUCDEV PRO</h1>
 <div class="container">
-  <h1>Công cụ Dự đoán Tài/Xỉu</h1>
+  <h1>Công cụ Dự đoán Tài/Xỉu Nâng Cao</h1>
 
   <div class="section">
     <label>1. Tải file dữ liệu (.txt):</label><br />
@@ -185,11 +318,28 @@
     <input type="text" id="diceInput" placeholder="VD: 1 2 3" maxlength="5" />
     <button id="predictBtn">Dự đoán</button>
     <div id="predictionResult"></div>
+    
+    <div id="accuracyTracker" style="display:none;">
+      <h3>Độ chính xác dự đoán</h3>
+      <div class="accuracy-meter">
+        <div class="accuracy-progress" id="accuracyBar"></div>
+      </div>
+      <p id="accuracyText">Chưa có dữ liệu đánh giá</p>
+    </div>
+    
+    <div id="patternWarning" class="warning" style="display:none;">
+      <strong>CẢNH BÁO:</strong> <span id="warningText"></span>
+    </div>
   </div>
 
   <div class="section" id="statisticsSection" style="display:none;">
     <h2>Thống kê tổng quan</h2>
     <div id="overallStats"></div>
+    
+    <div class="chart-container">
+      <canvas id="statsChart"></canvas>
+    </div>
+    
     <h3>Top bộ số phổ biến</h3>
     <table id="topPatternsTable">
       <thead><tr><th>STT</th><th>Bộ số</th><th>Tài</th><th>% Tài</th><th>Xỉu</th><th>% Xỉu</th><th>Tổng</th></tr></thead>
@@ -199,6 +349,20 @@
 
   <div class="section" id="inputNewSection" style="display:none;">
     <h2>3. Nhập dữ liệu mới và lưu lịch sử</h2>
+    
+    <div class="betting-controls">
+      <div class="bet-input">
+        <label>Số tiền cược:</label>
+        <input type="number" id="betAmount" min="0" value="0" />
+      </div>
+      
+      <label class="switch">
+        <input type="checkbox" id="autoConfirmToggle" checked>
+        <span class="slider"></span>
+      </label>
+      <span>Xác nhận kết quả tự động</span>
+    </div>
+    
     <label>Nhập bộ xúc xắc (3 số, cách nhau dấu cách):</label><br />
     <input type="text" id="newDiceInput" placeholder="VD: 1 2 3" maxlength="5" />
     <br />
@@ -210,6 +374,28 @@
     <br />
     <button id="addDataBtn">Thêm dữ liệu vào lịch sử</button>
     <div id="addDataStatus"></div>
+    
+    <div class="result-confirmation" id="resultConfirmation">
+      <h3>Xác nhận kết quả thực tế</h3>
+      <p>Kết quả thực tế của <span id="confirmDiceText"></span> là gì?</p>
+      <button id="confirmTaiBtn">Tài</button>
+      <button id="confirmXiuBtn">Xỉu</button>
+    </div>
+    
+    <div id="bettingStats">
+      <h3>Thống kê cá cược</h3>
+      <p>Tổng số ván: <span id="totalBets">0</span></p>
+      <p>Tổng tiền cược: <span id="totalBetAmount">0</span></p>
+      <p>Tổng tiền thắng: <span id="totalWinAmount">0</span></p>
+      <p>Tổng lợi nhuận: <span id="totalProfit">0</span></p>
+      <p>Tỷ lệ thắng: <span id="winRate">0%</span></p>
+    </div>
+    
+    <div id="predictionHistory">
+      <h3>Lịch sử dự đoán</h3>
+      <div id="historyList"></div>
+    </div>
+    
     <br />
     <button id="downloadBtn">Tải file .txt lịch sử đã cập nhật</button>
   </div>
@@ -217,10 +403,21 @@
 
 <audio id="backgroundMusic" src="https://d.top4top.io/m_3411eg4pz1.mp3" loop></audio>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 (() => {
   let history = [];
   let patterns = {};
+  let predictionHistory = [];
+  let bettingStats = {
+    totalBets: 0,
+    totalBetAmount: 0,
+    totalWinAmount: 0,
+    correctPredictions: 0,
+    incorrectPredictions: 0
+  };
+  let currentPrediction = null;
+  let statsChart = null;
 
   function normalizeResult(res) {
     res = res.trim().toLowerCase();
@@ -259,10 +456,51 @@
     }
   }
 
+  function detectSuspiciousPatterns() {
+    // Check for streaks
+    const last10 = history.slice(-10).map(h => h.result);
+    const taiStreak = last10.filter(r => r === 'Tai').length;
+    const xiuStreak = last10.filter(r => r === 'Xiu').length;
+    
+    if (taiStreak >= 8 || xiuStreak >= 8) {
+      return {
+        warning: true,
+        message: `Cảnh báo: ${taiStreak >= 8 ? 'Tài' : 'Xỉu'} liên tục ${Math.max(taiStreak, xiuStreak)} lần. Có thể bịp!`
+      };
+    }
+    
+    // Check for unusual patterns
+    if (last10.length >= 5) {
+      const pattern = last10.join('');
+      if (/(Tai){5}|(Xiu){5}/.test(pattern)) {
+        return {
+          warning: true,
+          message: "Cảnh báo: Xuất hiện chuỗi 5 kết quả giống nhau liên tiếp!"
+        };
+      }
+    }
+    
+    return { warning: false };
+  }
+
   function predict(dice) {
     const key = dice.slice().sort((a,b) => a-b).join(' ');
     const stats = patterns[key] || {Tai: 0, Xiu: 0};
     const total = stats.Tai + stats.Xiu;
+    
+    // Check sequence patterns
+    const lastResults = history.slice(-5).map(h => h.result);
+    const sequencePattern = lastResults.join('');
+    let sequenceAnalysis = {Tai: 0, Xiu: 0};
+    
+    // Analyze based on recent sequence
+    if (lastResults.length >= 3) {
+      sequenceAnalysis = {
+        Tai: sequencePattern.split('Tai').length - 1,
+        Xiu: sequencePattern.split('Xiu').length - 1
+      };
+    }
+    
     if (total === 0) {
       const sumDice = dice.reduce((a,b) => a+b, 0);
       const similar = history.filter(h => h.dice.reduce((a,b) => a+b, 0) === sumDice);
@@ -288,26 +526,34 @@
         method: `Dựa trên ${similar.length} ván có tổng điểm ${sumDice}`
       };
     } else {
-      const taiPercent = stats.Tai / total * 100;
-      const xiuPercent = stats.Xiu / total * 100;
+      // Combine direct pattern with sequence analysis
+      const combinedTai = stats.Tai * 0.7 + sequenceAnalysis.Tai * 0.3;
+      const combinedXiu = stats.Xiu * 0.7 + sequenceAnalysis.Xiu * 0.3;
+      const combinedTotal = combinedTai + combinedXiu;
+      
+      const taiPercent = combinedTai / combinedTotal * 100;
+      const xiuPercent = combinedXiu / combinedTotal * 100;
+      
       return {
         prediction: taiPercent > xiuPercent ? 'Tai' : 'Xiu',
         confidence: Math.max(taiPercent, xiuPercent),
         taiPercent,
         xiuPercent,
         totalMatches: total,
-        method: `Dựa trên ${total} ván có bộ số ${key}`
+        method: `Dựa trên ${total} ván có bộ số ${key} và phân tích chuỗi`
       };
     }
   }
 
   function displayPrediction(pred) {
+    currentPrediction = pred;
     const container = document.getElementById('predictionResult');
     container.innerHTML = '';
     if (pred.totalMatches === 0) {
       container.innerHTML = `<p style="color:#ff6666;">${pred.prediction}</p>`;
       return;
     }
+    
     const taiBar = '█'.repeat(Math.round(pred.taiPercent / 5));
     const xiuBar = '█'.repeat(Math.round(pred.xiuPercent / 5));
     container.innerHTML = `
@@ -317,6 +563,131 @@
       <p style="color:#dc3545;">Xỉu: ${xiuBar} ${pred.xiuPercent.toFixed(1)}%</p>
       <p><b>Dự đoán:</b> ${pred.prediction} (<i>${pred.confidence.toFixed(1)}% tin cậy</i>)</p>
     `;
+    
+    // Show accuracy tracker if we have predictions
+    document.getElementById('accuracyTracker').style.display = 'block';
+    updateAccuracyDisplay();
+    
+    // Check for suspicious patterns
+    const patternCheck = detectSuspiciousPatterns();
+    const warningDiv = document.getElementById('patternWarning');
+    if (patternCheck.warning) {
+      warningDiv.style.display = 'block';
+      document.getElementById('warningText').textContent = patternCheck.message;
+    } else {
+      warningDiv.style.display = 'none';
+    }
+  }
+
+  function updateAccuracyDisplay() {
+    const correct = predictionHistory.filter(p => p.correct).length;
+    const total = predictionHistory.length;
+    const accuracy = total > 0 ? (correct / total * 100) : 0;
+    
+    document.getElementById('accuracyBar').style.width = `${accuracy}%`;
+    document.getElementById('accuracyText').textContent = total > 0 ?
+      `Độ chính xác: ${accuracy.toFixed(1)}% (${correct}/${total})` :
+      'Chưa có dữ liệu đánh giá';
+  }
+
+  function updateBettingStats() {
+    document.getElementById('totalBets').textContent = bettingStats.totalBets;
+    document.getElementById('totalBetAmount').textContent = formatMoney(bettingStats.totalBetAmount);
+    document.getElementById('totalWinAmount').textContent = formatMoney(bettingStats.totalWinAmount);
+    
+    const profit = bettingStats.totalWinAmount - bettingStats.totalBetAmount;
+    document.getElementById('totalProfit').textContent = formatMoney(profit);
+    if (profit >= 0) {
+      document.getElementById('totalProfit').style.color = '#28a745';
+    } else {
+      document.getElementById('totalProfit').style.color = '#dc3545';
+    }
+    
+    const winRate = bettingStats.totalBets > 0 ? 
+      (bettingStats.correctPredictions / bettingStats.totalBets * 100) : 0;
+    document.getElementById('winRate').textContent = winRate.toFixed(1) + '%';
+  }
+
+  function formatMoney(amount) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+  }
+
+  function updateHistoryList() {
+    const historyList = document.getElementById('historyList');
+    historyList.innerHTML = '';
+    
+    predictionHistory.slice().reverse().forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = `history-item ${item.correct ? 'correct' : 'incorrect'}`;
+      div.innerHTML = `
+        <span>${predictionHistory.length - index}. ${item.dice} → Dự đoán: ${item.prediction}</span>
+        <span>Kết quả: ${item.actualResult} (${item.correct ? 'ĐÚNG' : 'SAI'})</span>
+      `;
+      historyList.appendChild(div);
+    });
+  }
+
+  function updateChart() {
+    const ctx = document.getElementById('statsChart').getContext('2d');
+    
+    // Prepare data for chart
+    const last20 = history.slice(-20);
+    const taiCount = last20.filter(h => h.result === 'Tai').length;
+    const xiuCount = last20.length - taiCount;
+    
+    const sequenceData = [];
+    let currentStreak = 0;
+    let currentResult = '';
+    
+    history.forEach(h => {
+      if (h.result === currentResult) {
+        currentStreak++;
+      } else {
+        if (currentStreak > 0) {
+          sequenceData.push({
+            result: currentResult,
+            length: currentStreak
+          });
+        }
+        currentResult = h.result;
+        currentStreak = 1;
+      }
+    });
+    
+    // Create or update chart
+    if (statsChart) {
+      statsChart.data.labels = ['Tài', 'Xỉu'];
+      statsChart.data.datasets[0].data = [taiCount, xiuCount];
+      statsChart.update();
+    } else {
+      statsChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Tài', 'Xỉu'],
+          datasets: [{
+            label: 'Phân bố kết quả (20 ván gần nhất)',
+            data: [taiCount, xiuCount],
+            backgroundColor: [
+              'rgba(40, 167, 69, 0.7)',
+              'rgba(220, 53, 69, 0.7)'
+            ],
+            borderColor: [
+              'rgba(40, 167, 69, 1)',
+              'rgba(220, 53, 69, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
   }
 
   function displayStatistics() {
@@ -326,6 +697,7 @@
       overallDiv.innerHTML = '<p class="error">Chưa có dữ liệu thống kê!</p>';
       return;
     }
+    
     const taiCount = history.filter(h => h.result === 'Tai').length;
     const xiuCount = totalGames - taiCount;
     overallDiv.innerHTML = `
@@ -333,6 +705,7 @@
       <p style="color:#28a745;"><b>Số lần Tài:</b> ${taiCount} (${(taiCount / totalGames * 100).toFixed(1)}%)</p>
       <p style="color:#dc3545;"><b>Số lần Xỉu:</b> ${xiuCount} (${(xiuCount / totalGames * 100).toFixed(1)}%)</p>
     `;
+    
     const topPatterns = Object.entries(patterns)
       .map(([dice, stats]) => {
         const total = stats.Tai + stats.Xiu;
@@ -347,6 +720,7 @@
       })
       .sort((a, b) => b.total - a.total)
       .slice(0, 10);
+    
     const tbody = document.querySelector('#topPatternsTable tbody');
     tbody.innerHTML = '';
     topPatterns.forEach((p, i) => {
@@ -362,6 +736,8 @@
       `;
       tbody.appendChild(tr);
     });
+    
+    updateChart();
   }
 
   function showInputNewSection() {
@@ -400,6 +776,63 @@
     displayPrediction(pred);
   });
 
+  // Xác nhận kết quả thực tế
+  document.getElementById('confirmTaiBtn').addEventListener('click', () => {
+    confirmResult('Tai');
+  });
+
+  document.getElementById('confirmXiuBtn').addEventListener('click', () => {
+    confirmResult('Xiu');
+  });
+
+  function confirmResult(actualResult) {
+    const diceInput = document.getElementById('newDiceInput').value.trim();
+    const diceParts = diceInput.split(' ').map(x => parseInt(x));
+    const sortedDice = diceParts.slice().sort((a,b) => a-b);
+    const key = sortedDice.join(' ');
+    
+    // Record prediction accuracy
+    if (currentPrediction && currentPrediction.prediction !== 'Không đủ dữ liệu') {
+      const isCorrect = currentPrediction.prediction === actualResult;
+      predictionHistory.push({
+        dice: key,
+        prediction: currentPrediction.prediction,
+        actualResult,
+        correct: isCorrect,
+        confidence: currentPrediction.confidence,
+        timestamp: new Date()
+      });
+      
+      // Update betting stats
+      const betAmount = parseInt(document.getElementById('betAmount').value) || 0;
+      bettingStats.totalBets++;
+      bettingStats.totalBetAmount += betAmount;
+      
+      if (isCorrect) {
+        bettingStats.correctPredictions++;
+        bettingStats.totalWinAmount += betAmount * 2; // Assuming 1:1 payout
+      } else {
+        bettingStats.incorrectPredictions++;
+      }
+      
+      updateAccuracyDisplay();
+      updateBettingStats();
+      updateHistoryList();
+    }
+    
+    // Add to history
+    history.push({dice: sortedDice, result: actualResult});
+    if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
+    patterns[key][actualResult]++;
+    
+    // Update UI
+    document.getElementById('addDataStatus').textContent = 
+      `Đã thêm bộ số [${key}] với kết quả ${actualResult} vào lịch sử.`;
+    document.getElementById('newDiceInput').value = '';
+    document.getElementById('resultConfirmation').style.display = 'none';
+    displayStatistics();
+  }
+
   // Thêm dữ liệu mới
   document.getElementById('addDataBtn').addEventListener('click', () => {
     const diceInput = document.getElementById('newDiceInput').value.trim();
@@ -408,15 +841,27 @@
       alert('Vui lòng nhập đúng 3 số xúc xắc (1 đến 6), cách nhau dấu cách.');
       return;
     }
+    
+    const autoConfirm = document.getElementById('autoConfirmToggle').checked;
     const result = document.getElementById('newResultSelect').value;
     const sortedDice = diceParts.slice().sort((a,b) => a-b);
-    history.push({dice: sortedDice, result});
     const key = sortedDice.join(' ');
-    if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
-    patterns[key][result]++;
-    displayStatistics();
-    document.getElementById('addDataStatus').textContent = `Đã thêm bộ số [${key}] với kết quả ${result} vào lịch sử.`;
-    document.getElementById('newDiceInput').value = '';
+    
+    if (autoConfirm) {
+      // Add directly if auto-confirm is on
+      history.push({dice: sortedDice, result});
+      if (!patterns[key]) patterns[key] = {Tai: 0, Xiu: 0};
+      patterns[key][result]++;
+      
+      document.getElementById('addDataStatus').textContent = 
+        `Đã thêm bộ số [${key}] với kết quả ${result} vào lịch sử.`;
+      document.getElementById('newDiceInput').value = '';
+      displayStatistics();
+    } else {
+      // Show confirmation dialog
+      document.getElementById('confirmDiceText').textContent = key;
+      document.getElementById('resultConfirmation').style.display = 'block';
+    }
   });
 
   // Tải file lịch sử
@@ -444,20 +889,21 @@
 
   // Nhạc nền bật tắt
   const musicBtn = document.getElementById('musicControl');
-const music = document.getElementById('backgroundMusic');
-musicBtn.addEventListener('click', () => {
-if (music.paused) {
-music.play();
-musicBtn.textContent = '❚❚';
-musicBtn.classList.add('playing');
-} else {
-music.pause();
-musicBtn.textContent = '▶';
-musicBtn.classList.remove('playing');
-}
-});
+  const music = document.getElementById('backgroundMusic');
+  musicBtn.addEventListener('click', () => {
+    if (music.paused) {
+      music.play();
+      musicBtn.textContent = '❚❚';
+      musicBtn.classList.add('playing');
+    } else {
+      music.pause();
+      musicBtn.textContent = '▶';
+      musicBtn.classList.remove('playing');
+    }
+  });
 
 })();
 </script>
 
-</body> </html>
+</body>
+</html>
