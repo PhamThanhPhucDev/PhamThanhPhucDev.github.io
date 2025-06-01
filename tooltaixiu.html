@@ -343,6 +343,43 @@
     text-align: center;
     margin-top: 10px;
   }
+
+  /* Thêm style mới cho phần tải file mẫu */
+  .download-sample {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px dashed #007acc;
+    text-align: center;
+  }
+  
+  .download-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 10px 0;
+    transition: all 0.3s;
+  }
+  
+  .download-btn:hover {
+    background: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .create-sample-btn {
+    background: #e67e22;
+    margin-top: 10px;
+  }
+  
+  .create-sample-btn:hover {
+    background: #d35400;
+  }
 </style>
 </head>
 <body>
@@ -371,12 +408,22 @@
   <div class="section">
     <label>1. Tải file dữ liệu (.txt):</label><br />
     <input type="file" id="fileInput" accept=".txt" />
-    <div id="loadStatus">
-      <p style="margin-top:10px; color:#777;">
-        Nếu chưa có file, bạn có thể tải file mẫu tại đây:
-        <a href="https://www.mediafire.com/file/2bhxp1s6ph6jhfu/cautaixiu.txt/file" target="_blank" rel="noopener noreferrer">Tải file mẫu</a>
+    <div class="download-sample">
+      <p style="font-weight:bold; color:#2c3e50;">BẠN CHƯA CÓ FILE DỮ LIỆU?</p>
+      <a href="https://www.mediafire.com/file/2bhxp1s6ph6jhfu/cautaixiu.txt/file" 
+         target="_blank" 
+         class="download-btn">
+        📥 TẢI FILE MẪU TỪ MEDIAFIRE
+      </a>
+      <p>Hoặc</p>
+      <button id="createSampleBtn" class="download-btn create-sample-btn">
+        🛠 TẠO FILE MẪU TỰ ĐỘNG
+      </button>
+      <p style="font-size:12px; color:#7f8c8d; margin-top:10px;">
+        File mẫu chứa dữ liệu 100 ván Tài/Xỉu ngẫu nhiên
       </p>
     </div>
+    <div id="loadStatus"></div>
   </div>
 
   <div class="section" id="predictionSection" style="display:none;">
@@ -955,6 +1002,47 @@
       currentPage++;
       updateHistoryList();
     }
+  });
+
+  // Tạo file mẫu tự động
+  document.getElementById('createSampleBtn').addEventListener('click', function() {
+    // Tạo dữ liệu mẫu ngẫu nhiên
+    let sampleData = '';
+    const results = ['Tai', 'Xiu'];
+    
+    for (let i = 0; i < 100; i++) {
+      // Tạo 3 số xúc xắc ngẫu nhiên
+      const dice = [
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1
+      ].sort((a,b) => a-b);
+      
+      // Chọn kết quả ngẫu nhiên (Tài/Xỉu) nhưng có xu hướng theo tổng điểm
+      const sum = dice.reduce((a,b) => a + b, 0);
+      const result = sum > 10 ? (Math.random() > 0.2 ? 'Tai' : 'Xiu') : 
+                    sum < 10 ? (Math.random() > 0.2 ? 'Xiu' : 'Tai') : 
+                    results[Math.floor(Math.random() * 2)];
+      
+      sampleData += `${dice.join(' ')}|${result}\n`;
+    }
+    
+    // Tạo file download
+    const blob = new Blob([sampleData], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'cautaixiu_mau.txt';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+    
+    // Thông báo
+    document.getElementById('loadStatus').innerHTML = 
+      '<p style="color:#27ae60;">Đã tạo file mẫu thành công! Hãy tải lên để sử dụng.</p>';
   });
 
   // Nhạc nền bật tắt
