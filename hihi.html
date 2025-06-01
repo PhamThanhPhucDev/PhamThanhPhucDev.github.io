@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Kỹ Năng eFootball</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --s-tier: #FFD700;
+            --a-tier: #C0C0C0;
+            --b-tier: #87CEEB;
+            --c-tier: #9370DB;
+            --d-tier: #FF6347;
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: var(--light);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 2px solid var(--secondary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--secondary);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 350px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 12px 20px 12px 45px;
+            border-radius: 30px;
+            border: 2px solid var(--gray);
+            background: rgba(30, 41, 59, 0.7);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .filters {
+            width: 280px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            height: fit-content;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .filter-section {
+            margin-bottom: 25px;
+        }
+        
+        .filter-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-section h3 i {
+            font-size: 1.2rem;
+        }
+        
+        .tier-filters {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .tier-btn {
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .tier-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        
+        .tier-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        
+        .s-tier-btn { background: var(--s-tier); color: #000; }
+        .a-tier-btn { background: var(--a-tier); color: #000; }
+        .b-tier-btn { background: var(--b-tier); color: #000; }
+        .c-tier-btn { background: var(--c-tier); color: white; }
+        .d-tier-btn { background: var(--d-tier); color: white; }
+        
+        .category-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .category-btn {
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            color: var(--light);
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-btn:hover {
+            background: rgba(30, 64, 175, 0.4);
+            border-color: var(--secondary);
+        }
+        
+        .category-btn.active {
+            background: rgba(30, 64, 175, 0.7);
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
+        }
+        
+        .skills-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .skill-card {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border-color: var(--secondary);
+        }
+        
+        .skill-header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .skill-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .skill-tier {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .s-tier { background: var(--s-tier); color: #000; }
+        .a-tier { background: var(--a-tier); color: #000; }
+        .b-tier { background: var(--b-tier); color: #000; }
+        .c-tier { background: var(--c-tier); color: white; }
+        .d-tier { background: var(--d-tier); color: white; }
+        
+        .skill-category {
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .skill-description {
+            padding: 20px;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+        
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+        
+        .tier-explanation {
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .tier-explanation h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .tier-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .tier-item {
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .tier-item-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .tier-item p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .filters {
+                width: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tier-filters {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-futbol"></i>
+                    <h1>Hướng Dẫn Kỹ Năng eFootball</h1>
+                </div>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm kỹ năng...">
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="filters">
+                <div class="filter-section">
+                    <h3><i class="fas fa-layer-group"></i> Tier Kỹ Năng</h3>
+                    <div class="tier-filters">
+                        <div class="tier-btn s-tier-btn active" data-tier="S">S-Tier</div>
+                        <div class="tier-btn a-tier-btn active" data-tier="A">A-Tier</div>
+                        <div class="tier-btn b-tier-btn active" data-tier="B">B-Tier</div>
+                        <div class="tier-btn c-tier-btn" data-tier="C">C-Tier</div>
+                        <div class="tier-btn d-tier-btn" data-tier="D">D-Tier</div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3><i class="fas fa-tags"></i> Loại Kỹ Năng</h3>
+                    <div class="category-filters">
+                        <div class="category-btn active" data-category="all">
+                            <i class="fas fa-list"></i> Tất cả kỹ năng
+                        </div>
+                        <div class="category-btn" data-category="dribbling">
+                            <i class="fas fa-running"></i> Rê bóng
+                        </div>
+                        <div class="category-btn" data-category="shooting">
+                            <i class="fas fa-futbol"></i> Dứt điểm
+                        </div>
+                        <div class="category-btn" data-category="passing">
+                            <i class="fas fa-paper-plane"></i> Chuyền bóng
+                        </div>
+                        <div class="category-btn" data-category="defending">
+                            <i class="fas fa-shield-alt"></i> Phòng ngự
+                        </div>
+                        <div class="category-btn" data-category="goalkeeper">
+                            <i class="fas fa-tshirt"></i> Thủ môn
+                        </div>
+                        <div class="category-btn" data-category="other">
+                            <i class="fas fa-star"></i> Kỹ năng khác
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3><i class="fas fa-lightbulb"></i> Lời khuyên</h3>
+                    <p style="color: #cbd5e1; line-height: 1.6; font-size: 0.95rem;">
+                        Chọn kỹ năng phù hợp với vai trò cầu thủ: Tiền đạo ưu tiên dứt điểm, 
+                        tiền vệ ưu tiên chuyền bóng, hậu vệ tập trung phòng ngự. 
+                        Không nên thêm kỹ năng nếu cầu thủ đã có bộ kỹ năng tốt sẵn.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="skills-container" id="skillsContainer">
+                <!-- Kỹ năng sẽ được thêm ở đây bằng JavaScript -->
+            </div>
+        </div>
+        
+        <div class="tier-explanation">
+            <h2><i class="fas fa-info-circle"></i> Giải Thích Hệ Thống Xếp Hạng</h2>
+            <div class="tier-list">
+                <div class="tier-item" style="background: rgba(255, 215, 0, 0.15); border-left: 4px solid var(--s-tier);">
+                    <div class="tier-item-header">
+                        <div class="skill-tier s-tier">S-Tier</div>
+                        <span>Kỹ năng tốt nhất</span>
+                    </div>
+                    <p>Kỹ năng cực kỳ hữu ích, ưu tiên thêm vào nếu phù hợp với vai trò của cầu thủ.</p>
+                </div>
+                
+                <div class="tier-item" style="background: rgba(192, 192, 192, 0.15); border-left: 4px solid var(--a-tier);">
+                    <div class="tier-item-header">
+                        <div class="skill-tier a-tier">A-Tier</div>
+                        <span>Kỹ năng tuyệt vời</span>
+                    </div>
+                    <p>Kỹ năng rất hữu ích nhưng cần hiểu rõ mục đích sử dụng. Nếu cầu thủ đã có, không cần thay thế.</p>
+                </div>
+                
+                <div class="tier-item" style="background: rgba(135, 206, 235, 0.15); border-left: 4px solid var(--b-tier);">
+                    <div class="tier-item-header">
+                        <div class="skill-tier b-tier">B-Tier</div>
+                        <span>Kỹ năng tốt</span>
+                    </div>
+                    <p>Hữu ích nhưng chỉ trong một số tình huống cụ thể. Ít cầu thủ có thể tận dụng tối đa.</p>
+                </div>
+                
+                <div class="tier-item" style="background: rgba(147, 112, 219, 0.15); border-left: 4px solid var(--c-tier);">
+                    <div class="tier-item-header">
+                        <div class="skill-tier c-tier">C-Tier</div>
+                        <span>Kỹ năng trung bình</span>
+                    </div>
+                    <p>Không quá tệ nhưng có nhiều lựa chọn tốt hơn. Chỉ nên sử dụng nếu không có lựa chọn nào khác.</p>
+                </div>
+                
+                <div class="tier-item" style="background: rgba(255, 99, 71, 0.15); border-left: 4px solid var(--d-tier);">
+                    <div class="tier-item-header">
+                        <div class="skill-tier d-tier">D-Tier</div>
+                        <span>Kỹ năng kém</span>
+                    </div>
+                    <p>Ít hoặc không có giá trị, đôi khi còn gây bất lợi. Nên để dành Skill Tokens cho các kỹ năng hữu ích khác.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Dữ liệu kỹ năng
+        const skills = [
+            // Kỹ năng rê bóng
+            { name: "Sole Control", tier: "S", category: "dribbling", description: "Giúp tăng tần suất chạm bóng khi rê bóng, giảm nguy cơ mất bóng khi nhận các đường chuyền mạnh. Rất hữu ích, kể cả khi bạn không thường xuyên thực hiện rê bóng." },
+            { name: "Double Touch", tier: "A", category: "dribbling", description: "Một trong những kỹ năng được yêu thích nhất, giúp vượt qua đối thủ một cách nhanh chóng và hiệu quả." },
+            { name: "Marseille Turn", tier: "A", category: "dribbling", description: "Tốt khi muốn thay đổi hướng bóng nhanh, giữ bóng sát chân." },
+            { name: "Cut Behind & Turn", tier: "A", category: "dribbling", description: "Mở khóa Cruijff Turn, phù hợp cho những pha đổi hướng bóng nhanh." },
+            { name: "Flip Flap", tier: "B", category: "dribbling", description: "Không quá hiệu quả nếu sử dụng độc lập, nhưng khi kết hợp với Double Touch có thể tăng tỉ lệ qua người." },
+            { name: "Scissors Feint", tier: "D", category: "dribbling", description: "Khó sử dụng hiệu quả, thường bị bắt bài và làm mất bóng." },
+            { name: "Sombrero", tier: "D", category: "dribbling", description: "Khó sử dụng hiệu quả, thường bị bắt bài và làm mất bóng." },
+            { name: "Chop Turn", tier: "D", category: "dribbling", description: "Khó sử dụng hiệu quả, thường bị bắt bài và làm mất bóng." },
+            { name: "Scotch Move", tier: "D", category: "dribbling", description: "Khó sử dụng hiệu quả, thường bị bắt bài và làm mất bóng." },
+            
+            // Kỹ năng dứt điểm
+            { name: "First-Time Shot", tier: "S", category: "shooting", description: "Cực kỳ quan trọng với tiền đạo, tăng cơ hội ghi bàn trong các tình huống dứt điểm một chạm." },
+            { name: "Long-Range Curler", tier: "S", category: "shooting", description: "Tăng độ chính xác và độ xoáy cho các cú sút xa." },
+            { name: "Long-Range Shooting", tier: "S", category: "shooting", description: "Cải thiện sức mạnh cho các cú sút xa." },
+            { name: "Knuckle Shot", tier: "A", category: "shooting", description: "Cải thiện sút xa. Phù hợp khi sử dụng lực vừa phải (50%)." },
+            { name: "Dipping Shot", tier: "A", category: "shooting", description: "Cải thiện sút xa. Hiệu quả khi dùng lực nhẹ (<50%)." },
+            { name: "Rising Shot", tier: "A", category: "shooting", description: "Cải thiện sút xa. Phù hợp với các cú sút mạnh (>75%)." },
+            { name: "Chip Shot Control", tier: "B", category: "shooting", description: "Hữu ích nếu bạn thường xuyên dứt điểm bằng bấm bóng." },
+            { name: "Acrobatic Finishing", tier: "B", category: "shooting", description: "Tăng khả năng thực hiện các pha dứt điểm bay người (volley, ngả người móc bóng), phù hợp với tiền đạo thấp bé." },
+            
+            // Kỹ năng chuyền bóng
+            { name: "Through Passing", tier: "S", category: "passing", description: "Tăng độ chính xác đáng kể cho các pha chọc khe. Rất cần thiết cho cầu thủ tấn công." },
+            { name: "One-Touch Pass", tier: "A", category: "passing", description: "Giảm thiểu lỗi khi chuyền bóng một chạm." },
+            { name: "Weighted Pass", tier: "A", category: "passing", description: "Cải thiện khả năng chuyền dài cho các hậu vệ và tiền vệ phòng ngự." },
+            { name: "Pinpoint Crossing", tier: "A", category: "passing", description: "Giúp các cầu thủ chạy cánh tạt bóng chính xác hơn." },
+            { name: "Low Lofted Pass", tier: "C", category: "passing", description: "Thay đổi quỹ đạo bóng bổng, giúp bóng bay thấp và nhanh hơn. Tuy nhiên không thực sự cần thiết." },
+            { name: "Long Throw", tier: "C", category: "passing", description: "Tăng tầm ném biên, nhưng một kỹ năng không quá quan trọng. Tuy nhiên khá hợp lý khi bạn muốn cosplay đội tuyển Indonesia." },
+            { name: "No Look Pass", tier: "D", category: "passing", description: "Lườm rau gắp thịt, có hiệu quả ở ngoài đời nhưng vô dụng trong game." },
+            
+            // Kỹ năng phòng ngự
+            { name: "Man Marking", tier: "S", category: "defending", description: "Cải thiện khả năng đeo bám đối thủ, rất cần thiết cho trung vệ và hậu vệ cánh." },
+            { name: "Interception", tier: "S", category: "defending", description: "Tăng khả năng cắt bóng hiệu quả." },
+            { name: "Blocker", tier: "A", category: "defending", description: "Giống Interception nhưng ít quan trọng hơn." },
+            { name: "Sliding Tackle", tier: "A", category: "defending", description: "Tốt nếu bạn thành thạo kỹ thuật xoạc bóng." },
+            { name: "Track Back", tier: "B", category: "defending", description: "Tăng tần suất pressing từ xa." },
+            { name: "Aerial Superiority", tier: "B", category: "defending", description: "Giúp trung vệ thắng nhiều pha tranh chấp trên không." },
+            { name: "Acrobatic Clearance", tier: "B", category: "defending", description: "Hữu ích cho các hậu vệ thấp bé, tăng khả năng tranh chấp bằng các pha bay người phá bóng như kungfu." },
+            
+            // Kỹ năng thủ môn
+            { name: "GK Low Punt", tier: "S", category: "goalkeeper", description: "Cách tốt nhất để thủ môn phát động tấn công." },
+            { name: "GK High Punt", tier: "A", category: "goalkeeper", description: "Các tùy chọn thay thế nhưng không hiệu quả bằng Low Punt." },
+            { name: "GK Long Throw", tier: "A", category: "goalkeeper", description: "Các tùy chọn thay thế nhưng không hiệu quả bằng Low Punt." },
+            { name: "GK Penalty", tier: "D", category: "goalkeeper", description: "Mặc dù theo tên thì kỹ năng này sẽ tăng khả năng bắt Penalty thành công nhưng thực tế thì cá nhân tôi thấy chả có tác dụng gì => D-Tier vô dụng." },
+            
+            // Kỹ năng khác
+            { name: "Fighting Spirit", tier: "S", category: "other", description: "Giảm tỉ lệ xử lý lỗi khi bị áp lực, duy trì khả năng thi đấu ngay cả khi hết thể lực." },
+            { name: "Heading", tier: "A", category: "other", description: "Tăng độ chính xác cho các pha đánh đầu." },
+            { name: "Heel Trick", tier: "A", category: "other", description: "Phù hợp với tiền đạo chơi trong không gian hẹp." },
+            { name: "Outside Curler", tier: "A", category: "other", description: "Tốt cho cầu thủ có chân không thuận yếu." },
+            { name: "Super-sub", tier: "B", category: "other", description: "Tăng hiệu quả khi cầu thủ vào sân từ ghế dự bị." },
+            { name: "Rabona", tier: "C", category: "other", description: "Ít quan trọng so với Outside Curler, chỉ phù hợp với một vài cầu thủ kiểu Dimaria." },
+            { name: "Gamesmanship", tier: "C", category: "other", description: "Tăng khả năng kiếm đá phạt." },
+            { name: "Penalty Specialist", tier: "D", category: "other", description: "Không cần thiết thêm vì đội đã có sẵn cầu thủ với những kỹ năng này." },
+            { name: "Captaincy", tier: "D", category: "other", description: "Không cần thiết thêm vì đội đã có sẵn cầu thủ với những kỹ năng này." }
+        ];
+        
+        // Hiển thị kỹ năng
+        function displaySkills() {
+            const container = document.getElementById('skillsContainer');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            // Lấy các bộ lọc đang được chọn
+            const activeTiers = Array.from(document.querySelectorAll('.tier-btn.active'))
+                .map(btn => btn.dataset.tier);
+            
+            const activeCategory = document.querySelector('.category-btn.active').dataset.category;
+            
+            // Lọc kỹ năng
+            const filteredSkills = skills.filter(skill => {
+                const matchesSearch = skill.name.toLowerCase().includes(searchTerm) || 
+                                    skill.description.toLowerCase().includes(searchTerm);
+                const matchesTier = activeTiers.includes(skill.tier);
+                const matchesCategory = activeCategory === 'all' || skill.category === activeCategory;
+                
+                return matchesSearch && matchesTier && matchesCategory;
+            });
+            
+            // Xóa nội dung hiện tại
+            container.innerHTML = '';
+            
+            // Hiển thị kết quả
+            if (filteredSkills.length === 0) {
+                container.innerHTML = '<div class="no-results"><i class="fas fa-search fa-2x"></i><p>Không tìm thấy kỹ năng phù hợp</p></div>';
+                return;
+            }
+            
+            // Tạo card cho từng kỹ năng
+            filteredSkills.forEach(skill => {
+                const categoryNames = {
+                    "dribbling": "Rê bóng",
+                    "shooting": "Dứt điểm",
+                    "passing": "Chuyền bóng",
+                    "defending": "Phòng ngự",
+                    "goalkeeper": "Thủ môn",
+                    "other": "Kỹ năng khác"
+                };
+                
+                const categoryName = categoryNames[skill.category] || skill.category;
+                
+                const card = document.createElement('div');
+                card.className = 'skill-card';
+                card.innerHTML = `
+                    <div class="skill-header">
+                        <div class="skill-name"></div>
+                        <div class="skill-tier -tier">-Tier</div>
+                    </div>
+                    <div class="skill-category">
+                        <i class="fas fa-tag"></i>
+                        
+                    </div>
+                    <div class="skill-description">
+                        
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // Xử lý sự kiện tìm kiếm
+        document.getElementById('searchInput').addEventListener('input', displaySkills);
+        
+        // Xử lý sự kiện bộ lọc tier
+        document.querySelectorAll('.tier-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+                displaySkills();
+            });
+        });
+        
+        // Xử lý sự kiện bộ lọc category
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                displaySkills();
+            });
+        });
+        
+        // Hiển thị kỹ năng khi trang tải xong
+        document.addEventListener('DOMContentLoaded', displaySkills);
+    </script>
+</body>
+</html>
