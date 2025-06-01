@@ -199,6 +199,7 @@
     border-bottom: 1px solid #eee;
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
   }
   
   .history-item.correct {
@@ -207,6 +208,12 @@
   
   .history-item.incorrect {
     background-color: #ffebee;
+  }
+  
+  .history-time {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 5px;
   }
   
   .result-confirmation {
@@ -314,6 +321,28 @@
     margin-top: 10px;
     font-style: italic;
   }
+  
+  .history-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+  
+  .history-nav {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .reset-btn {
+    background: #dc3545;
+  }
+  
+  .history-info {
+    color: #666;
+    font-size: 0.9em;
+    text-align: center;
+    margin-top: 10px;
+  }
 </style>
 </head>
 <body>
@@ -403,6 +432,14 @@
   <div class="section" id="inputNewSection" style="display:none;">
     <h2>3. Lịch sử dự đoán</h2>
     <div id="historyList" style="max-height:300px; overflow-y:auto;"></div>
+    <div class="history-info" id="historyInfo"></div>
+    <div class="history-controls">
+      <button id="resetBtn" class="reset-btn">Reset Lịch sử</button>
+      <div class="history-nav">
+        <button id="prevBtn">← Lùi</button>
+        <button id="nextBtn">Tiến →</button>
+      </div>
+    </div>
     <br />
     <button id="downloadBtn">Tải file .txt lịch sử</button>
   </div>
@@ -420,6 +457,8 @@
   let consecutiveLosses = 0;
   let overallPieChart = null;
   let recentPieChart = null;
+  let currentPage = 1;
+  const itemsPerPage = 10;
 
   function loadHistory() {
     const savedHistory = localStorage.getItem('taiXiuHistory');
@@ -452,6 +491,35 @@
       predictionHistory
     };
     localStorage.setItem('taiXiuHistory', JSON.stringify(data));
+  }
+
+  function resetHistory() {
+    if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử? Hành động này không thể hoàn tác.')) {
+      history = [];
+      patterns = {};
+      predictionHistory = [];
+      currentPage = 1;
+      
+      localStorage.removeItem('taiXiuHistory');
+      
+      document.getElementById('predictionSection').style.display = 'none';
+      document.getElementById('statisticsSection').style.display = 'none';
+      document.getElementById('inputNewSection').style.display = 'none';
+      document.getElementById('loadStatus').textContent = '';
+      document.getElementById('historyList').innerHTML = '';
+      document.getElementById('historyInfo').textContent = '';
+      
+      alert('Đã xóa toàn bộ lịch sử!');
+    }
+  }
+
+  function formatTime(date) {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${hours}:${minutes} ${day}/${month}/${year}`;
   }
 
   function normalizeResult(res) {
@@ -621,17 +689,32 @@
 
   function updateHistoryList() {
     const historyList = document.getElementById('historyList');
+    const historyInfo = document.getElementById('historyInfo');
     historyList.innerHTML = '';
     
-    predictionHistory.slice().reverse().forEach((item, index) => {
+    const totalPages = Math.ceil(predictionHistory.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, predictionHistory.length);
+    const currentItems = predictionHistory.slice().reverse().slice(startIndex, endIndex);
+    
+    currentItems.forEach((item, index) => {
       const div = document.createElement('div');
       div.className = `history-item ${item.correct ? 'correct' : 'incorrect'}`;
       div.innerHTML = `
-        <span>${predictionHistory.length - index}. ${item.dice} → Dự đoán: ${item.prediction}</span>
-        <span>Kết quả: ${item.actualResult} (${item.correct ? 'ĐÚNG' : 'SAI'})</span>
+        <div>
+          <span>${predictionHistory.length - startIndex - index}. ${item.dice} → Dự đoán: ${item.prediction}</span>
+          <span>Kết quả: ${item.actualResult} (${item.correct ? 'ĐÚNG' : 'SAI'})</span>
+        </div>
+        <div class="history-time">${formatTime(new Date(item.timestamp))}</div>
       `;
       historyList.appendChild(div);
     });
+    
+    historyInfo.textContent = `Trang ${currentPage}/${totalPages} - Hiển thị ${startIndex + 1}-${endIndex} của ${predictionHistory.length} mục`;
+    
+    // Disable/enable navigation buttons
+    document.getElementById('prevBtn').disabled = currentPage <= 1;
+    document.getElementById('nextBtn').disabled = currentPage >= totalPages;
   }
 
   function updatePieCharts() {
@@ -853,6 +936,25 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }, 100);
+  });
+
+  // Reset lịch sử
+  document.getElementById('resetBtn').addEventListener('click', resetHistory);
+
+  // Navigation buttons
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      updateHistoryList();
+    }
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const totalPages = Math.ceil(predictionHistory.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      updateHistoryList();
+    }
   });
 
   // Nhạc nền bật tắt
