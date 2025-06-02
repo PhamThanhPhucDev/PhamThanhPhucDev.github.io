@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Công cụ Dự đoán Tài/Xỉu - ThanhPhucDev</title>
+<title>Công cụ Dự đoán Tài/Xỉu - ThanhPhucDev PRO+</title>
 <style>
   @keyframes rainbowColors {
     0%   { color: #FF0000; }
@@ -344,7 +344,6 @@
     margin-top: 10px;
   }
 
-  /* Thêm style mới cho phần tải file mẫu */
   .download-sample {
     margin-top: 15px;
     padding: 15px;
@@ -380,6 +379,63 @@
   .create-sample-btn:hover {
     background: #d35400;
   }
+
+  .timeout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    display: none;
+  }
+  
+  .timeout-content {
+    background: #dc3545;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  }
+  
+  .timeout-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .timeout-message {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  
+  .timeout-timer {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #ffcc00;
+  }
+  
+  .timeout-icon {
+    font-size: 4em;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
 </style>
 </head>
 <body>
@@ -398,6 +454,21 @@
     <button onclick="document.getElementById('lossBlocker').style.display='none'" style="background: white; color: #dc3545; font-weight: bold;">
       Tôi hiểu, sẽ cân nhắc
     </button>
+  </div>
+</div>
+
+<div class="timeout-overlay" id="timeoutBlocker">
+  <div class="timeout-content">
+    <div class="timeout-icon">⏱️</div>
+    <div class="timeout-title">TẠM DỪNG HOẠT ĐỘNG</div>
+    <div class="timeout-message">
+      Bạn đã thua quá nhiều lần liên tiếp!<br><br>
+      Hệ thống tạm thời khóa trong <span id="timeoutDuration" class="timeout-timer">3:00</span> phút<br><br>
+      Hãy sử dụng thời gian này để bình tĩnh lại và suy nghĩ về chiến lược của bạn.
+    </div>
+    <div style="font-size:0.9em; color:#ffcc00;">
+      Lưu ý: Thời gian khóa sẽ tăng gấp đôi nếu bạn tiếp tục thua sau khi hết hạn
+    </div>
   </div>
 </div>
 
@@ -506,6 +577,12 @@
   let recentPieChart = null;
   let currentPage = 1;
   const itemsPerPage = 10;
+  
+  // Biến cho tính năng timeout
+  let timeoutActive = false;
+  let timeoutDuration = 180; // 3 phút = 180 giây
+  let timeoutInterval;
+  let timeoutMultiplier = 1;
 
   function loadHistory() {
     const savedHistory = localStorage.getItem('taiXiuHistory');
@@ -876,6 +953,43 @@
     });
   }
 
+  function activateTimeout() {
+    timeoutActive = true;
+    timeoutMultiplier *= 2; // Tăng gấp đôi thời gian cho lần sau
+    document.getElementById('timeoutBlocker').style.display = 'flex';
+    
+    // Vô hiệu hóa các nút chức năng
+    document.getElementById('predictBtn').disabled = true;
+    document.getElementById('confirmTaiBtn').disabled = true;
+    document.getElementById('confirmXiuBtn').disabled = true;
+    
+    // Cập nhật thời gian khóa ban đầu
+    updateTimeoutDisplay(timeoutDuration * timeoutMultiplier);
+    
+    // Bắt đầu đếm ngược
+    let remaining = timeoutDuration * timeoutMultiplier;
+    timeoutInterval = setInterval(() => {
+      remaining--;
+      updateTimeoutDisplay(remaining);
+      
+      if (remaining <= 0) {
+        clearTimeout(timeoutInterval);
+        timeoutActive = false;
+        document.getElementById('timeoutBlocker').style.display = 'none';
+        document.getElementById('predictBtn').disabled = false;
+        document.getElementById('confirmTaiBtn').disabled = false;
+        document.getElementById('confirmXiuBtn').disabled = false;
+      }
+    }, 1000);
+  }
+  
+  function updateTimeoutDisplay(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    document.getElementById('timeoutDuration').textContent = 
+      `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  }
+  
   function checkConsecutiveLosses() {
     const last8 = predictionHistory.slice(-8);
     if (last8.length < 8) return;
@@ -883,6 +997,7 @@
     const allLosses = last8.every(p => !p.correct);
     if (allLosses) {
       document.getElementById('lossBlocker').style.display = 'flex';
+      activateTimeout();
     }
   }
 
@@ -909,6 +1024,11 @@
 
   // Nút dự đoán
   document.getElementById('predictBtn').addEventListener('click', () => {
+    if (timeoutActive) {
+      alert('Hệ thống đang tạm khóa do bạn thua quá nhiều lần. Vui lòng đợi...');
+      return;
+    }
+    
     const input = document.getElementById('diceInput').value.trim();
     const parts = input.split(' ').map(x => parseInt(x));
     if (parts.length !== 3 || parts.some(x => isNaN(x) || x < 1 || x > 6)) {
@@ -924,6 +1044,11 @@
   document.getElementById('confirmXiuBtn').addEventListener('click', () => confirmResult('Xiu'));
 
   function confirmResult(actualResult) {
+    if (timeoutActive) {
+      alert('Hệ thống đang tạm khóa do bạn thua quá nhiều lần. Vui lòng đợi...');
+      return;
+    }
+    
     const diceInput = document.getElementById('diceInput').value.trim();
     const diceParts = diceInput.split(' ').map(x => parseInt(x));
     const sortedDice = diceParts.slice().sort((a,b) => a-b);
@@ -985,25 +1110,6 @@
     }, 100);
   });
 
-  // Reset lịch sử
-  document.getElementById('resetBtn').addEventListener('click', resetHistory);
-
-  // Navigation buttons
-  document.getElementById('prevBtn').addEventListener('click', () => {
-    if (currentPage > 1) {
-      currentPage--;
-      updateHistoryList();
-    }
-  });
-
-  document.getElementById('nextBtn').addEventListener('click', () => {
-    const totalPages = Math.ceil(predictionHistory.length / itemsPerPage);
-    if (currentPage < totalPages) {
-      currentPage++;
-      updateHistoryList();
-    }
-  });
-
   // Tạo file mẫu tự động
   document.getElementById('createSampleBtn').addEventListener('click', function() {
     // Tạo dữ liệu mẫu ngẫu nhiên
@@ -1043,6 +1149,25 @@
     // Thông báo
     document.getElementById('loadStatus').innerHTML = 
       '<p style="color:#27ae60;">Đã tạo file mẫu thành công! Hãy tải lên để sử dụng.</p>';
+  });
+
+  // Reset lịch sử
+  document.getElementById('resetBtn').addEventListener('click', resetHistory);
+
+  // Navigation buttons
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      updateHistoryList();
+    }
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const totalPages = Math.ceil(predictionHistory.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      currentPage++;
+      updateHistoryList();
+    }
   });
 
   // Nhạc nền bật tắt
