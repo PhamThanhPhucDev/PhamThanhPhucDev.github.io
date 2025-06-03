@@ -74,7 +74,7 @@
     color: #555;
   }
   
-  input[type="text"], select, input[type="file"] {
+  input[type="text"], select, input[type="file"], input[type="password"] {
     font-size: 16px;
     padding: 10px 12px;
     margin-top: 10px;
@@ -436,9 +436,212 @@
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
   }
+
+  /* Login/Register Form Styles */
+  .auth-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 10001;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+  
+  .auth-container {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    width: 400px;
+    max-width: 90%;
+    padding: 30px;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .auth-title {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .auth-form input {
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    background: rgba(255,255,255,0.9);
+    transition: all 0.3s;
+  }
+  
+  .auth-form input:focus {
+    background: white;
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+  }
+  
+  .auth-btn {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #4a00e0;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 10px;
+  }
+  
+  .auth-btn:hover {
+    background: #3700b3;
+    transform: translateY(-2px);
+  }
+  
+  .auth-switch {
+    text-align: center;
+    margin-top: 20px;
+    color: rgba(255,255,255,0.8);
+  }
+  
+  .auth-switch a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 5px;
+    transition: all 0.3s;
+  }
+  
+  .auth-switch a:hover {
+    text-decoration: underline;
+  }
+  
+  .captcha-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .captcha-question {
+    font-weight: bold;
+    color: white;
+    flex: 1;
+  }
+  
+  .captcha-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .user-info {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: rgba(255,255,255,0.9);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logout-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  
+  .logout-btn:hover {
+    background: #c82333;
+  }
+  
+  .premium-badge {
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.8em;
+    margin-left: 5px;
+  }
 </style>
 </head>
 <body>
+
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-container" id="loginContainer">
+    <div class="auth-title">ĐĂNG NHẬP</div>
+    <form class="auth-form" id="loginForm">
+      <input type="text" id="loginUsername" placeholder="Tên đăng nhập" required>
+      <input type="password" id="loginPassword" placeholder="Mật khẩu" required>
+      
+      <div class="captcha-container">
+        <div class="captcha-question" id="loginCaptchaQuestion"></div>
+        <input type="text" class="captcha-input" id="loginCaptchaAnswer" placeholder="Kết quả?" required>
+      </div>
+      
+      <button type="submit" class="auth-btn">ĐĂNG NHẬP</button>
+    </form>
+    <div class="auth-switch">
+      Chưa có tài khoản? <a href="#" id="showRegister">Đăng ký ngay</a>
+    </div>
+  </div>
+  
+  <div class="auth-container" id="registerContainer" style="display:none;">
+    <div class="auth-title">ĐĂNG KÝ TÀI KHOẢN</div>
+    <form class="auth-form" id="registerForm">
+      <input type="text" id="registerUsername" placeholder="Tên đăng nhập" required>
+      <input type="password" id="registerPassword" placeholder="Mật khẩu" required>
+      <input type="password" id="registerConfirmPassword" placeholder="Nhập lại mật khẩu" required>
+      
+      <div class="captcha-container">
+        <div class="captcha-question" id="registerCaptchaQuestion"></div>
+        <input type="text" class="captcha-input" id="registerCaptchaAnswer" placeholder="Kết quả?" required>
+      </div>
+      
+      <button type="submit" class="auth-btn">ĐĂNG KÝ</button>
+    </form>
+    <div class="auth-switch">
+      Đã có tài khoản? <a href="#" id="showLogin">Đăng nhập</a>
+    </div>
+  </div>
+</div>
+
+<div class="user-info" id="userInfo" style="display:none;">
+  <span id="usernameDisplay"></span>
+  <button class="logout-btn" id="logoutBtn">↩</button>
+</div>
 
 <button id="musicControl" title="Phát / Tạm dừng nhạc">▶</button>
 <div class="blocker-overlay" id="lossBlocker">
@@ -473,7 +676,7 @@
 </div>
 
 <h1 id="rainbowName">THANHPHUCDEV PRO+</h1>
-<div class="container">
+<div class="container" id="mainContainer" style="display:none;">
   <h1>Công cụ Dự đoán Tài/Xỉu Nâng Cao</h1>
 
   <div class="section">
@@ -584,8 +787,211 @@
   let timeoutInterval;
   let timeoutMultiplier = 1;
 
+  // Biến cho hệ thống đăng nhập
+  let currentUser = null;
+  let userIP = '';
+  const users = JSON.parse(localStorage.getItem('taiXiuUsers') || '{}');
+  const userSessions = JSON.parse(localStorage.getItem('taiXiuSessions') || '{}');
+  const userTimeouts = JSON.parse(localStorage.getItem('taiXiuTimeouts') || '{}');
+
+  // Hàm tạo CAPTCHA
+  function generateCaptcha() {
+    const operations = ['+', '-', '*'];
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    const op = operations[Math.floor(Math.random() * operations.length)];
+    
+    let question = '';
+    let answer = 0;
+    
+    switch(op) {
+      case '+':
+        question = `${num1} + ${num2} = ?`;
+        answer = num1 + num2;
+        break;
+      case '-':
+        question = `${num1} - ${num2} = ?`;
+        answer = num1 - num2;
+        break;
+      case '*':
+        question = `${num1} × ${num2} = ?`;
+        answer = num1 * num2;
+        break;
+    }
+    
+    return { question, answer };
+  }
+
+  // Cập nhật CAPTCHA cho form đăng nhập
+  function updateLoginCaptcha() {
+    const captcha = generateCaptcha();
+    document.getElementById('loginCaptchaQuestion').textContent = captcha.question;
+    document.getElementById('loginCaptchaAnswer').dataset.answer = captcha.answer;
+  }
+
+  // Cập nhật CAPTCHA cho form đăng ký
+  function updateRegisterCaptcha() {
+    const captcha = generateCaptcha();
+    document.getElementById('registerCaptchaQuestion').textContent = captcha.question;
+    document.getElementById('registerCaptchaAnswer').dataset.answer = captcha.answer;
+  }
+
+  // Lấy địa chỉ IP (mô phỏng)
+  function getClientIP() {
+    // Trong thực tế, bạn cần server-side code để lấy IP thực
+    // Đây chỉ là mô phỏng cho demo
+    const fakeIPs = [
+      '192.168.1.1', '10.0.0.1', '172.16.0.1', 
+      '123.45.67.89', '98.76.54.32', '203.0.113.42'
+    ];
+    const randomIP = fakeIPs[Math.floor(Math.random() * fakeIPs.length)];
+    
+    // Lưu IP vào localStorage để mô phỏng
+    if (!localStorage.getItem('clientIP')) {
+      localStorage.setItem('clientIP', randomIP);
+    }
+    
+    return localStorage.getItem('clientIP');
+  }
+
+  // Hàm đăng nhập
+  function login(username, password) {
+    if (!users[username]) {
+      alert('Tên đăng nhập không tồn tại!');
+      return false;
+    }
+    
+    if (users[username].password !== password) {
+      alert('Mật khẩu không chính xác!');
+      return false;
+    }
+    
+    // Kiểm tra CAPTCHA
+    const captchaAnswer = document.getElementById('loginCaptchaAnswer').value;
+    const expectedAnswer = document.getElementById('loginCaptchaAnswer').dataset.answer;
+    
+    if (parseInt(captchaAnswer) !== parseInt(expectedAnswer)) {
+      alert('Câu trả lời CAPTCHA không đúng!');
+      updateLoginCaptcha();
+      return false;
+    }
+    
+    // Lưu session
+    userIP = getClientIP();
+    userSessions[userIP] = {
+      username,
+      loginTime: new Date().getTime(),
+      timeout: userTimeouts[userIP] || 0
+    };
+    
+    localStorage.setItem('taiXiuSessions', JSON.stringify(userSessions));
+    
+    currentUser = username;
+    return true;
+  }
+
+  // Hàm đăng ký
+  function register(username, password) {
+    if (users[username]) {
+      alert('Tên đăng nhập đã tồn tại!');
+      return false;
+    }
+    
+    if (password.length < 6) {
+      alert('Mật khẩu phải có ít nhất 6 ký tự!');
+      return false;
+    }
+    
+    if (password !== document.getElementById('registerConfirmPassword').value) {
+      alert('Mật khẩu xác nhận không khớp!');
+      return false;
+    }
+    
+    // Kiểm tra CAPTCHA
+    const captchaAnswer = document.getElementById('registerCaptchaAnswer').value;
+    const expectedAnswer = document.getElementById('registerCaptchaAnswer').dataset.answer;
+    
+    if (parseInt(captchaAnswer) !== parseInt(expectedAnswer)) {
+      alert('Câu trả lời CAPTCHA không đúng!');
+      updateRegisterCaptcha();
+      return false;
+    }
+    
+    // Tạo tài khoản mới
+    users[username] = {
+      password,
+      createdAt: new Date().getTime(),
+      isPremium: false
+    };
+    
+    localStorage.setItem('taiXiuUsers', JSON.stringify(users));
+    
+    alert('Đăng ký thành công! Vui lòng đăng nhập.');
+    showLoginForm();
+    return true;
+  }
+
+  // Hàm đăng xuất
+  function logout() {
+    if (userIP && userSessions[userIP]) {
+      delete userSessions[userIP];
+      localStorage.setItem('taiXiuSessions', JSON.stringify(userSessions));
+    }
+    
+    currentUser = null;
+    userIP = '';
+    showAuthUI();
+  }
+
+  // Hiển thị form đăng nhập
+  function showLoginForm() {
+    document.getElementById('loginContainer').style.display = 'block';
+    document.getElementById('registerContainer').style.display = 'none';
+    updateLoginCaptcha();
+  }
+
+  // Hiển thị form đăng ký
+  function showRegisterForm() {
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('registerContainer').style.display = 'block';
+    updateRegisterCaptcha();
+  }
+
+  // Hiển thị UI đăng nhập/đăng ký
+  function showAuthUI() {
+    document.getElementById('authOverlay').style.display = 'flex';
+    document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('userInfo').style.display = 'none';
+    showLoginForm();
+  }
+
+  // Hiển thị UI chính sau khi đăng nhập
+  function showMainUI() {
+    document.getElementById('authOverlay').style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'block';
+    document.getElementById('userInfo').style.display = 'flex';
+    document.getElementById('usernameDisplay').textContent = currentUser;
+    
+    // Kiểm tra timeout
+    checkTimeout();
+  }
+
+  // Kiểm tra timeout từ IP
+  function checkTimeout() {
+    if (userIP && userSessions[userIP] && userSessions[userIP].timeout) {
+      const remaining = userSessions[userIP].timeout - Math.floor(Date.now() / 1000);
+      if (remaining > 0) {
+        activateTimeout(remaining);
+        return true;
+      }
+    }
+    return false;
+  }
+
   function loadHistory() {
-    const savedHistory = localStorage.getItem('taiXiuHistory');
+    if (!currentUser) return;
+    
+    const savedHistory = localStorage.getItem(`taiXiuHistory_${currentUser}`);
     if (savedHistory) {
       try {
         const parsed = JSON.parse(savedHistory);
@@ -609,12 +1015,14 @@
   }
 
   function saveHistory() {
+    if (!currentUser) return;
+    
     const data = {
       history,
       patterns,
       predictionHistory
     };
-    localStorage.setItem('taiXiuHistory', JSON.stringify(data));
+    localStorage.setItem(`taiXiuHistory_${currentUser}`, JSON.stringify(data));
   }
 
   function resetHistory() {
@@ -624,7 +1032,9 @@
       predictionHistory = [];
       currentPage = 1;
       
-      localStorage.removeItem('taiXiuHistory');
+      if (currentUser) {
+        localStorage.removeItem(`taiXiuHistory_${currentUser}`);
+      }
       
       document.getElementById('predictionSection').style.display = 'none';
       document.getElementById('statisticsSection').style.display = 'none';
@@ -953,9 +1363,18 @@
     });
   }
 
-  function activateTimeout() {
+  function activateTimeout(seconds = null) {
+    const timeoutSeconds = seconds || (timeoutDuration * timeoutMultiplier);
     timeoutActive = true;
-    timeoutMultiplier *= 2; // Tăng gấp đôi thời gian cho lần sau
+    
+    // Lưu timeout vào IP
+    if (userIP) {
+      userSessions[userIP].timeout = Math.floor(Date.now() / 1000) + timeoutSeconds;
+      userTimeouts[userIP] = userSessions[userIP].timeout;
+      localStorage.setItem('taiXiuSessions', JSON.stringify(userSessions));
+      localStorage.setItem('taiXiuTimeouts', JSON.stringify(userTimeouts));
+    }
+    
     document.getElementById('timeoutBlocker').style.display = 'flex';
     
     // Vô hiệu hóa các nút chức năng
@@ -964,10 +1383,10 @@
     document.getElementById('confirmXiuBtn').disabled = true;
     
     // Cập nhật thời gian khóa ban đầu
-    updateTimeoutDisplay(timeoutDuration * timeoutMultiplier);
+    updateTimeoutDisplay(timeoutSeconds);
     
     // Bắt đầu đếm ngược
-    let remaining = timeoutDuration * timeoutMultiplier;
+    let remaining = timeoutSeconds;
     timeoutInterval = setInterval(() => {
       remaining--;
       updateTimeoutDisplay(remaining);
@@ -979,6 +1398,12 @@
         document.getElementById('predictBtn').disabled = false;
         document.getElementById('confirmTaiBtn').disabled = false;
         document.getElementById('confirmXiuBtn').disabled = false;
+        
+        // Xóa timeout khỏi IP
+        if (userIP && userSessions[userIP]) {
+          userSessions[userIP].timeout = 0;
+          localStorage.setItem('taiXiuSessions', JSON.stringify(userSessions));
+        }
       }
     }, 1000);
   }
@@ -997,6 +1422,7 @@
     const allLosses = last8.every(p => !p.correct);
     if (allLosses) {
       document.getElementById('lossBlocker').style.display = 'flex';
+      timeoutMultiplier *= 2; // Tăng gấp đôi thời gian cho lần sau
       activateTimeout();
     }
   }
@@ -1185,8 +1611,76 @@
     }
   });
 
-  // Load history when page loads
-  loadHistory();
+  // Xử lý form đăng nhập
+  document.getElementById('loginForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+    
+    if (login(username, password)) {
+      showMainUI();
+      loadHistory();
+    }
+  });
+
+  // Xử lý form đăng ký
+  document.getElementById('registerForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const username = document.getElementById('registerUsername').value;
+    const password = document.getElementById('registerPassword').value;
+    
+    if (register(username, password)) {
+      showLoginForm();
+    }
+  });
+
+  // Chuyển đổi giữa form đăng nhập và đăng ký
+  document.getElementById('showRegister').addEventListener('click', e => {
+    e.preventDefault();
+    showRegisterForm();
+  });
+
+  document.getElementById('showLogin').addEventListener('click', e => {
+    e.preventDefault();
+    showLoginForm();
+  });
+
+  // Đăng xuất
+  document.getElementById('logoutBtn').addEventListener('click', logout);
+
+  // Kiểm tra session khi tải trang
+  function checkSession() {
+    userIP = getClientIP();
+    
+    // Kiểm tra xem có session nào đang hoạt động không
+    if (userIP && userSessions[userIP]) {
+      const session = userSessions[userIP];
+      
+      // Kiểm tra timeout
+      if (session.timeout && session.timeout > Math.floor(Date.now() / 1000)) {
+        // Vẫn còn timeout
+        currentUser = session.username;
+        showMainUI();
+        activateTimeout(session.timeout - Math.floor(Date.now() / 1000));
+        return;
+      }
+      
+      // Session hợp lệ
+      currentUser = session.username;
+      showMainUI();
+      loadHistory();
+    } else {
+      // Không có session, hiển thị form đăng nhập
+      showAuthUI();
+    }
+  }
+
+  // Khởi tạo CAPTCHA
+  updateLoginCaptcha();
+  updateRegisterCaptcha();
+
+  // Kiểm tra session khi tải trang
+  checkSession();
 
 })();
 </script>
