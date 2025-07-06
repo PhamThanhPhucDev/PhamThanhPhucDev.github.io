@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pham Thanh Phuc - Developer Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&family=Montserrat:wght@800&family=Poppins:wght@900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6e48aa;
@@ -24,7 +24,6 @@
             --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --glow-color: rgba(255, 255, 255, 0.9);
-            --name-gradient: linear-gradient(135deg, #6e48aa, #9d50bb, #4776E6);
         }
 
         * {
@@ -35,24 +34,48 @@
 
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
-            padding: 2rem;
-            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Main Wrapper */
+        .main-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.5s ease;
+        }
+
+        .main-wrapper:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
         .container {
-            max-width: 1400px; /* Tăng kích thước container */
-            width: 95%;
+            width: 100%;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 350px 1fr; /* Tăng kích thước sidebar */
-            gap: 3rem; /* Tăng khoảng cách giữa các phần */
+            grid-template-columns: 350px 1fr;
+            gap: 3rem;
         }
 
         /* Profile Sidebar */
@@ -66,12 +89,13 @@
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 2.5rem; /* Tăng padding */
+            padding: 2.5rem;
             box-shadow: var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             overflow: hidden;
             position: relative;
             text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .profile-card:hover {
@@ -96,7 +120,7 @@
         }
 
         .avatar-container {
-            width: 180px; /* Tăng kích thước avatar */
+            width: 180px;
             height: 180px;
             margin: 0 auto 1.5rem;
             border-radius: 50%;
@@ -125,19 +149,27 @@
         }
 
         .profile-name {
-            font-size: 2.2rem; /* Tăng kích thước font */
-            font-weight: 800;
+            font-size: 2.2rem;
+            font-weight: 900;
             margin-bottom: 0.3rem;
-            background: var(--name-gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: -0.5px;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -1px;
             text-transform: uppercase;
             position: relative;
             display: inline-block;
             padding: 0 10px;
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow 8s ease infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .profile-name::after {
@@ -147,12 +179,14 @@
             left: 10px;
             width: calc(100% - 20px);
             height: 3px;
-            background: var(--name-gradient);
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400% 400%;
             border-radius: 3px;
+            animation: rainbow 8s ease infinite;
         }
 
         .name-slogan {
-            font-size: 1rem; /* Tăng kích thước font */
+            font-size: 1rem;
             color: var(--text-light);
             font-style: italic;
             margin-bottom: 1rem;
@@ -198,7 +232,7 @@
             color: var(--text-light);
             margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: 1.2rem; /* Tăng kích thước font */
+            font-size: 1.2rem;
             letter-spacing: 1px;
         }
 
@@ -206,7 +240,7 @@
             text-align: center;
             margin-bottom: 1.5rem;
             color: var(--text);
-            font-size: 1rem; /* Tăng kích thước font */
+            font-size: 1rem;
             line-height: 1.6;
             position: relative;
             padding: 0 1rem;
@@ -229,7 +263,7 @@
         }
 
         .language-title {
-            font-size: 1rem; /* Tăng kích thước font */
+            font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
@@ -255,7 +289,7 @@
         }
 
         .language-name {
-            font-size: 0.9rem; /* Tăng kích thước font */
+            font-size: 0.9rem;
             font-weight: 500;
             width: 100px;
             text-align: left;
@@ -272,12 +306,37 @@
 
         .language-level {
             height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
             border-radius: 4px;
         }
 
+        /* Màu sắc riêng cho từng ngôn ngữ */
+        .language-level[style*="95%"] {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            width: 95%;
+        }
+
+        .language-level[style*="85%"] {
+            background: linear-gradient(90deg, #4776E6, #8E54E9);
+            width: 85%;
+        }
+
+        .language-level[style*="80%"] {
+            background: linear-gradient(90deg, #1D976C, #93F9B9);
+            width: 80%;
+        }
+
+        .language-level[style*="75%"] {
+            background: linear-gradient(90deg, #FF8008, #FFC837);
+            width: 75%;
+        }
+
+        .language-level[style*="70%"] {
+            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
+            width: 70%;
+        }
+
         .language-percent {
-            font-size: 0.8rem; /* Tăng kích thước font */
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-light);
             width: 35px;
@@ -290,7 +349,7 @@
         }
 
         .tools-title {
-            font-size: 1rem; /* Tăng kích thước font */
+            font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
@@ -314,7 +373,7 @@
             background: rgba(110, 72, 170, 0.1);
             color: var(--primary-dark);
             border: none;
-            padding: 0.8rem; /* Tăng padding */
+            padding: 0.8rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
@@ -323,7 +382,7 @@
             margin-bottom: 0.5rem;
             text-align: center;
             text-decoration: none;
-            font-size: 0.95rem; /* Tăng kích thước font */
+            font-size: 0.95rem;
         }
 
         .tool-item:hover {
@@ -347,13 +406,13 @@
             background: rgba(175, 46, 124, 0.1);
             color: var(--momo-pink);
             border: none;
-            padding: 0.8rem; /* Tăng padding */
+            padding: 0.8rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            font-size: 0.95rem; /* Tăng kích thước font */
+            font-size: 0.95rem;
         }
 
         .payment-btn:hover {
@@ -369,6 +428,70 @@
             border-radius: 50%;
         }
 
+        /* Contact Section */
+        .contact-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray);
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text);
+            position: relative;
+        }
+
+        .contact-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400% 400%;
+            border-radius: 3px;
+            animation: rainbow 8s ease infinite;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(110, 72, 170, 0.1);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(110, 72, 170, 0.2);
+        }
+
+        .contact-link i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .facebook { color: #1877F2; }
+        .github { color: #333; }
+        .discord { color: #5865F2; }
+
         /* Notification */
         .notification {
             position: fixed;
@@ -376,9 +499,9 @@
             left: 50%;
             transform: translateX(-50%);
             background: white;
-            padding: 1.2rem 1.8rem; /* Tăng padding */
+            padding: 1.2rem 1.8rem;
             border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Làm đậm shadow */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -387,7 +510,7 @@
             transform: translateX(-50%) translateY(-20px);
             max-width: 90%;
             width: auto;
-            font-size: 1rem; /* Tăng kích thước font */
+            font-size: 1rem;
         }
 
         .notification.show {
@@ -397,18 +520,18 @@
 
         .notification-icon {
             color: var(--momo-pink);
-            font-size: 1.4rem; /* Tăng kích thước icon */
-            margin-right: 1rem; /* Tăng khoảng cách */
+            font-size: 1.4rem;
+            margin-right: 1rem;
         }
 
         .notification-content {
-            font-size: 1rem; /* Tăng kích thước font */
-            margin-right: 1.2rem; /* Tăng khoảng cách */
+            font-size: 1rem;
+            margin-right: 1.2rem;
         }
 
         .notification-content strong {
             color: var(--momo-pink);
-            font-size: 1.05rem; /* Tăng kích thước font */
+            font-size: 1.05rem;
         }
 
         .notification-close {
@@ -416,8 +539,8 @@
             border: none;
             color: var(--text-light);
             cursor: pointer;
-            font-size: 1.2rem; /* Tăng kích thước font */
-            padding: 0 0.5rem; /* Tăng padding */
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
         }
 
         .notification-close:hover {
@@ -429,9 +552,9 @@
             color: var(--accent);
             border: none;
             border-radius: 5px;
-            padding: 0.3rem 0.7rem; /* Tăng padding */
-            font-size: 0.85rem; /* Tăng kích thước font */
-            margin-left: 0.8rem; /* Tăng khoảng cách */
+            padding: 0.3rem 0.7rem;
+            font-size: 0.85rem;
+            margin-left: 0.8rem;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -442,7 +565,7 @@
 
         /* Footer Slogan */
         .footer-slogan {
-            font-size: 1.2rem; /* Tăng kích thước font */
+            font-size: 1.2rem;
             color: var(--primary-dark);
             text-align: center;
             margin-top: 1.5rem;
@@ -459,7 +582,7 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2.2rem; /* Tăng kích thước font */
+            font-size: 2.2rem;
             color: var(--accent);
             opacity: 0.3;
         }
@@ -492,10 +615,13 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .main-wrapper {
+                padding: 1rem;
+            }
+            
             .container {
                 grid-template-columns: 1fr;
                 max-width: 100%;
-                padding: 1rem;
             }
 
             .profile-sidebar {
@@ -504,6 +630,11 @@
             
             .profile-name {
                 font-size: 1.8rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -520,130 +651,131 @@
         <button class="notification-close" id="closeNotification">&times;</button>
     </div>
 
-    <div class="container">
-        <!-- Profile Sidebar -->
-        <aside class="profile-sidebar">
-            <div class="profile-card floating">
-                <div class="avatar-container">
-                    <img src="https://i.top4top.io/p_34745ugo41.gif" class="avatar" alt="Pham Thanh Phuc">
-                </div>
-                
-                <h1 class="profile-name">
-                    PHAM THANH PHUC
-                    <span class="verified-badge" title="Verified"></span>
-                </h1>
-                
-                <div class="name-slogan">Code bằng đam mê, hoàn thiện bằng sự tỉ mỉ</div>
-                
-                <p class="profile-username">@thanhphucoder</p>
-                
-                <p class="profile-bio">
-                    LẬP TRÌNH VIÊN FULL-STACK • ĐÓNG GÓP MÃ NGUỒN MỞ • TÁC GIẢ TECH BLOG
-                    Kiến tạo những trải nghiệm số ấn tượng và khác biệt
-                </p>
-                
-                <!-- Language Proficiency -->
-                <div class="language-proficiency">
-                    <div class="language-title">THÔNG THẠO NGÔN NGỮ</div>
-                    
-                    <div class="language-item">
-                        <span class="language-name">JavaScript</span>
-                        <div class="language-bar">
-                            <div class="language-level" style="width: 95%"></div>
-                        </div>
-                        <span class="language-percent">95%</span>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <div class="container">
+            <!-- Profile Sidebar -->
+            <aside class="profile-sidebar">
+                <div class="profile-card floating">
+                    <div class="avatar-container">
+                        <img src="https://i.top4top.io/p_34745ugo41.gif" class="avatar" alt="Pham Thanh Phuc">
                     </div>
                     
-                    <div class="language-item">
-                        <span class="language-name">Python</span>
-                        <div class="language-bar">
-                            <div class="language-level" style="width: 85%"></div>
+                    <h1 class="profile-name">
+                        PHAM THANH PHUC
+                        <span class="verified-badge" title="Verified"></span>
+                    </h1>
+                    
+                    <div class="name-slogan">Chúc em rơi nước mắt, vì hạnh phúc bên người mà em yêu</div>
+                    
+                    <p class="profile-username">@phucd3v</p>
+                    
+                    <p class="profile-bio">
+                      "Tình yêu không phải là tình yêu nếu nó đổi thay khi gặp sóng gió, hay chùn bước khi người thương rời xa; trái lại, nó chính là ngọn hải đăng bất diệt, vẫn tỏa sáng giữa bão tố, dẫn lối cho những trái tim lạc lối."
+  𝙒𝙞𝙡𝙡𝙞𝙖𝙢𝙎𝙝𝙖𝙠𝙚𝙨𝙥𝙚𝙖𝙧𝙚 
+                    </p>
+                    
+                    <!-- Language Proficiency -->
+                    <div class="language-proficiency">
+                        <div class="language-title">THÔNG THẠO NGÔN NGỮ</div>
+                        
+                        <div class="language-item">
+                            <span class="language-name">JavaScript</span>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 95%"></div>
+                            </div>
+                            <span class="language-percent">95%</span>
                         </div>
-                        <span class="language-percent">85%</span>
+                        
+                        <div class="language-item">
+                            <span class="language-name">Python</span>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 85%"></div>
+                            </div>
+                            <span class="language-percent">85%</span>
+                        </div>
+                        
+                        <div class="language-item">
+                            <span class="language-name">PHP</span>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 80%"></div>
+                            </div>
+                            <span class="language-percent">80%</span>
+                        </div>
+                        
+                        <div class="language-item">
+                            <span class="language-name">Java</span>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 75%"></div>
+                            </div>
+                            <span class="language-percent">75%</span>
+                        </div>
+                        
+                        <div class="language-item">
+                            <span class="language-name">C++</span>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 70%"></div>
+                            </div>
+                            <span class="language-percent">70%</span>
+                        </div>
                     </div>
                     
-                    <div class="language-item">
-                        <span class="language-name">PHP</span>
-                        <div class="language-bar">
-                            <div class="language-level" style="width: 80%"></div>
-                        </div>
-                        <span class="language-percent">80%</span>
+                    <!-- Tools Section -->
+                    <div class="tools-section">
+                        <div class="tools-title">CÔNG CỤ HỮU ÍCH</div>
+                        
+                        <a href="https://phamthanhphucdev.github.io/spamngll.html" class="tool-item">
+                            <i class="fas fa-bolt"></i> Spam NGL Link
+                        </a>
+                        
+                        <a href="#" class="tool-item">
+                            <i class="fas fa-code"></i> Code Generator
+                        </a>
+                        
+                        <a href="#" class="tool-item">
+                            <i class="fas fa-qrcode"></i> QR Code Creator
+                        </a>
+                        
+                        <a href="#" class="tool-item">
+                            <i class="fas fa-lock"></i> Password Generator
+                        </a>
                     </div>
                     
-                    <div class="language-item">
-                        <span class="language-name">Java</span>
-                        <div class="language-bar">
-                            <div class="language-level" style="width: 75%"></div>
-                        </div>
-                        <span class="language-percent">75%</span>
+                    <!-- Payment Section -->
+                    <div class="payment-section">
+                        <button class="payment-btn" onclick="showPaymentNotification()">
+                            <img src="https://e.top4top.io/p_3474ytt0x1.png" alt="MoMo" class="payment-logo">
+                            <span>Thanh toán qua MoMo</span>
+                        </button>
                     </div>
                     
-                    <div class="language-item">
-                        <span class="language-name">C++</span>
-                        <div class="language-bar">
-                            <div class="language-level" style="width: 70%"></div>
+                    <!-- Contact Section -->
+                    <div class="contact-section">
+                        <h3 class="contact-title">LIÊN HỆ VỚI TÔI</h3>
+                        <div class="contact-links">
+                            <a href="https://facebook.com/yourprofile" class="contact-link" target="_blank">
+                                <i class="fab fa-facebook-f facebook"></i> Facebook
+                            </a>
+                            <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+                                <i class="fab fa-github github"></i> GitHub
+                            </a>
+                            <a href="https://discord.com/users/yourid" class="contact-link" target="_blank">
+                                <i class="fab fa-discord discord"></i> Discord
+                            </a>
                         </div>
-                        <span class="language-percent">70%</span>
+                    </div>
+                    
+                    <div class="footer-slogan">
+                        Biến ý tưởng thành những trải nghiệm số xuất sắc
                     </div>
                 </div>
-                
-                <!-- Tools Section -->
-                <div class="tools-section">
-                    <div class="tools-title">CÔNG CỤ HỮU ÍCH</div>
-                    
-                    <a href="https://phamthanhphucdev.github.io/spamngll.html" class="tool-item">
-                        <i class="fas fa-bolt"></i> Spam NGL Link
-                    </a>
-                    
-                    <a href="#" class="tool-item">
-                        <i class="fas fa-code"></i> Code Generator
-                    </a>
-                    
-                    <a href="#" class="tool-item">
-                        <i class="fas fa-qrcode"></i> QR Code Creator
-                    </a>
-                    
-                    <a href="#" class="tool-item">
-                        <i class="fas fa-lock"></i> Password Generator
-                    </a>
-                </div>
-                
-                <!-- Payment Section -->
-                <div class="payment-section">
-                    <button class="payment-btn" onclick="showPaymentNotification()">
-                        <img src="https://e.top4top.io/p_3474ytt0x1.png" alt="MoMo" class="payment-logo">
-                        <span>Thanh toán qua MoMo</span>
-                    </button>
-                </div>
-                
-                <nav class="nav">
-                    <a href="#" class="nav-item active">
-                        <i class="fas fa-user"></i> Trang cá nhân
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-project-diagram"></i> Dự án
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-book"></i> Blog
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-star"></i> Yêu thích
-                    </a>
-                    <a href="#" class="nav-item">
-                        <i class="fas fa-heart"></i> Ủng hộ
-                    </a>
-                </nav>
-                
-                <div class="footer-slogan">
-                    Biến ý tưởng thành những trải nghiệm số xuất sắc
-                </div>
-            </div>
-        </aside>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Your main content goes here -->
-        </main>
+            </aside>
+            
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Your main content goes here -->
+            </main>
+        </div>
     </div>
 
     <script>
@@ -687,6 +819,35 @@
                 item.style.backgroundColor = 'transparent';
             });
         });
+
+        // Chống mở DevTools (F12)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                alert('Bạn không được phép mở DevTools!');
+                return false;
+            }
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                alert('Bạn không được phép xem mã nguồn!');
+                return false;
+            }
+        });
+
+        // Chống click chuột phải
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            alert('Bạn không được phép click chuột phải!');
+            return false;
+        });
+
+        // Chống mở DevTools bằng cách kiểm tra kích thước cửa sổ
+        setInterval(function() {
+            if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
+                document.body.innerHTML = '<h1 style="text-align:center;color:red;margin-top:50px;">Bạn không được phép mở DevTools!</h1>';
+                window.close();
+            }
+        }, 1000);
     </script>
 </body>
 </html>
