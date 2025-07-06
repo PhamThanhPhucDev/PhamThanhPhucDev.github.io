@@ -25,11 +25,13 @@
             --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             --glow-color: rgba(255, 255, 255, 0.9);
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Be Vietnam Pro', sans-serif;
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -43,14 +45,18 @@
             align-items: center;
             padding: 20px;
         }
+
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        /* Main Wrapper */
         .main-wrapper {
-            width: 100%;
+            /* width: 100%;  <-- removed */
             max-width: 1400px;
+            margin: 0 auto;       /* căn giữa ngang */
             background: rgba(255, 255, 255, 0.85);
             border-radius: 20px;
             box-shadow: var(--shadow);
@@ -60,23 +66,26 @@
             backdrop-filter: blur(10px);
             transition: all 0.5s ease;
         }
+
         .main-wrapper:hover {
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
+
         .container {
             width: 100%;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 350px 1fr;
             gap: 3rem;
-            justify-items: center; /* căn giữa nội dung trong mỗi cột */
         }
+
+        /* Profile Sidebar */
         .profile-sidebar {
             position: sticky;
             top: 2rem;
             height: fit-content;
-            justify-self: center; /* căn giữa sidebar */
         }
+
         .profile-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -89,87 +98,544 @@
             text-align: center;
             border: 1px solid rgba(0, 0, 0, 0.1);
         }
+
         .profile-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-hover);
         }
+
         .profile-card::before {
             content: '';
             position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: linear-gradient(to bottom right, var(--glass-effect), transparent 70%);
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                var(--glass-effect),
+                transparent 70%
+            );
             transform: rotate(30deg);
             z-index: -1;
         }
+
         .avatar-container {
-            width: 180px; height: 180px;
+            width: 180px;
+            height: 180px;
             margin: 0 auto 1.5rem;
-            border-radius: 50%; border: 4px solid white;
-            box-shadow: 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 30px var(--glow-color);
-            overflow: hidden; transition: all 0.5s ease; position: relative;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 10px var(--glow-color), 
+                        0 0 20px var(--glow-color),
+                        0 0 30px var(--glow-color);
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
             animation: glow-pulse 3s infinite alternate;
         }
+
         .avatar-container:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 15px var(--glow-color), 0 0 30px var(--glow-color), 0 0 45px var(--glow-color);
+            box-shadow: 0 0 15px var(--glow-color), 
+                        0 0 30px var(--glow-color),
+                        0 0 45px var(--glow-color);
         }
-        .avatar { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .profile-name {
-            font-size: 2.2rem; font-weight: 900; margin-bottom: 0.3rem;
-            font-family: 'Poppins', sans-serif; letter-spacing: -1px;
-            text-transform: uppercase; position: relative; display: inline-block;
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 0.3rem;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
             padding: 0 10px;
             background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-            background-size: 400% 400%; -webkit-background-clip: text;
-            background-clip: text; color: transparent;
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             animation: rainbow 8s ease infinite;
         }
-        @keyframes rainbow {0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .profile-name::after {
             content: '';
-            position: absolute; bottom: -5px; left: 10px;
-            width: calc(100% - 20px); height: 3px;
+            position: absolute;
+            bottom: -5px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: 3px;
             background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
-            background-size: 400% 400%; border-radius: 3px;
+            background-size: 400% 400%;
+            border-radius: 3px;
             animation: rainbow 8s ease infinite;
         }
+
         .name-slogan {
-            font-size: 1rem; color: var(--text-light); font-style: italic;
-            margin-bottom: 1rem; position: relative; display: inline-block;
+            font-size: 1rem;
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
         }
-        .name-slogan::before, .name-slogan::after { content: '"'; color: var(--primary); font-size: 1.2rem; }
+
+        .name-slogan::before,
+        .name-slogan::after {
+            content: '"';
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
         .verified-badge {
-            display: inline-block; width: 24px; height: 24px;
-            background: white; border-radius: 50%; margin-left: 0.5rem;
-            position: relative; animation: pulse 2s infinite;
-            box-shadow: 0 0 0 3px var(--accent), 0 0 8px 3px rgba(71,118,230,0.6);
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            position: relative;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 0 3px var(--accent),
+                        0 0 8px 3px rgba(71, 118, 230, 0.6);
             vertical-align: middle;
         }
+
         .verified-badge::after {
-            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight:900;
-            color: var(--accent); font-size:0.9rem; position:absolute;
-            top:50%; left:50%; transform: translate(-50%,-50%);
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent);
+            font-size: 0.9rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
-        .profile-username { text-align:center; color:var(--text-light); margin-bottom:0.5rem; font-weight:500; font-size:1.2rem; letter-spacing:1px; }
+
+        .profile-username {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
         .profile-bio {
-            text-align:center; margin-bottom:1.5rem; color:var(--text);
-            font-size:1rem; line-height:1.6; position:relative; padding:0 1rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            font-size: 1rem;
+            line-height: 1.6;
+            position: relative;
+            padding: 0 1rem;
         }
+
         .profile-bio::before {
-            content:''; position:absolute; top:-10px; left:50%; transform:translateX(-50%);
-            width:50px; height:2px; background: linear-gradient(to right, var(--primary), var(--secondary));
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
         }
-        /* Language, tools, payment, contact sections y như cũ, không đổi */
-        @keyframes pulse {0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
-        @keyframes glow-pulse {0%{box-shadow:0 0 10px var(--glow-color),0 0 20px var(--glow-color),0 0 30px var(--glow-color);}100%{box-shadow:0 0 15px var(--glow-color),0 0 25px var(--glow-color),0 0 35px var(--glow-color);}}
+
+        /* Language Proficiency */
+        .language-proficiency {
+            margin: 1.5rem 0;
+        }
+
+        .language-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .language-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .language-item {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .language-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            width: 100px;
+            text-align: left;
+        }
+
+        .language-bar {
+            flex-grow: 1;
+            height: 8px;
+            background: var(--gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 0.5rem;
+        }
+
+        .language-level {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .language-level[style*="95%"] {
+            background: linear-gradient(90deg, #ff416c, #ff4b2b);
+            width: 95%;
+        }
+
+        .language-level[style*="85%"] {
+            background: linear-gradient(90deg, #4776E6, #8E54E9);
+            width: 85%;
+        }
+
+        .language-level[style*="80%"] {
+            background: linear-gradient(90deg, #1D976C, #93F9B9);
+            width: 80%;
+        }
+
+        .language-level[style*="75%"] {
+            background: linear-gradient(90deg, #FF8008, #FFC837);
+            width: 75%;
+        }
+
+        .language-level[style*="70%"] {
+            background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
+            width: 70%;
+        }
+
+        .language-percent {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-light);
+            width: 35px;
+            text-align: right;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            margin: 1.5rem 0;
+        }
+
+        .tools-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .tools-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+        }
+
+        .tool-item {
+            display: block;
+            background: rgba(110, 72, 170, 0.1);
+            color: var(--primary-dark);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .tool-item:hover {
+            background: rgba(110, 72, 170, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .tool-item i {
+            margin-right: 0.5rem;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            margin: 1.5rem 0;
+        }
+
+        .payment-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(175, 46, 124, 0.1);
+            color: var(--momo-pink);
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        .payment-btn:hover {
+            background: rgba(175, 46, 124, 0.2);
+        }
+
+        .payment-logo {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            margin-right: 0.5rem;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray);
+        }
+
+        .contact-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text);
+            position: relative;
+        }
+
+        .contact-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+            background-size: 400% 400%;
+            border-radius: 3px;
+            animation: rainbow 8s ease infinite;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(110, 72, 170, 0.1);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: rgba(110, 72, 170, 0.2);
+        }
+
+        .contact-link i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .facebook { color: #1877F2; }
+        .github { color: #333; }
+        .discord { color: #5865F2; }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1.2rem 1.8rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateX(-50%) translateY(-20px);
+            max-width: 90%;
+            width: auto;
+            font-size: 1rem;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .notification-icon {
+            color: var(--momo-pink);
+            font-size: 1.4rem;
+            margin-right: 1rem;
+        }
+
+        .notification-content {
+            font-size: 1rem;
+            margin-right: 1.2rem;
+        }
+
+        .notification-content strong {
+            color: var(--momo-pink);
+            font-size: 1.05rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0 0.5rem;
+        }
+
+        .notification-close:hover {
+            color: var(--text);
+        }
+
+        .copy-btn {
+            background: rgba(71, 118, 230, 0.1);
+            color: var(--accent);
+            border: none;
+            border-radius: 5px;
+            padding: 0.3rem 0.7rem;
+            font-size: 0.85rem;
+            margin-left: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(71, 118, 230, 0.2);
+        }
+
+        /* Footer Slogan */
+        .footer-slogan {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray);
+            font-weight: 700;
+            font-style: italic;
+            position: relative;
+        }
+
+        .footer-slogan::before {
+            content: '❝';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.2rem;
+            color: var(--accent);
+            opacity: 0.3;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 10px var(--glow-color), 
+                             0 0 20px var(--glow-color),
+                             0 0 30px var(--glow-color); }
+            100% { box-shadow: 0 0 15px var(--glow-color), 
+                              0 0 25px var(--glow-color),
+                              0 0 35px var(--glow-color); }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
         /* Responsive */
-        @media (max-width:768px){
-            .main-wrapper{padding:1rem;}
-            .container{grid-template-columns:1fr;max-width:100%;}
-            .profile-sidebar{position:static;}
-            .profile-name{font-size:1.8rem;}
-            .contact-links{flex-direction:column;align-items:center;}
+        @media (max-width: 768px) {
+            .main-wrapper {
+                padding: 1rem;
+            }
+            
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 100%;
+            }
+
+            .profile-sidebar {
+                position: static;
+            }
+            
+            .profile-name {
+                font-size: 1.8rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -184,111 +650,191 @@
         <button class="copy-btn" id="copyBtn">Copy</button>
         <button class="notification-close" id="closeNotification">&times;</button>
     </div>
+
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <div class="container">
+            <!-- Profile Sidebar -->
             <aside class="profile-sidebar">
                 <div class="profile-card floating">
                     <div class="avatar-container">
                         <img src="https://i.top4top.io/p_34745ugo41.gif" class="avatar" alt="Pham Thanh Phuc">
                     </div>
+                    
                     <h1 class="profile-name">
                         PHAM THANH PHUC
                         <span class="verified-badge" title="Verified"></span>
                     </h1>
+                    
                     <div class="name-slogan">Chúc em rơi nước mắt, vì hạnh phúc bên người mà em yêu</div>
+                    
                     <p class="profile-username">@phucd3v</p>
+                    
                     <p class="profile-bio">
                       "Tình yêu không phải là tình yêu nếu nó đổi thay khi gặp sóng gió, hay chùn bước khi người thương rời xa; trái lại, nó chính là ngọn hải đăng bất diệt, vẫn tỏa sáng giữa bão tố, dẫn lối cho những trái tim lạc lối."
-                      <br>𝙒𝙞𝙡𝙡𝙞𝙖𝙢𝙎𝙝𝙖𝙠𝙚𝙨𝙥𝙚𝙖𝙧𝙚
+  𝙒𝙞𝙡𝙡𝙞𝙖𝙢𝙎𝙝𝙖𝙠𝙚𝙨𝙥𝙚𝙖𝙧𝙚 
                     </p>
+                    
                     <!-- Language Proficiency -->
                     <div class="language-proficiency">
                         <div class="language-title">THÔNG THẠO NGÔN NGỮ</div>
+                        
                         <div class="language-item">
                             <span class="language-name">JavaScript</span>
-                            <div class="language-bar"><div class="language-level" style="width:95%"></div></div>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 95%"></div>
+                            </div>
                             <span class="language-percent">95%</span>
                         </div>
+                        
                         <div class="language-item">
                             <span class="language-name">Python</span>
-                            <div class="language-bar"><div class="language-level" style="width:85%"></div></div>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 85%"></div>
+                            </div>
                             <span class="language-percent">85%</span>
                         </div>
+                        
                         <div class="language-item">
                             <span class="language-name">PHP</span>
-                            <div class="language-bar"><div class="language-level" style="width:80%"></div></div>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 80%"></div>
+                            </div>
                             <span class="language-percent">80%</span>
                         </div>
+                        
                         <div class="language-item">
                             <span class="language-name">Java</span>
-                            <div class="language-bar"><div class="language-level" style="width:75%"></div></div>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 75%"></div>
+                            </div>
                             <span class="language-percent">75%</span>
                         </div>
+                        
                         <div class="language-item">
                             <span class="language-name">C++</span>
-                            <div class="language-bar"><div class="language-level" style="width:70%"></div></div>
+                            <div class="language-bar">
+                                <div class="language-level" style="width: 70%"></div>
+                            </div>
                             <span class="language-percent">70%</span>
                         </div>
                     </div>
+                    
                     <!-- Tools Section -->
                     <div class="tools-section">
                         <div class="tools-title">CÔNG CỤ HỮU ÍCH</div>
-                        <a href="https://phamthanhphucdev.github.io/spamngll.html" class="tool-item"><i class="fas fa-bolt"></i> Spam NGL Link</a>
-                        <a href="#" class="tool-item"><i class="fas fa-code"></i> Code Generator</a>
-                        <a href="#" class="tool-item"><i class="fas fa-qrcode"></i> QR Code Creator</a>
-                        <a href="#" class="tool-item"><i class="fas fa-lock"></i> Password Generator</a>
+                        
+                        <a href="https://phamthanhphucdev.github.io/spamngll.html" class="tool-item">
+                            <i class="fas fa-bolt"></i> Spam NGL Link
+                        </a>
+                        
+                        <a href="#" class="tool-item">
+                            <i class="fas fa-code"></i> Code Generator
+                        </a>
+                        
+                        <a href="#" class="tool-item">
+                            <i class="fas fa-qrcode"></i> QR Code Creator
+                        </a>
+                        
+                        <a href="#" class="tool-item">
+                            <i class="fas fa-lock"></i> Password Generator
+                        </a>
                     </div>
+                    
                     <!-- Payment Section -->
                     <div class="payment-section">
                         <button class="payment-btn" onclick="showPaymentNotification()">
-                            <img src="https://e.top4top.io/p_3474ytt0x1.png" alt="MoMo" class="payment-logo"><span>Thanh toán qua MoMo</span>
+                            <img src="https://e.top4top.io/p_3474ytt0x1.png" alt="MoMo" class="payment-logo">
+                            <span>Thanh toán qua MoMo</span>
                         </button>
                     </div>
+                    
                     <!-- Contact Section -->
                     <div class="contact-section">
                         <h3 class="contact-title">LIÊN HỆ VỚI TÔI</h3>
                         <div class="contact-links">
-                            <a href="https://facebook.com/yourprofile" class="contact-link" target="_blank"><i class="fab fa-facebook-f facebook"></i> Facebook</a>
-                            <a href="https://github.com/yourusername" class="contact-link" target="_blank"><i class="fab fa-github github"></i> GitHub</a>
-                            <a href="https://discord.com/users/yourid" class="contact-link" target="_blank"><i class="fab fa-discord discord"></i> Discord</a>
+                            <a href="https://facebook.com/yourprofile" class="contact-link" target="_blank">
+                                <i class="fab fa-facebook-f facebook"></i> Facebook
+                            </a>
+                            <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+                                <i class="fab fa-github github"></i> GitHub
+                            </a>
+                            <a href="https://discord.com/users/yourid" class="contact-link" target="_blank">
+                                <i class="fab fa-discord discord"></i> Discord
+                            </a>
                         </div>
                     </div>
-                    <div class="footer-slogan">Biến ý tưởng thành những trải nghiệm số xuất sắc</div>
+                    
+                    <div class="footer-slogan">
+                        Biến ý tưởng thành những trải nghiệm số xuất sắc
+                    </div>
                 </div>
             </aside>
+            
+            <!-- Main Content -->
             <main class="main-content">
                 <!-- Your main content goes here -->
             </main>
         </div>
     </div>
+
     <script>
+        // Show payment notification with copy function
         function showPaymentNotification() {
             const notification = document.getElementById('notification');
             notification.classList.add('show');
+            
+            // Auto hide after 10 seconds if not closed manually
             setTimeout(() => {
                 if (notification.classList.contains('show')) {
                     notification.classList.remove('show');
                 }
             }, 10000);
         }
+        
+        // Close notification
         document.getElementById('closeNotification').addEventListener('click', function() {
             document.getElementById('notification').classList.remove('show');
         });
+        
+        // Copy account info (both name and number)
         document.getElementById('copyBtn').addEventListener('click', function() {
             const accountInfo = document.getElementById('accountInfo').textContent;
             navigator.clipboard.writeText(accountInfo).then(() => {
-                const original = this.textContent;
+                // Change button text temporarily
+                const originalText = this.textContent;
                 this.textContent = 'Đã copy!';
-                setTimeout(() => { this.textContent = original; }, 2000);
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 2000);
             });
         });
+        
+        // Add hover effect to repo items
+        document.querySelectorAll('.repo-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.backgroundColor = 'rgba(110, 72, 170, 0.05)';
+            });
+            item.addEventListener('mouseleave', () => {
+                item.style.backgroundColor = 'transparent';
+            });
+        });
+
+        // Chống mở DevTools (F12)
         document.addEventListener('keydown', function(e) {
             if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-                e.preventDefault(); alert('Bạn không được phép mở DevTools!'); return false;
+                e.preventDefault();
+                alert('Bạn không được phép mở DevTools!');
+                return false;
             }
-            if (e.ctrlKey && e.key === 'u') { e.preventDefault(); alert('Bạn không được phép xem mã nguồn!'); return false; }
+            if (e.ctrlKey && e.key === 'u') {
+                e.preventDefault();
+                alert('Bạn không được phép xem mã nguồn!');
+                return false;
+            }
         });
+
+        // Chống mở DevTools bằng cách kiểm tra kích thước cửa sổ
         setInterval(function() {
             if (window.outerWidth - window.innerWidth > 100 || window.outerHeight - window.innerHeight > 100) {
                 document.body.innerHTML = '<h1 style="text-align:center;color:red;margin-top:50px;">Bạn không được phép mở DevTools!</h1>';
