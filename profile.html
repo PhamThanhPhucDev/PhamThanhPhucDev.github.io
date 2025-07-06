@@ -41,14 +41,18 @@
             min-height: 100vh;
             padding: 2rem;
             background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px; /* Tăng kích thước container */
+            width: 95%;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
+            grid-template-columns: 350px 1fr; /* Tăng kích thước sidebar */
+            gap: 3rem; /* Tăng khoảng cách giữa các phần */
         }
 
         /* Profile Sidebar */
@@ -62,7 +66,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 2.5rem; /* Tăng padding */
             box-shadow: var(--shadow);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             overflow: hidden;
@@ -92,8 +96,8 @@
         }
 
         .avatar-container {
-            width: 150px;
-            height: 150px;
+            width: 180px; /* Tăng kích thước avatar */
+            height: 180px;
             margin: 0 auto 1.5rem;
             border-radius: 50%;
             border: 4px solid white;
@@ -121,7 +125,7 @@
         }
 
         .profile-name {
-            font-size: 2rem;
+            font-size: 2.2rem; /* Tăng kích thước font */
             font-weight: 800;
             margin-bottom: 0.3rem;
             background: var(--name-gradient);
@@ -148,7 +152,7 @@
         }
 
         .name-slogan {
-            font-size: 0.9rem;
+            font-size: 1rem; /* Tăng kích thước font */
             color: var(--text-light);
             font-style: italic;
             margin-bottom: 1rem;
@@ -194,7 +198,7 @@
             color: var(--text-light);
             margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: 1.1rem;
+            font-size: 1.2rem; /* Tăng kích thước font */
             letter-spacing: 1px;
         }
 
@@ -202,7 +206,7 @@
             text-align: center;
             margin-bottom: 1.5rem;
             color: var(--text);
-            font-size: 0.95rem;
+            font-size: 1rem; /* Tăng kích thước font */
             line-height: 1.6;
             position: relative;
             padding: 0 1rem;
@@ -225,7 +229,7 @@
         }
 
         .language-title {
-            font-size: 0.9rem;
+            font-size: 1rem; /* Tăng kích thước font */
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
@@ -251,7 +255,7 @@
         }
 
         .language-name {
-            font-size: 0.85rem;
+            font-size: 0.9rem; /* Tăng kích thước font */
             font-weight: 500;
             width: 100px;
             text-align: left;
@@ -273,7 +277,7 @@
         }
 
         .language-percent {
-            font-size: 0.75rem;
+            font-size: 0.8rem; /* Tăng kích thước font */
             font-weight: 600;
             color: var(--text-light);
             width: 35px;
@@ -286,7 +290,7 @@
         }
 
         .tools-title {
-            font-size: 0.9rem;
+            font-size: 1rem; /* Tăng kích thước font */
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
@@ -310,7 +314,7 @@
             background: rgba(110, 72, 170, 0.1);
             color: var(--primary-dark);
             border: none;
-            padding: 0.7rem;
+            padding: 0.8rem; /* Tăng padding */
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
@@ -319,6 +323,7 @@
             margin-bottom: 0.5rem;
             text-align: center;
             text-decoration: none;
+            font-size: 0.95rem; /* Tăng kích thước font */
         }
 
         .tool-item:hover {
@@ -342,12 +347,13 @@
             background: rgba(175, 46, 124, 0.1);
             color: var(--momo-pink);
             border: none;
-            padding: 0.7rem;
+            padding: 0.8rem; /* Tăng padding */
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
+            font-size: 0.95rem; /* Tăng kích thước font */
         }
 
         .payment-btn:hover {
@@ -370,9 +376,9 @@
             left: 50%;
             transform: translateX(-50%);
             background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 1.2rem 1.8rem; /* Tăng padding */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Làm đậm shadow */
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -381,6 +387,7 @@
             transform: translateX(-50%) translateY(-20px);
             max-width: 90%;
             width: auto;
+            font-size: 1rem; /* Tăng kích thước font */
         }
 
         .notification.show {
@@ -390,17 +397,18 @@
 
         .notification-icon {
             color: var(--momo-pink);
-            font-size: 1.2rem;
-            margin-right: 0.8rem;
+            font-size: 1.4rem; /* Tăng kích thước icon */
+            margin-right: 1rem; /* Tăng khoảng cách */
         }
 
         .notification-content {
-            font-size: 0.9rem;
-            margin-right: 1rem;
+            font-size: 1rem; /* Tăng kích thước font */
+            margin-right: 1.2rem; /* Tăng khoảng cách */
         }
 
         .notification-content strong {
             color: var(--momo-pink);
+            font-size: 1.05rem; /* Tăng kích thước font */
         }
 
         .notification-close {
@@ -408,8 +416,8 @@
             border: none;
             color: var(--text-light);
             cursor: pointer;
-            font-size: 1rem;
-            padding: 0 0.3rem;
+            font-size: 1.2rem; /* Tăng kích thước font */
+            padding: 0 0.5rem; /* Tăng padding */
         }
 
         .notification-close:hover {
@@ -420,10 +428,10 @@
             background: rgba(71, 118, 230, 0.1);
             color: var(--accent);
             border: none;
-            border-radius: 4px;
-            padding: 0.2rem 0.5rem;
-            font-size: 0.7rem;
-            margin-left: 0.5rem;
+            border-radius: 5px;
+            padding: 0.3rem 0.7rem; /* Tăng padding */
+            font-size: 0.85rem; /* Tăng kích thước font */
+            margin-left: 0.8rem; /* Tăng khoảng cách */
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -434,7 +442,7 @@
 
         /* Footer Slogan */
         .footer-slogan {
-            font-size: 1.1rem;
+            font-size: 1.2rem; /* Tăng kích thước font */
             color: var(--primary-dark);
             text-align: center;
             margin-top: 1.5rem;
@@ -451,7 +459,7 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2rem;
+            font-size: 2.2rem; /* Tăng kích thước font */
             color: var(--accent);
             opacity: 0.3;
         }
@@ -486,6 +494,8 @@
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
+                max-width: 100%;
+                padding: 1rem;
             }
 
             .profile-sidebar {
@@ -504,7 +514,7 @@
         <i class="fas fa-wallet notification-icon"></i>
         <div class="notification-content">
             <strong>Thanh toán qua MoMo</strong><br>
-            Pham Thanh Phuc - <span id="accountNumber">0328583859</span>
+            <span id="accountInfo">Pham Thanh Phuc - 0328583859</span>
         </div>
         <button class="copy-btn" id="copyBtn">Copy</button>
         <button class="notification-close" id="closeNotification">&times;</button>
@@ -655,10 +665,10 @@
             document.getElementById('notification').classList.remove('show');
         });
         
-        // Copy account number
+        // Copy account info (both name and number)
         document.getElementById('copyBtn').addEventListener('click', function() {
-            const accountNumber = document.getElementById('accountNumber').textContent;
-            navigator.clipboard.writeText(accountNumber).then(() => {
+            const accountInfo = document.getElementById('accountInfo').textContent;
+            navigator.clipboard.writeText(accountInfo).then(() => {
                 // Change button text temporarily
                 const originalText = this.textContent;
                 this.textContent = 'Đã copy!';
