@@ -55,8 +55,8 @@
 
         /* Main Wrapper */
         .main-wrapper {
-            width: 100%;
-            max-width: 1600px; /* Đã tăng từ 1400px lên 1600px */
+            width: 90%;
+            max-width: 1200px;
             background: rgba(255, 255, 255, 0.85);
             border-radius: 20px;
             box-shadow: var(--shadow);
@@ -75,18 +75,13 @@
         .container {
             width: 100%;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: 400px 1fr; /* Đã tăng từ 350px lên 400px */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 3rem;
         }
 
-        /* Profile Sidebar */
-        .profile-sidebar {
-            position: sticky;
-            top: 2rem;
-            height: fit-content;
-        }
-
+        /* Profile Card */
         .profile-card {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
@@ -98,6 +93,9 @@
             position: relative;
             text-align: center;
             border: 1px solid rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .profile-card:hover {
@@ -122,8 +120,8 @@
         }
 
         .avatar-container {
-            width: 200px; /* Đã tăng từ 180px lên 200px */
-            height: 200px; /* Đã tăng từ 180px lên 200px */
+            width: 180px;
+            height: 180px;
             margin: 0 auto 1.5rem;
             border-radius: 50%;
             border: 4px solid white;
@@ -151,9 +149,9 @@
         }
 
         .profile-name {
-            font-size: 2.5rem; /* Đã tăng từ 2.2rem lên 2.5rem */
+            font-size: 2.5rem;
             font-weight: 900;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
             font-family: 'Poppins', sans-serif;
             letter-spacing: -1px;
             text-transform: uppercase;
@@ -166,6 +164,10 @@
             background-clip: text;
             color: transparent;
             animation: rainbow 8s ease infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         @keyframes rainbow {
@@ -188,12 +190,16 @@
         }
 
         .name-slogan {
-            font-size: 1.1rem; /* Đã tăng từ 1rem lên 1.1rem */
+            font-size: 1.2rem;
             color: var(--text-light);
             font-style: italic;
             margin-bottom: 1rem;
             position: relative;
             display: inline-block;
+            white-space: normal;
+            word-break: break-word;
+            max-width: 100%;
+            line-height: 1.5;
         }
 
         .name-slogan::before,
@@ -234,7 +240,7 @@
             color: var(--text-light);
             margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: 1.3rem; /* Đã tăng từ 1.2rem lên 1.3rem */
+            font-size: 1.3rem;
             letter-spacing: 1px;
         }
 
@@ -242,10 +248,13 @@
             text-align: center;
             margin-bottom: 1.5rem;
             color: var(--text);
-            font-size: 1.1rem; /* Đã tăng từ 1rem lên 1.1rem */
+            font-size: 1.1rem;
             line-height: 1.6;
             position: relative;
             padding: 0 1rem;
+            white-space: pre-line;
+            word-break: break-word;
+            max-width: 100%;
         }
 
         .profile-bio::before {
@@ -262,10 +271,12 @@
         /* Language Proficiency */
         .language-proficiency {
             margin: 1.5rem 0;
+            width: 100%;
+            max-width: 600px;
         }
 
         .language-title {
-            font-size: 1.1rem; /* Đã tăng từ 1rem lên 1.1rem */
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
@@ -291,7 +302,7 @@
         }
 
         .language-name {
-            font-size: 1rem; /* Đã tăng từ 0.9rem lên 1rem */
+            font-size: 1rem;
             font-weight: 500;
             width: 100px;
             text-align: left;
@@ -338,7 +349,7 @@
         }
 
         .language-percent {
-            font-size: 0.9rem; /* Đã tăng từ 0.8rem lên 0.9rem */
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-light);
             width: 35px;
@@ -348,15 +359,21 @@
         /* Tools Section */
         .tools-section {
             margin: 1.5rem 0;
+            width: 100%;
+            max-width: 600px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
         }
 
         .tools-title {
-            font-size: 1.1rem; /* Đã tăng từ 1rem lên 1.1rem */
+            font-size: 1.1rem;
             font-weight: 600;
             margin-bottom: 0.8rem;
             text-align: center;
             color: var(--text-light);
             position: relative;
+            grid-column: span 2;
         }
 
         .tools-title::after {
@@ -375,16 +392,14 @@
             background: rgba(110, 72, 170, 0.1);
             color: var(--primary-dark);
             border: none;
-            padding: 0.9rem; /* Đã tăng từ 0.8rem lên 0.9rem */
+            padding: 0.8rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
-            margin-bottom: 0.5rem;
             text-align: center;
             text-decoration: none;
-            font-size: 1.05rem; /* Đã tăng từ 0.95rem lên 1.05rem */
+            font-size: 0.95rem;
         }
 
         .tool-item:hover {
@@ -399,6 +414,8 @@
         /* Payment Section */
         .payment-section {
             margin: 1.5rem 0;
+            width: 100%;
+            max-width: 600px;
         }
 
         .payment-btn {
@@ -408,13 +425,13 @@
             background: rgba(175, 46, 124, 0.1);
             color: var(--momo-pink);
             border: none;
-            padding: 0.9rem; /* Đã tăng từ 0.8rem lên 0.9rem */
+            padding: 0.8rem;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            font-size: 1.05rem; /* Đã tăng từ 0.95rem lên 1.05rem */
+            font-size: 0.95rem;
         }
 
         .payment-btn:hover {
@@ -435,10 +452,12 @@
             margin-top: 2rem;
             padding-top: 2rem;
             border-top: 1px solid var(--gray);
+            width: 100%;
+            max-width: 600px;
         }
 
         .contact-title {
-            font-size: 1.3rem; /* Đã tăng từ 1.2rem lên 1.3rem */
+            font-size: 1.3rem;
             font-weight: 700;
             margin-bottom: 1.5rem;
             text-align: center;
@@ -474,10 +493,10 @@
             color: var(--text);
             font-weight: 600;
             transition: all 0.3s ease;
-            padding: 0.6rem 1.2rem; /* Đã tăng padding */
+            padding: 0.6rem 1.2rem;
             border-radius: 8px;
             background: rgba(110, 72, 170, 0.1);
-            font-size: 1.05rem; /* Đã tăng font size */
+            font-size: 1.05rem;
         }
 
         .contact-link:hover {
@@ -488,7 +507,7 @@
 
         .contact-link i {
             margin-right: 0.5rem;
-            font-size: 1.3rem; /* Đã tăng từ 1.2rem lên 1.3rem */
+            font-size: 1.3rem;
         }
 
         .facebook { color: #1877F2; }
@@ -513,7 +532,7 @@
             transform: translateX(-50%) translateY(-20px);
             max-width: 90%;
             width: auto;
-            font-size: 1.1rem; /* Đã tăng từ 1rem lên 1.1rem */
+            font-size: 1rem;
         }
 
         .notification.show {
@@ -523,18 +542,18 @@
 
         .notification-icon {
             color: var(--momo-pink);
-            font-size: 1.5rem; /* Đã tăng từ 1.4rem lên 1.5rem */
+            font-size: 1.4rem;
             margin-right: 1rem;
         }
 
         .notification-content {
-            font-size: 1.1rem; /* Đã tăng từ 1rem lên 1.1rem */
+            font-size: 1rem;
             margin-right: 1.2rem;
         }
 
         .notification-content strong {
             color: var(--momo-pink);
-            font-size: 1.15rem; /* Đã tăng từ 1.05rem lên 1.15rem */
+            font-size: 1.05rem;
         }
 
         .notification-close {
@@ -542,7 +561,7 @@
             border: none;
             color: var(--text-light);
             cursor: pointer;
-            font-size: 1.3rem; /* Đã tăng từ 1.2rem lên 1.3rem */
+            font-size: 1.2rem;
             padding: 0 0.5rem;
         }
 
@@ -555,8 +574,8 @@
             color: var(--accent);
             border: none;
             border-radius: 5px;
-            padding: 0.4rem 0.8rem; /* Đã tăng padding */
-            font-size: 0.95rem; /* Đã tăng từ 0.85rem lên 0.95rem */
+            padding: 0.3rem 0.7rem;
+            font-size: 0.85rem;
             margin-left: 0.8rem;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -568,7 +587,7 @@
 
         /* Footer Slogan */
         .footer-slogan {
-            font-size: 1.3rem; /* Đã tăng từ 1.2rem lên 1.3rem */
+            font-size: 1.3rem;
             color: var(--primary-dark);
             text-align: center;
             margin-top: 1.5rem;
@@ -577,6 +596,8 @@
             font-weight: 700;
             font-style: italic;
             position: relative;
+            width: 100%;
+            max-width: 600px;
         }
 
         .footer-slogan::before {
@@ -585,7 +606,7 @@
             top: 0;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 2.5rem; /* Đã tăng từ 2.2rem lên 2.5rem */
+            font-size: 2.5rem;
             color: var(--accent);
             opacity: 0.3;
         }
@@ -617,29 +638,28 @@
         }
 
         /* Responsive */
-        @media (max-width: 992px) { /* Đã thay đổi từ 768px lên 992px */
+        @media (max-width: 768px) {
             .main-wrapper {
-                padding: 1.5rem; /* Đã tăng từ 1rem lên 1.5rem */
-                margin: 1.5rem; /* Đã tăng từ 1rem lên 1.5rem */
-            }
-            
-            .container {
-                grid-template-columns: 1fr;
-                max-width: 100%;
-                gap: 2.5rem; /* Đã tăng từ 2rem lên 2.5rem */
-            }
-
-            .profile-sidebar {
-                position: static;
+                padding: 1.5rem;
+                width: 95%;
             }
             
             .profile-name {
-                font-size: 2.2rem; /* Đã tăng từ 1.8rem lên 2.2rem */
+                font-size: 2rem;
             }
-
+            
+            .tools-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-title {
+                grid-column: span 1;
+            }
+            
             .contact-links {
                 flex-direction: column;
                 align-items: center;
+                gap: 1rem;
             }
         }
     </style>
@@ -659,127 +679,118 @@
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <div class="container">
-            <!-- Profile Sidebar -->
-            <aside class="profile-sidebar">
-                <div class="profile-card floating">
-                    <div class="avatar-container">
-                        <img src="https://i.top4top.io/p_34745ugo41.gif" class="avatar" alt="Pham Thanh Phuc">
+            <!-- Profile Card -->
+            <div class="profile-card floating">
+                <div class="avatar-container">
+                    <img src="https://i.top4top.io/p_34745ugo41.gif" class="avatar" alt="Pham Thanh Phuc">
+                </div>
+                
+                <h1 class="profile-name">
+                    PHAM THANH PHUC
+                    <span class="verified-badge" title="Verified"></span>
+                </h1>
+                
+                <div class="name-slogan">Chúc em rơi nước mắt, vì hạnh phúc bên người mà em yêu</div>
+                
+                <p class="profile-username">@phucd3v</p>
+                
+                <p class="profile-bio">
+                    "Tình yêu không phải là tình yêu nếu nó đổi thay khi gặp sóng gió, hay chùn bước khi người thương rời xa; trái lại, nó chính là ngọn hải đăng bất diệt, vẫn tỏa sáng giữa bão tố, dẫn lối cho những trái tim lạc lối." <br><br> William Shakespeare  </p>
+                
+                <!-- Language Proficiency -->
+                <div class="language-proficiency">
+                    <div class="language-title">THÔNG THẠO NGÔN NGỮ</div>
+                    
+                    <div class="language-item">
+                        <span class="language-name">JavaScript</span>
+                        <div class="language-bar">
+                            <div class="language-level" style="width: 95%"></div>
+                        </div>
+                        <span class="language-percent">95%</span>
                     </div>
                     
-                    <h1 class="profile-name">
-                        PHAM THANH PHUC
-                        <span class="verified-badge" title="Verified"></span>
-                    </h1>
-                    
-                    <div class="name-slogan">Chúc em rơi nước mắt, vì hạnh phúc bên người mà em yêu</div>
-                    
-                    <p class="profile-username">@phucd3v</p>
-                    
-                    <p class="profile-bio">
-                      "Tình yêu không phải là tình yêu nếu nó đổi thay khi gặp sóng gió, hay chùn bước khi người thương rời xa; trái lại, nó chính là ngọn hải đăng bất diệt, vẫn tỏa sáng giữa bão tố, dẫn lối cho những trái tim lạc lối."
-  𝙒𝙞𝙡𝙡𝙞𝙖𝙢𝙎𝙝𝙖𝙠𝙚𝙨𝙥𝙚𝙖𝙧𝙚 
-                    </p>
-                    
-                    <!-- Language Proficiency -->
-                    <div class="language-proficiency">
-                        <div class="language-title">THÔNG THẠO NGÔN NGỮ</div>
-                        
-                        <div class="language-item">
-                            <span class="language-name">JavaScript</span>
-                            <div class="language-bar">
-                                <div class="language-level" style="width: 95%"></div>
-                            </div>
-                            <span class="language-percent">95%</span>
+                    <div class="language-item">
+                        <span class="language-name">Python</span>
+                        <div class="language-bar">
+                            <div class="language-level" style="width: 85%"></div>
                         </div>
-                        
-                        <div class="language-item">
-                            <span class="language-name">Python</span>
-                            <div class="language-bar">
-                                <div class="language-level" style="width: 85%"></div>
-                            </div>
-                            <span class="language-percent">85%</span>
-                        </div>
-                        
-                        <div class="language-item">
-                            <span class="language-name">PHP</span>
-                            <div class="language-bar">
-                                <div class="language-level" style="width: 80%"></div>
-                            </div>
-                            <span class="language-percent">80%</span>
-                        </div>
-                        
-                        <div class="language-item">
-                            <span class="language-name">Java</span>
-                            <div class="language-bar">
-                                <div class="language-level" style="width: 75%"></div>
-                            </div>
-                            <span class="language-percent">75%</span>
-                        </div>
-                        
-                        <div class="language-item">
-                            <span class="language-name">C++</span>
-                            <div class="language-bar">
-                                <div class="language-level" style="width: 70%"></div>
-                            </div>
-                            <span class="language-percent">70%</span>
-                        </div>
+                        <span class="language-percent">85%</span>
                     </div>
                     
-                    <!-- Tools Section -->
-                    <div class="tools-section">
-                        <div class="tools-title">CÔNG CỤ HỮU ÍCH</div>
-                        
-                        <a href="https://phamthanhphucdev.github.io/spamngll.html" class="tool-item">
-                            <i class="fas fa-bolt"></i> Spam NGL Link
-                        </a>
-                        
-                        <a href="#" class="tool-item">
-                            <i class="fas fa-code"></i> Code Generator
-                        </a>
-                        
-                        <a href="#" class="tool-item">
-                            <i class="fas fa-qrcode"></i> QR Code Creator
-                        </a>
-                        
-                        <a href="#" class="tool-item">
-                            <i class="fas fa-lock"></i> Password Generator
-                        </a>
-                    </div>
-                    
-                    <!-- Payment Section -->
-                    <div class="payment-section">
-                        <button class="payment-btn" onclick="showPaymentNotification()">
-                            <img src="https://e.top4top.io/p_3474ytt0x1.png" alt="MoMo" class="payment-logo">
-                            <span>Thanh toán qua MoMo</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Contact Section -->
-                    <div class="contact-section">
-                        <h3 class="contact-title">LIÊN HỆ VỚI TÔI</h3>
-                        <div class="contact-links">
-                            <a href="https://facebook.com/phamthanhphuc.dev" class="contact-link" target="_blank">
-                                <i class="fab fa-facebook-f facebook"></i> Facebook
-                            </a>
-                            <a href="https://github.com/phamthanhphucdev" class="contact-link" target="_blank">
-                                <i class="fab fa-github github"></i> GitHub
-                            </a>
-                            <a href="https://discord.com/users/yourid" class="contact-link" target="_blank">
-                                <i class="fab fa-discord discord"></i> Discord
-                            </a>
+                    <div class="language-item">
+                        <span class="language-name">PHP</span>
+                        <div class="language-bar">
+                            <div class="language-level" style="width: 80%"></div>
                         </div>
+                        <span class="language-percent">80%</span>
                     </div>
                     
-                    <div class="footer-slogan">
-                        Biến ý tưởng thành những trải nghiệm số xuất sắc
+                    <div class="language-item">
+                        <span class="language-name">Java</span>
+                        <div class="language-bar">
+                            <div class="language-level" style="width: 75%"></div>
+                        </div>
+                        <span class="language-percent">75%</span>
+                    </div>
+                    
+                    <div class="language-item">
+                        <span class="language-name">C++</span>
+                        <div class="language-bar">
+                            <div class="language-level" style="width: 70%"></div>
+                        </div>
+                        <span class="language-percent">70%</span>
                     </div>
                 </div>
-            </aside>
-            
-            <!-- Main Content -->
-            <main class="main-content">
-                <!-- Your main content goes here -->
-            </main>
+                
+                <!-- Tools Section -->
+                <div class="tools-section">
+                    <div class="tools-title">CÔNG CỤ HỮU ÍCH</div>
+                    
+                    <a href="https://phamthanhphucdev.github.io/spamngll.html" class="tool-item">
+                        <i class="fas fa-bolt"></i> Spam NGL Link
+                    </a>
+                    
+                    <a href="#" class="tool-item">
+                        <i class="fas fa-code"></i> Code Generator
+                    </a>
+                    
+                    <a href="#" class="tool-item">
+                        <i class="fas fa-qrcode"></i> QR Code Creator
+                    </a>
+                    
+                    <a href="#" class="tool-item">
+                        <i class="fas fa-lock"></i> Password Generator
+                    </a>
+                </div>
+                
+                <!-- Payment Section -->
+                <div class="payment-section">
+                    <button class="payment-btn" onclick="showPaymentNotification()">
+                        <img src="https://e.top4top.io/p_3474ytt0x1.png" alt="MoMo" class="payment-logo">
+                        <span>Thanh toán qua MoMo</span>
+                    </button>
+                </div>
+                
+                <!-- Contact Section -->
+                <div class="contact-section">
+                    <h3 class="contact-title">LIÊN HỆ VỚI TÔI</h3>
+                    <div class="contact-links">
+                        <a href="https://facebook.com/phamthanhphuc.dev" class="contact-link" target="_blank">
+                            <i class="fab fa-facebook-f facebook"></i> Facebook
+                        </a>
+                        <a href="https://github.com/phamthanhphucdev" class="contact-link" target="_blank">
+                            <i class="fab fa-github github"></i> GitHub
+                        </a>
+                        <a href="https://discord.com/users/yourid" class="contact-link" target="_blank">
+                            <i class="fab fa-discord discord"></i> Discord
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-slogan">
+                    Biến ý tưởng thành những trải nghiệm số xuất sắc
+                </div>
+            </div>
         </div>
     </div>
 
@@ -812,16 +823,6 @@
                 setTimeout(() => {
                     this.textContent = originalText;
                 }, 2000);
-            });
-        });
-        
-        // Add hover effect to repo items
-        document.querySelectorAll('.repo-item').forEach(item => {
-            item.addEventListener('mouseenter', () => {
-                item.style.backgroundColor = 'rgba(110, 72, 170, 0.05)';
-            });
-            item.addEventListener('mouseleave', () => {
-                item.style.backgroundColor = 'transparent';
             });
         });
     </script>
