@@ -585,6 +585,50 @@
             background: rgba(71, 118, 230, 0.2);
         }
 
+        /* Maintenance Message */
+        .maintenance-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            text-align: center;
+            display: none;
+            max-width: 80%;
+            width: 400px;
+        }
+
+        .maintenance-message.show {
+            display: block;
+        }
+
+        .maintenance-message h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .maintenance-message p {
+            margin-bottom: 1.5rem;
+        }
+
+        .maintenance-close {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .maintenance-close:hover {
+            background: var(--primary-dark);
+        }
+
         /* Footer Slogan */
         .footer-slogan {
             font-size: 1.3rem;
@@ -676,6 +720,13 @@
         <button class="notification-close" id="closeNotification">&times;</button>
     </div>
 
+    <!-- Maintenance Message -->
+    <div class="maintenance-message" id="maintenanceMessage">
+        <h3><i class="fas fa-tools"></i> Đang bảo trì</h3>
+        <p>Công cụ này hiện đang được bảo trì. Vui lòng quay lại sau!</p>
+        <button class="maintenance-close" id="closeMaintenance">Đóng</button>
+    </div>
+
     <!-- Main Wrapper -->
     <div class="main-wrapper">
         <div class="container">
@@ -695,7 +746,10 @@
                 <p class="profile-username">@phucd3v</p>
                 
                 <p class="profile-bio">
-                    "Tình yêu không phải là tình yêu nếu nó đổi thay khi gặp sóng gió, hay chùn bước khi người thương rời xa; trái lại, nó chính là ngọn hải đăng bất diệt, vẫn tỏa sáng giữa bão tố, dẫn lối cho những trái tim lạc lối." <br><br> William Shakespeare  </p>
+                    "Tình yêu không phải là tình yêu nếu nó đổi thay khi gặp sóng gió, hay chùn bước khi người thương rời xa; trái lại, nó chính là ngọn hải đăng bất diệt, vẫn tỏa sáng giữa bão tố, dẫn lối cho những trái tim lạc lối."
+                    <br><br>
+                    𝙒𝙞𝙡𝙡𝙞𝙖𝙢 𝙎𝙝𝙖𝙠𝙚𝙨𝙥𝙚𝙖𝙧𝙚
+                </p>
                 
                 <!-- Language Proficiency -->
                 <div class="language-proficiency">
@@ -750,16 +804,16 @@
                         <i class="fas fa-bolt"></i> Spam NGL Link
                     </a>
                     
-                    <a href="#" class="tool-item">
-                        <i class="fas fa-code"></i> Code Generator
+                    <a href="javascript:void(0);" class="tool-item" onclick="showMaintenance()">
+                        <i class="fas fa-code"></i> Code Generator (Bảo trì)
                     </a>
                     
-                    <a href="#" class="tool-item">
+                    <a href="https://bundev-coder.github.io/avata/" class="tool-item" target="_blank">
                         <i class="fas fa-qrcode"></i> QR Code Creator
                     </a>
                     
-                    <a href="#" class="tool-item">
-                        <i class="fas fa-lock"></i> Password Generator
+                    <a href="javascript:void(0);" class="tool-item" onclick="showMaintenance()">
+                        <i class="fas fa-lock"></i> Password Generator (Bảo trì)
                     </a>
                 </div>
                 
@@ -824,6 +878,16 @@
                     this.textContent = originalText;
                 }, 2000);
             });
+        });
+
+        // Show maintenance message
+        function showMaintenance() {
+            document.getElementById('maintenanceMessage').classList.add('show');
+        }
+
+        // Close maintenance message
+        document.getElementById('closeMaintenance').addEventListener('click', function() {
+            document.getElementById('maintenanceMessage').classList.remove('show');
         });
     </script>
 </body>
